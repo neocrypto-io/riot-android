@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -43,7 +43,7 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 /**
  * AccountCreationCaptchaActivity displays a webview to check captchas.

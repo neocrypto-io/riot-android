@@ -1,4 +1,4 @@
-package im.vector.analytics
+package io.neocrypto.chat.analytics
 
 /**
  * Defines the available tracking methods.

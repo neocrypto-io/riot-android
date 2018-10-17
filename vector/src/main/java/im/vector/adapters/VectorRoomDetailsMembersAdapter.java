@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -55,11 +55,11 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * An adapter which can display room information.

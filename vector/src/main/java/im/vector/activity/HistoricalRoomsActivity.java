@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -50,14 +50,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.adapters.AbsAdapter;
-import im.vector.adapters.HomeRoomAdapter;
-import im.vector.util.RoomUtils;
-import im.vector.util.ThemeUtils;
-import im.vector.view.EmptyViewItemDecoration;
-import im.vector.view.SimpleDividerItemDecoration;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.AbsAdapter;
+import io.neocrypto.chat.adapters.HomeRoomAdapter;
+import io.neocrypto.chat.util.RoomUtils;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.view.EmptyViewItemDecoration;
+import io.neocrypto.chat.view.SimpleDividerItemDecoration;
 import kotlin.Pair;
 
 /**

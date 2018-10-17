@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity
+package io.neocrypto.chat.activity
 
 import android.content.Context
 import android.content.Intent
@@ -22,8 +22,8 @@ import android.widget.CheckBox
 import android.widget.EditText
 import butterknife.BindView
 import butterknife.OnClick
-import im.vector.Matrix
-import im.vector.R
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.R
 import org.matrix.androidsdk.MXSession
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback
 import org.matrix.androidsdk.rest.model.MatrixError

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
@@ -33,11 +33,11 @@ import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.fragments.MatrixMessageListFragment;
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.adapters.VectorUnifiedSearchFragmentPagerAdapter;
-import im.vector.contacts.ContactsManager;
-import im.vector.util.PermissionsToolsKt;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.VectorUnifiedSearchFragmentPagerAdapter;
+import io.neocrypto.chat.contacts.ContactsManager;
+import io.neocrypto.chat.util.PermissionsToolsKt;
 
 /**
  * Displays a generic activity search method

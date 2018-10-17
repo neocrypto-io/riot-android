@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package im.vector.features.hhs
+package io.neocrypto.chat.features.hhs
 
 import android.content.Context
 import android.support.annotation.StringRes
 import android.text.Html
 import com.binaryfork.spanny.Spanny
-import im.vector.R
+import io.neocrypto.chat.R
 import org.matrix.androidsdk.rest.model.MatrixError
 
 class ResourceLimitErrorFormatter(private val context: Context) {

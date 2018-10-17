@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.view
+package io.neocrypto.chat.view
 
 import android.content.Context
 import android.preference.PreferenceManager
@@ -29,9 +29,9 @@ import androidx.core.content.edit
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
-import im.vector.R
-import im.vector.VectorApp
-import im.vector.util.openUrlInExternalBrowser
+import io.neocrypto.chat.R
+import io.neocrypto.chat.VectorApp
+import io.neocrypto.chat.util.openUrlInExternalBrowser
 import org.matrix.androidsdk.MXSession
 import org.matrix.androidsdk.rest.model.URLPreview
 import org.matrix.androidsdk.util.Log

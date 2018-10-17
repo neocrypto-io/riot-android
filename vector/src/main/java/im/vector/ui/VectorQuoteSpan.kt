@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.ui
+package io.neocrypto.chat.ui
 
 import android.content.Context
 import android.graphics.Canvas
@@ -23,7 +23,7 @@ import android.support.v4.content.ContextCompat
 import android.text.Layout
 import android.text.style.LineBackgroundSpan
 import android.text.style.LeadingMarginSpan
-import im.vector.R
+import io.neocrypto.chat.R
 
 /**
  * android.text.style.QuoteSpan hard-codes the strip color and gap.

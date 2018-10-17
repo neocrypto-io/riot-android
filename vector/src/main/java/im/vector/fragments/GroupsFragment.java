@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -59,14 +59,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import im.vector.R;
-import im.vector.activity.VectorGroupDetailsActivity;
-import im.vector.adapters.AbsAdapter;
-import im.vector.adapters.GroupAdapter;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorUtils;
-import im.vector.view.EmptyViewItemDecoration;
-import im.vector.view.SimpleDividerItemDecoration;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.VectorGroupDetailsActivity;
+import io.neocrypto.chat.adapters.AbsAdapter;
+import io.neocrypto.chat.adapters.GroupAdapter;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.view.EmptyViewItemDecoration;
+import io.neocrypto.chat.view.SimpleDividerItemDecoration;
 
 public class GroupsFragment extends AbsHomeFragment {
     private static final String LOG_TAG = GroupsFragment.class.getSimpleName();

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.util.Pair;
@@ -33,7 +33,7 @@ import org.matrix.androidsdk.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 /**
  * This class displays a list of unknowns e2e devices.

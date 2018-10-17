@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -103,38 +103,38 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTouch;
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.ViewedRoomTracker;
-import im.vector.activity.util.RequestCodesKt;
-import im.vector.features.hhs.LimitResourceState;
-import im.vector.features.hhs.ResourceLimitEventListener;
-import im.vector.extensions.MatrixSdkExtensionsKt;
-import im.vector.fragments.VectorMessageListFragment;
-import im.vector.fragments.VectorUnknownDevicesFragment;
-import im.vector.listeners.IMessagesAdapterActionsListener;
-import im.vector.notifications.NotificationUtils;
-import im.vector.services.EventStreamService;
-import im.vector.util.CallsManager;
-import im.vector.util.ExternalApplicationsUtilKt;
-import im.vector.util.MatrixURLSpan;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.PreferencesManager;
-import im.vector.util.ReadMarkerManager;
-import im.vector.util.RoomUtils;
-import im.vector.util.SlashCommandsParser;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorMarkdownParser;
-import im.vector.util.VectorRoomMediasSender;
-import im.vector.util.VectorUtils;
-import im.vector.view.ActiveWidgetsBanner;
-import im.vector.view.NotificationAreaView;
-import im.vector.view.VectorAutoCompleteTextView;
-import im.vector.view.VectorOngoingConferenceCallView;
-import im.vector.view.VectorPendingCallView;
-import im.vector.widgets.Widget;
-import im.vector.widgets.WidgetsManager;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.ViewedRoomTracker;
+import io.neocrypto.chat.activity.util.RequestCodesKt;
+import io.neocrypto.chat.features.hhs.LimitResourceState;
+import io.neocrypto.chat.features.hhs.ResourceLimitEventListener;
+import io.neocrypto.chat.extensions.MatrixSdkExtensionsKt;
+import io.neocrypto.chat.fragments.VectorMessageListFragment;
+import io.neocrypto.chat.fragments.VectorUnknownDevicesFragment;
+import io.neocrypto.chat.listeners.IMessagesAdapterActionsListener;
+import io.neocrypto.chat.notifications.NotificationUtils;
+import io.neocrypto.chat.services.EventStreamService;
+import io.neocrypto.chat.util.CallsManager;
+import io.neocrypto.chat.util.ExternalApplicationsUtilKt;
+import io.neocrypto.chat.util.MatrixURLSpan;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.PreferencesManager;
+import io.neocrypto.chat.util.ReadMarkerManager;
+import io.neocrypto.chat.util.RoomUtils;
+import io.neocrypto.chat.util.SlashCommandsParser;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorMarkdownParser;
+import io.neocrypto.chat.util.VectorRoomMediasSender;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.view.ActiveWidgetsBanner;
+import io.neocrypto.chat.view.NotificationAreaView;
+import io.neocrypto.chat.view.VectorAutoCompleteTextView;
+import io.neocrypto.chat.view.VectorOngoingConferenceCallView;
+import io.neocrypto.chat.view.VectorPendingCallView;
+import io.neocrypto.chat.widgets.Widget;
+import io.neocrypto.chat.widgets.WidgetsManager;
 import kotlin.Pair;
 
 /**
@@ -1654,8 +1654,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
     /**
      * Start an IP call with the management of the corresponding permissions.
-     * According to the IP call, the corresponding permissions are asked: {@link im.vector.util.PermissionsToolsKt#PERMISSIONS_FOR_AUDIO_IP_CALL}
-     * or {@link im.vector.util.PermissionsToolsKt#PERMISSIONS_FOR_VIDEO_IP_CALL}.
+     * According to the IP call, the corresponding permissions are asked: {@link io.neocrypto.chat.util.PermissionsToolsKt#PERMISSIONS_FOR_AUDIO_IP_CALL}
+     * or {@link io.neocrypto.chat.util.PermissionsToolsKt#PERMISSIONS_FOR_VIDEO_IP_CALL}.
      */
     private void displayVideoCallIpDialog() {
         // hide the header room

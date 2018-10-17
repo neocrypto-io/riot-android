@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -73,27 +73,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.MXCActionBarActivity;
-import im.vector.activity.VectorHomeActivity;
-import im.vector.activity.VectorMediasViewerActivity;
-import im.vector.activity.VectorMemberDetailsActivity;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.adapters.VectorMessagesAdapter;
-import im.vector.db.VectorContentProvider;
-import im.vector.extensions.MatrixSdkExtensionsKt;
-import im.vector.listeners.IMessagesAdapterActionsListener;
-import im.vector.receiver.VectorUniversalLinkReceiver;
-import im.vector.util.ExternalApplicationsUtilKt;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.PreferencesManager;
-import im.vector.util.SlidableMediaInfo;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorImageGetter;
-import im.vector.util.VectorUtils;
-import im.vector.widgets.WidgetsManager;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.MXCActionBarActivity;
+import io.neocrypto.chat.activity.VectorHomeActivity;
+import io.neocrypto.chat.activity.VectorMediasViewerActivity;
+import io.neocrypto.chat.activity.VectorMemberDetailsActivity;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.adapters.VectorMessagesAdapter;
+import io.neocrypto.chat.db.VectorContentProvider;
+import io.neocrypto.chat.extensions.MatrixSdkExtensionsKt;
+import io.neocrypto.chat.listeners.IMessagesAdapterActionsListener;
+import io.neocrypto.chat.receiver.VectorUniversalLinkReceiver;
+import io.neocrypto.chat.util.ExternalApplicationsUtilKt;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.PreferencesManager;
+import io.neocrypto.chat.util.SlidableMediaInfo;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorImageGetter;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.widgets.WidgetsManager;
 
 public class VectorMessageListFragment extends MatrixMessageListFragment<VectorMessagesAdapter> implements IMessagesAdapterActionsListener {
     private static final String LOG_TAG = VectorMessageListFragment.class.getSimpleName();

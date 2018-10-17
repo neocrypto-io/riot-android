@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.support.annotation.IdRes;
@@ -39,11 +39,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import im.vector.R;
-import im.vector.util.GroupUtils;
-import im.vector.util.RoomUtils;
-import im.vector.util.StickySectionHelper;
-import im.vector.view.SectionView;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.GroupUtils;
+import io.neocrypto.chat.util.RoomUtils;
+import io.neocrypto.chat.util.StickySectionHelper;
+import io.neocrypto.chat.view.SectionView;
 
 public abstract class AbsAdapter extends AbsFilterableAdapter {
     private static final String LOG_TAG = AbsAdapter.class.getSimpleName();

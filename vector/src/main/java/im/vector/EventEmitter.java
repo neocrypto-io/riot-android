@@ -1,4 +1,4 @@
-package im.vector;
+package io.neocrypto.chat;
 
 import android.os.Handler;
 import android.os.Looper;

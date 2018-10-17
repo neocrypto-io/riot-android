@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,10 +33,10 @@ import android.view.inputmethod.InputMethodManager;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.Room;
 
-import im.vector.Matrix;
-import im.vector.MyPresenceManager;
-import im.vector.R;
-import im.vector.VectorApp;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.MyPresenceManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
 
 /**
  * extends ActionBarActivity to manage the rageshake

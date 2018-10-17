@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -89,7 +89,7 @@ public class VideoRecordProgressView extends View {
             int mod = (mRoundCount - 1) % 2;
 
 
-            @ColorInt final int silver = getResources().getColor(im.vector.R.color.vector_silver_color);
+            @ColorInt final int silver = getResources().getColor(io.neocrypto.chat.R.color.vector_silver_color);
             @ColorInt final int white = getResources().getColor(android.R.color.white);
             mPowerColor = ((0 == mod) ? silver : white);
             mRestColor = ((0 != mod) ? silver : white);

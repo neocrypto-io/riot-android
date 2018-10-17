@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity.util
+package io.neocrypto.chat.activity.util
 
 const val ACCOUNT_CREATION_ACTIVITY_REQUEST_CODE = 314
 const val FALLBACK_LOGIN_ACTIVITY_REQUEST_CODE = 315

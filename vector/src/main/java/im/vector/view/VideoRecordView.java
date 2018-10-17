@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -49,10 +49,10 @@ public class VideoRecordView extends RelativeLayout {
      * Common initialisation method.
      */
     private void initView() {
-        View.inflate(getContext(), im.vector.R.layout.video_record_view, this);
+        View.inflate(getContext(), io.neocrypto.chat.R.layout.video_record_view, this);
 
         // retrieve the UI items
-        mVideoRecordProgressView = findViewById(im.vector.R.id.video_record_progress_view);
+        mVideoRecordProgressView = findViewById(io.neocrypto.chat.R.id.video_record_progress_view);
     }
 
     /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -28,8 +28,8 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import im.vector.R;
-import im.vector.util.RoomUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.RoomUtils;
 
 public class UnreadCounterBadgeView extends RelativeLayout {
     // the background settings

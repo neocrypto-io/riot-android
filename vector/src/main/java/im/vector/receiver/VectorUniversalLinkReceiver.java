@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.receiver;
+package io.neocrypto.chat.receiver;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -45,14 +45,14 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import im.vector.Matrix;
-import im.vector.VectorApp;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.LoginActivity;
-import im.vector.activity.VectorGroupDetailsActivity;
-import im.vector.activity.VectorHomeActivity;
-import im.vector.activity.VectorMemberDetailsActivity;
-import im.vector.activity.VectorRoomActivity;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.LoginActivity;
+import io.neocrypto.chat.activity.VectorGroupDetailsActivity;
+import io.neocrypto.chat.activity.VectorHomeActivity;
+import io.neocrypto.chat.activity.VectorMemberDetailsActivity;
+import io.neocrypto.chat.activity.VectorRoomActivity;
 
 @SuppressLint("LongLogTag")
 /**
@@ -61,8 +61,8 @@ import im.vector.activity.VectorRoomActivity;
 public class VectorUniversalLinkReceiver extends BroadcastReceiver {
     private static final String LOG_TAG = VectorUniversalLinkReceiver.class.getSimpleName();
 
-    public static final String BROADCAST_ACTION_UNIVERSAL_LINK = "im.vector.receiver.UNIVERSAL_LINK";
-    public static final String BROADCAST_ACTION_UNIVERSAL_LINK_RESUME = "im.vector.receiver.UNIVERSAL_LINK_RESUME";
+    public static final String BROADCAST_ACTION_UNIVERSAL_LINK = "io.neocrypto.chat.receiver.UNIVERSAL_LINK";
+    public static final String BROADCAST_ACTION_UNIVERSAL_LINK_RESUME = "io.neocrypto.chat.receiver.UNIVERSAL_LINK_RESUME";
 
     // the universal link
     public static final String EXTRA_UNIVERSAL_LINK_URI = "EXTRA_UNIVERSAL_LINK_URI";

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -37,12 +37,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import im.vector.R;
-import im.vector.adapters.AbsAdapter;
-import im.vector.adapters.HomeRoomAdapter;
-import im.vector.fragments.AbsHomeFragment;
-import im.vector.util.ThemeUtils;
-import im.vector.util.RoomUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.AbsAdapter;
+import io.neocrypto.chat.adapters.HomeRoomAdapter;
+import io.neocrypto.chat.fragments.AbsHomeFragment;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.RoomUtils;
 
 public class HomeSectionView extends RelativeLayout {
     private static final String LOG_TAG = HomeSectionView.class.getSimpleName();

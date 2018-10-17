@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,10 +35,10 @@ import org.matrix.androidsdk.util.JsonUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.activity.VectorMediasViewerActivity;
-import im.vector.adapters.VectorMessagesAdapter;
-import im.vector.adapters.VectorSearchFilesListAdapter;
-import im.vector.util.SlidableMediaInfo;
+import io.neocrypto.chat.activity.VectorMediasViewerActivity;
+import io.neocrypto.chat.adapters.VectorMessagesAdapter;
+import io.neocrypto.chat.adapters.VectorSearchFilesListAdapter;
+import io.neocrypto.chat.util.SlidableMediaInfo;
 
 public class VectorSearchRoomsFilesListFragment extends VectorSearchMessagesListFragment {
     /**

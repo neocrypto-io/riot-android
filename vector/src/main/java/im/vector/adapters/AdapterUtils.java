@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -24,8 +24,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import im.vector.R;
-import im.vector.util.PreferencesManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.PreferencesManager;
 
 /**
  * Contains useful functions for adapters.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.util
+package io.neocrypto.chat.util
 
 import android.app.Activity
 import android.app.Fragment
@@ -28,8 +28,8 @@ import android.provider.Browser
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import androidx.core.widget.toast
-import im.vector.BuildConfig
-import im.vector.R
+import io.neocrypto.chat.BuildConfig
+import io.neocrypto.chat.R
 import org.matrix.androidsdk.util.Log
 import java.io.File
 import java.text.SimpleDateFormat

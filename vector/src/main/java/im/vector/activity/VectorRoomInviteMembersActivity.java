@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,15 +47,15 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.adapters.ParticipantAdapterItem;
-import im.vector.adapters.VectorParticipantsAdapter;
-import im.vector.contacts.Contact;
-import im.vector.contacts.ContactsManager;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.VectorUtils;
-import im.vector.view.VectorAutoCompleteTextView;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.ParticipantAdapterItem;
+import io.neocrypto.chat.adapters.VectorParticipantsAdapter;
+import io.neocrypto.chat.contacts.Contact;
+import io.neocrypto.chat.contacts.ContactsManager;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.view.VectorAutoCompleteTextView;
 
 /**
  * This class provides a way to search other user to invite them in a dedicated room

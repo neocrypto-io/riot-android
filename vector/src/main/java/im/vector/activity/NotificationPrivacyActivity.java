@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,11 +29,11 @@ import org.matrix.androidsdk.rest.model.MatrixError;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.activity.util.RequestCodesKt;
-import im.vector.gcm.GcmRegistrationManager;
-import im.vector.util.SystemUtilsKt;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.util.RequestCodesKt;
+import io.neocrypto.chat.gcm.GcmRegistrationManager;
+import io.neocrypto.chat.util.SystemUtilsKt;
 import kotlin.Pair;
 
 /*

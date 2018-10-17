@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 import kotlin.Pair;
 
 /**

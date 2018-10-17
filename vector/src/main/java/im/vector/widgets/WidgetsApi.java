@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.widgets;
+package io.neocrypto.chat.widgets;
 
 import java.util.Map;
 

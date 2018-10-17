@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.content.ClipDescription;
 import android.content.Context;
@@ -45,10 +45,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.fragments.ImageSizeSelectionDialogFragment;
-import im.vector.fragments.VectorMessageListFragment;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.fragments.ImageSizeSelectionDialogFragment;
+import io.neocrypto.chat.fragments.VectorMessageListFragment;
 
 // VectorRoomMediasSender helps the vectorRoomActivity to manage medias .
 public class VectorRoomMediasSender {
@@ -754,7 +754,7 @@ public class VectorRoomMediasSender {
                     String[] stringsArray = getImagesCompressionTextsList(mVectorRoomActivity, imageSizes, fileSize);
 
                     mImageSizesListDialog = new AlertDialog.Builder(mVectorRoomActivity)
-                            .setTitle(im.vector.R.string.compression_options)
+                            .setTitle(io.neocrypto.chat.R.string.compression_options)
                             .setSingleChoiceItems(stringsArray, -1, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

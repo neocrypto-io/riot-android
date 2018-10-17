@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -43,13 +43,13 @@ import org.matrix.androidsdk.util.Log;
 
 import java.util.List;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.VectorCallViewActivity;
-import im.vector.activity.VectorHomeActivity;
-import im.vector.notifications.NotificationUtils;
-import im.vector.services.EventStreamService;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.VectorCallViewActivity;
+import io.neocrypto.chat.activity.VectorHomeActivity;
+import io.neocrypto.chat.notifications.NotificationUtils;
+import io.neocrypto.chat.services.EventStreamService;
 
 /**
  * This class contains the call toolbox.

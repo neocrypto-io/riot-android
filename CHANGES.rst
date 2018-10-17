@@ -771,7 +771,7 @@ Changes in Vector 0.5.1 (2016-09-19)
 ===================================================
 
 Bugfixes:
- * Restore applicationId "im.vector.alpha" as application Id.
+ * Restore applicationId "io.neocrypto.chat" as application Id.
  
 
 Changes in Vector 0.5.0 (2016-09-19)

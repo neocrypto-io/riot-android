@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -38,11 +38,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.widgets.WidgetContent;
-import im.vector.widgets.WidgetsManager;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.widgets.WidgetContent;
+import io.neocrypto.chat.widgets.WidgetsManager;
 
 public class RiotEventDisplay extends EventDisplay {
     private static final String LOG_TAG = RiotEventDisplay.class.getSimpleName();

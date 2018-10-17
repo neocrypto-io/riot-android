@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.os.Handler;
@@ -48,11 +48,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.adapters.AutoCompletedCommandLineAdapter;
-import im.vector.adapters.AutoCompletedUserAdapter;
-import im.vector.util.AutoCompletionMode;
-import im.vector.util.SlashCommandsParser;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.AutoCompletedCommandLineAdapter;
+import io.neocrypto.chat.adapters.AutoCompletedUserAdapter;
+import io.neocrypto.chat.util.AutoCompletionMode;
+import io.neocrypto.chat.util.SlashCommandsParser;
 
 /**
  * Custom AppCompatMultiAutoCompleteTextView to display matrix id / displayname

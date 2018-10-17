@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package im.vector.activity
+package io.neocrypto.chat.activity
 
 import android.content.Context
 import android.content.Intent
 import android.support.annotation.CallSuper
 import android.text.TextUtils
-import im.vector.R
-import im.vector.types.JsonDict
-import im.vector.util.toJsonMap
-import im.vector.widgets.WidgetsManager
+import io.neocrypto.chat.R
+import io.neocrypto.chat.types.JsonDict
+import io.neocrypto.chat.util.toJsonMap
+import io.neocrypto.chat.widgets.WidgetsManager
 import org.matrix.androidsdk.rest.callback.ApiCallback
 import org.matrix.androidsdk.rest.model.Event
 import org.matrix.androidsdk.rest.model.MatrixError

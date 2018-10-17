@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,8 +24,8 @@ import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.RoomPreviewData;
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.Matrix;
-import im.vector.R;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
 
 /**
  * Dummy activity used to trigger the room activity in preview mode,

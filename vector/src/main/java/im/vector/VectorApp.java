@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector;
+package io.neocrypto.chat;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -60,27 +60,27 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.JitsiCallActivity;
-import im.vector.activity.VectorCallViewActivity;
-import im.vector.activity.VectorMediasPickerActivity;
-import im.vector.activity.WidgetActivity;
-import im.vector.analytics.Analytics;
-import im.vector.analytics.AppAnalytics;
-import im.vector.analytics.PiwikAnalytics;
-import im.vector.analytics.e2e.DecryptionFailureTracker;
-import im.vector.contacts.ContactsManager;
-import im.vector.contacts.PIDsRetriever;
-import im.vector.gcm.GcmRegistrationManager;
-import im.vector.services.EventStreamService;
-import im.vector.settings.FontScale;
-import im.vector.util.CallsManager;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.PhoneNumberUtils;
-import im.vector.util.PreferencesManager;
-import im.vector.util.RageShake;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorMarkdownParser;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.JitsiCallActivity;
+import io.neocrypto.chat.activity.VectorCallViewActivity;
+import io.neocrypto.chat.activity.VectorMediasPickerActivity;
+import io.neocrypto.chat.activity.WidgetActivity;
+import io.neocrypto.chat.analytics.Analytics;
+import io.neocrypto.chat.analytics.AppAnalytics;
+import io.neocrypto.chat.analytics.PiwikAnalytics;
+import io.neocrypto.chat.analytics.e2e.DecryptionFailureTracker;
+import io.neocrypto.chat.contacts.ContactsManager;
+import io.neocrypto.chat.contacts.PIDsRetriever;
+import io.neocrypto.chat.gcm.GcmRegistrationManager;
+import io.neocrypto.chat.services.EventStreamService;
+import io.neocrypto.chat.settings.FontScale;
+import io.neocrypto.chat.util.CallsManager;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.PhoneNumberUtils;
+import io.neocrypto.chat.util.PreferencesManager;
+import io.neocrypto.chat.util.RageShake;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorMarkdownParser;
 
 /**
  * The main application injection point

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.net.Uri;
 import android.os.Parcel;
@@ -32,7 +32,7 @@ import org.matrix.androidsdk.util.Log;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import im.vector.listeners.IMessagesAdapterActionsListener;
+import io.neocrypto.chat.listeners.IMessagesAdapterActionsListener;
 
 // Class to track some matrix items click}
 public class MatrixURLSpan extends ClickableSpan implements ParcelableSpan {

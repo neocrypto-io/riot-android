@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -23,8 +23,8 @@ import android.support.v4.app.FragmentManager;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.R;
-import im.vector.fragments.VectorPublicRoomsListFragment;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.fragments.VectorPublicRoomsListFragment;
 
 /**
  * Displays a list of public rooms

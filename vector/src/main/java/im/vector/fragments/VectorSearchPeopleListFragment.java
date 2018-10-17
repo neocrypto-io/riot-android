@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,15 +35,15 @@ import org.matrix.androidsdk.rest.model.User;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.activity.VectorBaseSearchActivity;
-import im.vector.activity.VectorMemberDetailsActivity;
-import im.vector.adapters.ParticipantAdapterItem;
-import im.vector.adapters.VectorParticipantsAdapter;
-import im.vector.contacts.Contact;
-import im.vector.contacts.ContactsManager;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.VectorBaseSearchActivity;
+import io.neocrypto.chat.activity.VectorMemberDetailsActivity;
+import io.neocrypto.chat.adapters.ParticipantAdapterItem;
+import io.neocrypto.chat.adapters.VectorParticipantsAdapter;
+import io.neocrypto.chat.contacts.Contact;
+import io.neocrypto.chat.contacts.ContactsManager;
+import io.neocrypto.chat.util.VectorUtils;
 
 public class VectorSearchPeopleListFragment extends VectorBaseFragment {
 

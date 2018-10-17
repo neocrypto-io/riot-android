@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +30,7 @@ import org.matrix.androidsdk.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 public class GroupAdapter extends AbsAdapter {
     private static final String LOG_TAG = GroupAdapter.class.getSimpleName();

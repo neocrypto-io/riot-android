@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.preference;
+package io.neocrypto.chat.preference;
 
 import android.content.Context;
 import android.preference.Preference;
@@ -23,7 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 public class ProgressBarPreference extends Preference {
 

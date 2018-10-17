@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package im.vector.webview
+package io.neocrypto.chat.webview
 
-import im.vector.Matrix
-import im.vector.activity.VectorAppCompatActivity
-import im.vector.util.weak
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.activity.VectorAppCompatActivity
+import io.neocrypto.chat.util.weak
 import org.matrix.androidsdk.rest.callback.ApiCallback
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback
 import org.matrix.androidsdk.rest.model.MatrixError

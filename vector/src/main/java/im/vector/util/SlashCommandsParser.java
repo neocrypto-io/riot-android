@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
@@ -35,11 +35,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.widgets.WidgetsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.widgets.WidgetsManager;
 
 public class SlashCommandsParser {
 

@@ -1,9 +1,9 @@
-package im.vector.analytics
+package io.neocrypto.chat.analytics
 
-import im.vector.analytics.e2e.DecryptionFailureReason
+import io.neocrypto.chat.analytics.e2e.DecryptionFailureReason
 
 /**
- * A category to be linked to an {@link im.vector.analytics.TrackingEvent}
+ * A category to be linked to an {@link io.neocrypto.chat.analytics.TrackingEvent}
  * @param value to log into your analytics console
  */
 enum class Category(val value: String) {
@@ -12,7 +12,7 @@ enum class Category(val value: String) {
 }
 
 /**
- * An action to be linked to an {@link im.vector.analytics.TrackingEvent}
+ * An action to be linked to an {@link io.neocrypto.chat.analytics.TrackingEvent}
  * @param value to log into your analytics console
  */
 enum class Action(val value: String) {
@@ -22,7 +22,7 @@ enum class Action(val value: String) {
 }
 
 /**
- * Represents all the analytics events, to be dispatched to {@link im.vector.analytics.Analytic#trackEvent()}
+ * Represents all the analytics events, to be dispatched to {@link io.neocrypto.chat.analytics.Analytic#trackEvent()}
  * @param category the category associated with the event
  * @param action the action associated with the event
  * @param title the title associated with the event

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,7 +23,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 /**
  * View that displays a disc representing a percentage.

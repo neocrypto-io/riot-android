@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -28,8 +28,8 @@ import org.matrix.androidsdk.MXSession;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import im.vector.Matrix;
-import im.vector.activity.VectorGroupDetailsActivity;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.activity.VectorGroupDetailsActivity;
 
 public abstract class GroupDetailsBaseFragment extends VectorBaseFragment {
     private static final String LOG_TAG = GroupDetailsBaseFragment.class.getSimpleName();

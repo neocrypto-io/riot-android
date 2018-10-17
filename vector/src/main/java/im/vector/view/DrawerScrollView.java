@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

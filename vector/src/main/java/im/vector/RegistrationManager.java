@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector;
+package io.neocrypto.chat;
 
 import android.content.Context;
 import android.support.annotation.StringRes;
@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import im.vector.util.UrlUtilKt;
+import io.neocrypto.chat.util.UrlUtilKt;
 
 public class RegistrationManager {
     private static final String LOG_TAG = RegistrationManager.class.getSimpleName();

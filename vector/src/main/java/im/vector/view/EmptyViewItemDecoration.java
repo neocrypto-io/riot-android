@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -28,10 +28,10 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 
-import im.vector.R;
-import im.vector.adapters.AbsAdapter;
-import im.vector.adapters.AdapterSection;
-import im.vector.util.ThemeUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.AbsAdapter;
+import io.neocrypto.chat.adapters.AdapterSection;
+import io.neocrypto.chat.util.ThemeUtils;
 
 public class EmptyViewItemDecoration extends DividerItemDecoration {
     private final int mOrientation;

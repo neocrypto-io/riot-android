@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -100,19 +100,19 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.extensions.MatrixSdkExtensionsKt;
-import im.vector.listeners.IMessagesAdapterActionsListener;
-import im.vector.ui.VectorQuoteSpan;
-import im.vector.util.EventGroup;
-import im.vector.util.MatrixLinkMovementMethod;
-import im.vector.util.MatrixURLSpan;
-import im.vector.util.PreferencesManager;
-import im.vector.util.RiotEventDisplay;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorImageGetter;
-import im.vector.widgets.WidgetsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.extensions.MatrixSdkExtensionsKt;
+import io.neocrypto.chat.listeners.IMessagesAdapterActionsListener;
+import io.neocrypto.chat.ui.VectorQuoteSpan;
+import io.neocrypto.chat.util.EventGroup;
+import io.neocrypto.chat.util.MatrixLinkMovementMethod;
+import io.neocrypto.chat.util.MatrixURLSpan;
+import io.neocrypto.chat.util.PreferencesManager;
+import io.neocrypto.chat.util.RiotEventDisplay;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorImageGetter;
+import io.neocrypto.chat.widgets.WidgetsManager;
 
 /**
  * An adapter which can display room information.

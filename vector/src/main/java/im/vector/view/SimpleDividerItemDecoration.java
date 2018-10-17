@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -25,8 +25,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import im.vector.R;
-import im.vector.util.ThemeUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.ThemeUtils;
 
 public class SimpleDividerItemDecoration extends DividerItemDecoration {
     private final Drawable mDivider;

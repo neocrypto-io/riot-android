@@ -1,4 +1,4 @@
-package im.vector.analytics
+package io.neocrypto.chat.analytics
 
 import android.content.Context
 import org.piwik.sdk.*

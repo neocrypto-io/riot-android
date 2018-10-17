@@ -10,7 +10,7 @@
     android:orientation="horizontal"
     tools:background="@drawable/pill_background_user_id_dark">
 
-    <im.vector.view.PillImageView
+    <io.neocrypto.chat.view.PillImageView
         android:id="@+id/pill_avatar_view"
         android:layout_width="14sp"
         android:layout_height="14sp"

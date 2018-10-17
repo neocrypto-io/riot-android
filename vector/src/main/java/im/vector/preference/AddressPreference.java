@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.preference;
+package io.neocrypto.chat.preference;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -22,7 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 public class AddressPreference extends VectorCustomActionEditTextPreference {
 

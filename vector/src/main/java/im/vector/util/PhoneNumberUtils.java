@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import im.vector.VectorApp;
+import io.neocrypto.chat.VectorApp;
 
 /**
  * This class contains the phone number toolbox

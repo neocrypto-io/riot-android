@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.gcm;
+package io.neocrypto.chat.gcm;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.VectorApp;
+import io.neocrypto.chat.VectorApp;
 
 class GCMHelper {
     private static final String LOG_TAG = GCMHelper.class.getSimpleName();

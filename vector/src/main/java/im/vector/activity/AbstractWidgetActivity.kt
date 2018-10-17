@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity
+package io.neocrypto.chat.activity
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -26,14 +26,14 @@ import android.webkit.*
 import androidx.core.widget.toast
 import butterknife.BindView
 import com.google.gson.reflect.TypeToken
-import im.vector.Matrix
-import im.vector.R
-import im.vector.activity.util.INTEGRATION_MANAGER_ACTIVITY_REQUEST_CODE
-import im.vector.types.JsonDict
-import im.vector.types.WidgetEventData
-import im.vector.util.AssetReader
-import im.vector.util.toJsonMap
-import im.vector.widgets.WidgetsManager
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.R
+import io.neocrypto.chat.activity.util.INTEGRATION_MANAGER_ACTIVITY_REQUEST_CODE
+import io.neocrypto.chat.types.JsonDict
+import io.neocrypto.chat.types.WidgetEventData
+import io.neocrypto.chat.util.AssetReader
+import io.neocrypto.chat.util.toJsonMap
+import io.neocrypto.chat.widgets.WidgetsManager
 import org.matrix.androidsdk.MXSession
 import org.matrix.androidsdk.data.Room
 import org.matrix.androidsdk.rest.callback.ApiCallback

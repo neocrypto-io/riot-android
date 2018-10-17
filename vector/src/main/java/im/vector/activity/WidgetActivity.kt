@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity
+package io.neocrypto.chat.activity
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -34,10 +34,10 @@ import androidx.core.view.isInvisible
 import androidx.core.widget.toast
 import butterknife.BindView
 import butterknife.OnClick
-import im.vector.Matrix
-import im.vector.R
-import im.vector.widgets.Widget
-import im.vector.widgets.WidgetsManager
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.R
+import io.neocrypto.chat.widgets.Widget
+import io.neocrypto.chat.widgets.WidgetsManager
 import org.matrix.androidsdk.MXSession
 import org.matrix.androidsdk.data.Room
 import org.matrix.androidsdk.rest.callback.ApiCallback

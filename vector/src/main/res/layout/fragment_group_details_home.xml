@@ -14,7 +14,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp">
 
-        <im.vector.view.VectorCircularImageView
+        <io.neocrypto.chat.view.VectorCircularImageView
             android:id="@+id/group_avatar"
             android:layout_width="@dimen/chat_avatar_size"
             android:layout_height="@dimen/chat_avatar_size"

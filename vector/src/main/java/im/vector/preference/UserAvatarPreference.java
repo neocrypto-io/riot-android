@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.preference;
+package io.neocrypto.chat.preference;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -28,8 +28,8 @@ import android.widget.ProgressBar;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.MyUser;
 
-import im.vector.R;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.VectorUtils;
 
 public class UserAvatarPreference extends EditTextPreference {
 

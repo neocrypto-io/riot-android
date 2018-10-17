@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.util
+package io.neocrypto.chat.util
 
 import android.Manifest
 import android.app.Activity
@@ -27,8 +27,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.widget.Toast
-import im.vector.R
-import im.vector.contacts.ContactsManager
+import io.neocrypto.chat.R
+import io.neocrypto.chat.contacts.ContactsManager
 import org.matrix.androidsdk.util.Log
 import java.util.*
 

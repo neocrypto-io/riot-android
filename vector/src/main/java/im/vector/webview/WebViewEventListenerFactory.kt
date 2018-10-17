@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package im.vector.webview
+package io.neocrypto.chat.webview
 
-import im.vector.activity.VectorAppCompatActivity
+import io.neocrypto.chat.activity.VectorAppCompatActivity
 
 interface WebViewEventListenerFactory {
 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -58,12 +58,12 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.VectorMediasViewerActivity;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.SlidableMediaInfo;
-import im.vector.view.PieFractionView;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.VectorMediasViewerActivity;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.SlidableMediaInfo;
+import io.neocrypto.chat.view.PieFractionView;
 
 /**
  * An images slider

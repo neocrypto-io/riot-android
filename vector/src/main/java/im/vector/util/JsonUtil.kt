@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package im.vector.util
+package io.neocrypto.chat.util
 
 import com.google.gson.reflect.TypeToken
-import im.vector.types.JsonDict
+import io.neocrypto.chat.types.JsonDict
 import org.matrix.androidsdk.util.JsonUtils
 import org.matrix.androidsdk.util.Log
 import java.util.*

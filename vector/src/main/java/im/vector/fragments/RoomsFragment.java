@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -49,18 +49,18 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import im.vector.PublicRoomsManager;
-import im.vector.R;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.RoomDirectoryPickerActivity;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.adapters.AdapterSection;
-import im.vector.adapters.RoomAdapter;
-import im.vector.util.HomeRoomsViewModel;
-import im.vector.util.RoomDirectoryData;
-import im.vector.view.EmptyViewItemDecoration;
-import im.vector.view.SectionView;
-import im.vector.view.SimpleDividerItemDecoration;
+import io.neocrypto.chat.PublicRoomsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.RoomDirectoryPickerActivity;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.adapters.AdapterSection;
+import io.neocrypto.chat.adapters.RoomAdapter;
+import io.neocrypto.chat.util.HomeRoomsViewModel;
+import io.neocrypto.chat.util.RoomDirectoryData;
+import io.neocrypto.chat.view.EmptyViewItemDecoration;
+import io.neocrypto.chat.view.SectionView;
+import io.neocrypto.chat.view.SimpleDividerItemDecoration;
 
 public class RoomsFragment extends AbsHomeFragment implements AbsHomeFragment.OnRoomChangedListener {
     private static final String LOG_TAG = RoomsFragment.class.getSimpleName();

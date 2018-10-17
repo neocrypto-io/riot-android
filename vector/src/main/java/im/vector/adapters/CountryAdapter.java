@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import im.vector.R;
-import im.vector.util.CountryPhoneData;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.CountryPhoneData;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryViewHolder> implements Filterable {
 

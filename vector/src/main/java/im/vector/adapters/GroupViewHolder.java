@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -33,8 +33,8 @@ import org.matrix.androidsdk.util.Log;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import im.vector.R;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.VectorUtils;
 
 public class GroupViewHolder extends RecyclerView.ViewHolder {
     private static final String LOG_TAG = GroupViewHolder.class.getSimpleName();

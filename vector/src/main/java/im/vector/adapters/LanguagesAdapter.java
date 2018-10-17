@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -30,8 +30,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import im.vector.R;
-import im.vector.VectorApp;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
 
 public class LanguagesAdapter extends RecyclerView.Adapter<LanguagesAdapter.LanguageViewHolder> implements Filterable {
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.media.ExifInterface;
@@ -38,8 +38,8 @@ import org.matrix.androidsdk.rest.model.message.Message;
 import org.matrix.androidsdk.rest.model.message.VideoMessage;
 import org.matrix.androidsdk.util.JsonUtils;
 
-import im.vector.R;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * An adapter which display a files search result

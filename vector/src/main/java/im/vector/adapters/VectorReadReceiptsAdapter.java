@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -36,9 +36,9 @@ import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.rest.model.ReceiptData;
 import org.matrix.androidsdk.rest.model.RoomMember;
 
-import im.vector.R;
-import im.vector.activity.VectorMemberDetailsActivity;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.VectorMemberDetailsActivity;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * An adapter which can display read receipts
@@ -84,9 +84,9 @@ public class VectorReadReceiptsAdapter extends ArrayAdapter<ReceiptData> {
         TextView tsTextView = convertView.findViewById(R.id.read_receipt_ts);
         final String ts = AdapterUtils.tsToString(mContext, receipt.originServerTs, false);
 
-        SpannableStringBuilder body = new SpannableStringBuilder(mContext.getString(im.vector.R.string.read_receipt) + " : " + ts);
+        SpannableStringBuilder body = new SpannableStringBuilder(mContext.getString(io.neocrypto.chat.R.string.read_receipt) + " : " + ts);
         body.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
-                0, mContext.getString(im.vector.R.string.read_receipt).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                0, mContext.getString(io.neocrypto.chat.R.string.read_receipt).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tsTextView.setText(body);
 
         userNameTextView.setOnLongClickListener(new View.OnLongClickListener() {

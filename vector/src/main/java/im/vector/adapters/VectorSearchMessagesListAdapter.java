@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -36,9 +36,9 @@ import org.matrix.androidsdk.rest.model.Event;
 import org.matrix.androidsdk.util.EventDisplay;
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.R;
-import im.vector.util.RiotEventDisplay;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.RiotEventDisplay;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * An adapter which display a list of messages found after a search

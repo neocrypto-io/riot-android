@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -36,10 +36,10 @@ import org.matrix.androidsdk.rest.model.MatrixError;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.adapters.VectorUnknownDevicesAdapter;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.adapters.VectorUnknownDevicesAdapter;
 
 public class VectorUnknownDevicesFragment extends DialogFragment {
     private static final String ARG_SESSION_ID = "VectorUnknownDevicesFragment.ARG_SESSION_ID";

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.preference;
+package io.neocrypto.chat.preference;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 /**
  * Customize ListPreference class to add a warning icon to the right side of the list.

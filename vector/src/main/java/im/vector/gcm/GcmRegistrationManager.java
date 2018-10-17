@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.gcm;
+package io.neocrypto.chat.gcm;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -42,11 +42,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.util.PreferencesManager;
-import im.vector.util.SystemUtilsKt;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.util.PreferencesManager;
+import io.neocrypto.chat.util.SystemUtilsKt;
 
 /**
  * Helper class to store the GCM registration ID in {@link SharedPreferences}
@@ -68,7 +68,7 @@ public final class GcmRegistrationManager {
     private static final String PREFS_SYNC_TIMEOUT = "GcmRegistrationManager.PREFS_SYNC_TIMEOUT";
     private static final String PREFS_SYNC_DELAY = "GcmRegistrationManager.PREFS_SYNC_DELAY";
 
-    private static final String DEFAULT_PUSHER_APP_ID = "im.vector.app.android";
+    private static final String DEFAULT_PUSHER_APP_ID = "io.neocrypto.chat.app.android";
     private static final String DEFAULT_PUSHER_URL = "https://matrix.org/_matrix/push/v1/notify";
     private static final String DEFAULT_PUSHER_FILE_TAG = "mobile";
 

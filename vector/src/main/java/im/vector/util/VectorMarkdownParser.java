@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.notifications;
+package io.neocrypto.chat.notifications;
 
 import android.os.Parcel;
 import android.os.Parcelable;

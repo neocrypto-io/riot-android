@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.listeners;
+package io.neocrypto.chat.listeners;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;

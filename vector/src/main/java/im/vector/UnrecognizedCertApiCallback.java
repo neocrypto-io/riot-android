@@ -1,4 +1,4 @@
-package im.vector;
+package io.neocrypto.chat;
 
 import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.rest.callback.ApiCallback;

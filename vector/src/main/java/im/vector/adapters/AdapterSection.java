@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.text.SpannableString;
@@ -26,9 +26,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.util.ThemeUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.util.ThemeUtils;
 
 public class AdapterSection<T> {
 

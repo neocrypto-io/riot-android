@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.notifications
+package io.neocrypto.chat.notifications
 
 import android.annotation.SuppressLint
 import android.app.Notification
@@ -38,13 +38,13 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.StyleSpan
-import im.vector.Matrix
-import im.vector.R
-import im.vector.VectorApp
-import im.vector.activity.*
-import im.vector.receiver.DismissNotificationReceiver
-import im.vector.util.PreferencesManager
-import im.vector.util.createSquareBitmap
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.R
+import io.neocrypto.chat.VectorApp
+import io.neocrypto.chat.activity.*
+import io.neocrypto.chat.receiver.DismissNotificationReceiver
+import io.neocrypto.chat.util.PreferencesManager
+import io.neocrypto.chat.util.createSquareBitmap
 import org.matrix.androidsdk.rest.model.bingrules.BingRule
 import org.matrix.androidsdk.util.Log
 import java.util.*

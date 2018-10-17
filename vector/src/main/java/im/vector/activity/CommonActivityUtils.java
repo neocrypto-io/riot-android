@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -73,19 +73,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.Matrix;
-import im.vector.MyPresenceManager;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.adapters.VectorRoomsSelectionAdapter;
-import im.vector.contacts.ContactsManager;
-import im.vector.contacts.PIDsRetriever;
-import im.vector.extensions.MatrixSdkExtensionsKt;
-import im.vector.fragments.VectorUnknownDevicesFragment;
-import im.vector.gcm.GcmRegistrationManager;
-import im.vector.services.EventStreamService;
-import im.vector.util.PreferencesManager;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.MyPresenceManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.adapters.VectorRoomsSelectionAdapter;
+import io.neocrypto.chat.contacts.ContactsManager;
+import io.neocrypto.chat.contacts.PIDsRetriever;
+import io.neocrypto.chat.extensions.MatrixSdkExtensionsKt;
+import io.neocrypto.chat.fragments.VectorUnknownDevicesFragment;
+import io.neocrypto.chat.gcm.GcmRegistrationManager;
+import io.neocrypto.chat.services.EventStreamService;
+import io.neocrypto.chat.util.PreferencesManager;
+import io.neocrypto.chat.util.VectorUtils;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
@@ -1154,7 +1154,7 @@ public class CommonActivityUtils {
 
     /**
      * Save a media URI into the download directory
-     * {@link im.vector.util.PermissionsToolsKt#PERMISSIONS_FOR_WRITING_FILES} has to be granted
+     * {@link io.neocrypto.chat.util.PermissionsToolsKt#PERMISSIONS_FOR_WRITING_FILES} has to be granted
      *
      * @param context  the context
      * @param srcFile  the source file.
@@ -1448,7 +1448,7 @@ public class CommonActivityUtils {
 
     /**
      * Export the e2e keys for a dedicated session.
-     * {@link im.vector.util.PermissionsToolsKt#PERMISSIONS_FOR_WRITING_FILES} has to be granted
+     * {@link io.neocrypto.chat.util.PermissionsToolsKt#PERMISSIONS_FOR_WRITING_FILES} has to be granted
      * <p>
      *
      * @param session  the session

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.widgets;
+package io.neocrypto.chat.widgets;
 
 import android.text.TextUtils;
 

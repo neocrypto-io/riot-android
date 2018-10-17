@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.extensions
+package io.neocrypto.chat.extensions
 
 import org.matrix.androidsdk.MXSession
 import org.matrix.androidsdk.crypto.data.MXDeviceInfo

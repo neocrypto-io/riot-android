@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity
+package io.neocrypto.chat.activity
 
 import android.text.TextUtils
 import android.view.Menu
@@ -26,9 +26,9 @@ import androidx.core.widget.toast
 import butterknife.BindView
 import butterknife.OnCheckedChanged
 import butterknife.OnTextChanged
-import im.vector.R
-import im.vector.VectorApp
-import im.vector.util.BugReporter
+import io.neocrypto.chat.R
+import io.neocrypto.chat.VectorApp
+import io.neocrypto.chat.util.BugReporter
 import org.matrix.androidsdk.util.Log
 
 /**

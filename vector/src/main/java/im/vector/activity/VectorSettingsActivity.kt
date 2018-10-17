@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.activity
+package io.neocrypto.chat.activity
 
-import im.vector.Matrix
-import im.vector.R
-import im.vector.fragments.VectorSettingsPreferencesFragment
-import im.vector.util.PERMISSION_REQUEST_CODE_EXPORT_KEYS
-import im.vector.util.PERMISSION_REQUEST_CODE_LAUNCH_CAMERA
-import im.vector.util.allGranted
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.R
+import io.neocrypto.chat.fragments.VectorSettingsPreferencesFragment
+import io.neocrypto.chat.util.PERMISSION_REQUEST_CODE_EXPORT_KEYS
+import io.neocrypto.chat.util.PERMISSION_REQUEST_CODE_LAUNCH_CAMERA
+import io.neocrypto.chat.util.allGranted
 
 /**
  * Displays the client settings.

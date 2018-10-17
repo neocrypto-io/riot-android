@@ -44,7 +44,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/home_toolbar" />
 
-        <im.vector.view.VectorPendingCallView
+        <io.neocrypto.chat.view.VectorPendingCallView
             android:id="@+id/listView_pending_callview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

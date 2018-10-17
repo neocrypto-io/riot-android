@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -48,14 +48,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import im.vector.Matrix;
-import im.vector.PublicRoomsManager;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.util.RiotEventDisplay;
-import im.vector.util.RoomUtils;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.PublicRoomsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.util.RiotEventDisplay;
+import io.neocrypto.chat.util.RoomUtils;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * An adapter which can display room information.

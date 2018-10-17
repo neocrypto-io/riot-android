@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.webview
+package io.neocrypto.chat.webview
 
 interface WebViewEventListener {
 

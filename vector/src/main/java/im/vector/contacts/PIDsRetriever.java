@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.contacts;
+package io.neocrypto.chat.contacts;
 
 import android.content.Context;
 import android.os.Handler;
@@ -36,8 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import im.vector.Matrix;
-import im.vector.VectorApp;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.VectorApp;
 
 /**
  * retrieve the contact matrix IDs

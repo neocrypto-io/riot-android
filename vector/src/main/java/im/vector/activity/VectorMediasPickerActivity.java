@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -86,12 +86,12 @@ import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.ViewUtilKt;
-import im.vector.view.RecentMediaLayout;
-import im.vector.view.VideoRecordView;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.ViewUtilKt;
+import io.neocrypto.chat.view.RecentMediaLayout;
+import io.neocrypto.chat.view.VideoRecordView;
 import kotlin.Pair;
 
 /**

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.receiver;
+package io.neocrypto.chat.receiver;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -33,13 +33,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import im.vector.activity.LoginActivity;
+import io.neocrypto.chat.activity.LoginActivity;
 
 @SuppressLint("LongLogTag")
 public class VectorRegistrationReceiver extends BroadcastReceiver {
     private static final String LOG_TAG = VectorRegistrationReceiver.class.getSimpleName();
 
-    public static final String BROADCAST_ACTION_REGISTRATION = "im.vector.receiver.BROADCAST_ACTION_REGISTRATION";
+    public static final String BROADCAST_ACTION_REGISTRATION = "io.neocrypto.chat.receiver.BROADCAST_ACTION_REGISTRATION";
 
     // Broadcast Extras
     public static final String EXTRA_EMAIL_VALIDATION_PARAMS = "EXTRA_EMAIL_VALIDATION_PARAMS";

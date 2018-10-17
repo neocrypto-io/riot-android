@@ -3,9 +3,9 @@ Riot-Android [![Jenkins](https://img.shields.io/jenkins/s/https/matrix.org/jenki
 
  Riot is an Android Matrix client.
   		  
- [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height="60">](https://play.google.com/store/apps/details?id=im.vector.alpha&hl=en&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)	
+ [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height="60">](https://play.google.com/store/apps/details?id=io.neocrypto.chat&hl=en&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
    
- [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/app/im.vector.alpha)
+ [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/app/io.neocrypto.chat)
  
 
 Build instructions
@@ -93,7 +93,7 @@ Customise your flavour
 - Open Android studio, select your flavour.
 - Build and run the app : you made your first Riot app.
 
-You will need to manage your own provider because "im.vector" is already used (look at VectorContentProvider to manage it).
+You will need to manage your own provider because "io.neocrypto.chat" is already used (look at VectorContentProvider to manage it).
 
 Customise your application settings with a custom google play link
 ===================================================================

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.preference;
+package io.neocrypto.chat.preference;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -23,7 +23,7 @@ import android.util.AttributeSet;
 
 import org.matrix.androidsdk.rest.model.bingrules.BingRule;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 public class BingRulePreference extends VectorCustomActionEditTextPreference {
 

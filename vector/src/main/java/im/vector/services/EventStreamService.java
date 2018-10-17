@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.services;
+package io.neocrypto.chat.services;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -61,19 +61,19 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.ViewedRoomTracker;
-import im.vector.gcm.GcmRegistrationManager;
-import im.vector.notifications.NotificationUtils;
-import im.vector.notifications.NotifiedEvent;
-import im.vector.notifications.RoomsNotifications;
-import im.vector.receiver.DismissNotificationReceiver;
-import im.vector.util.CallsManager;
-import im.vector.util.RiotEventDisplay;
-import im.vector.util.SystemUtilsKt;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.ViewedRoomTracker;
+import io.neocrypto.chat.gcm.GcmRegistrationManager;
+import io.neocrypto.chat.notifications.NotificationUtils;
+import io.neocrypto.chat.notifications.NotifiedEvent;
+import io.neocrypto.chat.notifications.RoomsNotifications;
+import io.neocrypto.chat.receiver.DismissNotificationReceiver;
+import io.neocrypto.chat.util.CallsManager;
+import io.neocrypto.chat.util.RiotEventDisplay;
+import io.neocrypto.chat.util.SystemUtilsKt;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * A foreground service in charge of controlling whether the event stream is running or not.

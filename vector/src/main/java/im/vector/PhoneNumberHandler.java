@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector;
+package io.neocrypto.chat;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,8 +33,8 @@ import com.google.i18n.phonenumbers.Phonenumber;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import im.vector.activity.CountryPickerActivity;
-import im.vector.util.PhoneNumberUtils;
+import io.neocrypto.chat.activity.CountryPickerActivity;
+import io.neocrypto.chat.util.PhoneNumberUtils;
 
 /**
  * Helper class to handle phone number formatting and validation

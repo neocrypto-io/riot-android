@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments
+package io.neocrypto.chat.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -49,15 +49,15 @@ import androidx.core.widget.toast
 import com.bumptech.glide.Glide
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import im.vector.Matrix
-import im.vector.R
-import im.vector.VectorApp
-import im.vector.activity.*
-import im.vector.contacts.ContactsManager
-import im.vector.extensions.getFingerprintHumanReadable
-import im.vector.preference.*
-import im.vector.settings.FontScale
-import im.vector.util.*
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.R
+import io.neocrypto.chat.VectorApp
+import io.neocrypto.chat.activity.*
+import io.neocrypto.chat.contacts.ContactsManager
+import io.neocrypto.chat.extensions.getFingerprintHumanReadable
+import io.neocrypto.chat.preference.*
+import io.neocrypto.chat.settings.FontScale
+import io.neocrypto.chat.util.*
 import org.matrix.androidsdk.MXSession
 import org.matrix.androidsdk.crypto.data.MXDeviceInfo
 import org.matrix.androidsdk.data.MyUser

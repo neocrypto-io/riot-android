@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.gcm;
+package io.neocrypto.chat.gcm;
 
 import android.support.annotation.Nullable;
 
@@ -32,11 +32,11 @@ import org.matrix.androidsdk.util.Log;
 import java.util.Collection;
 import java.util.Map;
 
-import im.vector.Matrix;
-import im.vector.VectorApp;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.services.EventStreamService;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.services.EventStreamService;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * Class implementing GcmListenerService.

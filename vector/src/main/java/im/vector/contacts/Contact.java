@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.contacts;
+package io.neocrypto.chat.contacts;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,8 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import im.vector.VectorApp;
-import im.vector.util.PhoneNumberUtils;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.util.PhoneNumberUtils;
 
 /**
  * A simple contact class

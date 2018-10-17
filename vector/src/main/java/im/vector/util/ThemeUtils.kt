@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.util
+package io.neocrypto.chat.util
 
 
 import android.app.Activity
@@ -29,9 +29,9 @@ import android.support.v4.graphics.drawable.DrawableCompat
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Menu
-import im.vector.R
-import im.vector.VectorApp
-import im.vector.activity.VectorGroupDetailsActivity
+import io.neocrypto.chat.R
+import io.neocrypto.chat.VectorApp
+import io.neocrypto.chat.activity.VectorGroupDetailsActivity
 import java.util.*
 
 /**

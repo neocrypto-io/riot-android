@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.features.hhs
+package io.neocrypto.chat.features.hhs
 
 import org.matrix.androidsdk.MXDataHandler
 import org.matrix.androidsdk.data.Room

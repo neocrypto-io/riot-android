@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -36,9 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.VectorMemberDetailsActivity;
-import im.vector.activity.VectorRoomActivity;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.VectorMemberDetailsActivity;
+import io.neocrypto.chat.activity.VectorRoomActivity;
 
 public class GroupUtils {
     private static final String LOG_TAG = GroupUtils.class.getSimpleName();

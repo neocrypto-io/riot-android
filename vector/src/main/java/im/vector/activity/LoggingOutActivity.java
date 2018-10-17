@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import org.jetbrains.annotations.NotNull;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 import kotlin.Pair;
 
 /**

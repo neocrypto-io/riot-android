@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.preference;
+package io.neocrypto.chat.preference;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 /**
  * This class should fix the android issue

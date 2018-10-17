@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.view.View;
@@ -25,7 +25,7 @@ import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.rest.model.group.Group;
 
 import butterknife.BindView;
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 public class GroupInvitationViewHolder extends GroupViewHolder {
 

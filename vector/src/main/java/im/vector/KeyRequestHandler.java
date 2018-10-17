@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector;
+package io.neocrypto.chat;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.CommonActivityUtils;
 
 /**
  * Manage the key share events

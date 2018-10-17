@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -37,9 +37,9 @@ import org.matrix.androidsdk.rest.model.User;
 import org.matrix.androidsdk.util.Log;
 import org.matrix.androidsdk.util.PermalinkUtils;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * A PillView displays a user avatar and a user name in a message

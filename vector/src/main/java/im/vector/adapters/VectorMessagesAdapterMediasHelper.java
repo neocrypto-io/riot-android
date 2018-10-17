@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -56,8 +56,8 @@ import org.matrix.androidsdk.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
-import im.vector.R;
-import im.vector.listeners.IMessagesAdapterActionsListener;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.listeners.IMessagesAdapterActionsListener;
 
 /**
  * An helper to display medias information

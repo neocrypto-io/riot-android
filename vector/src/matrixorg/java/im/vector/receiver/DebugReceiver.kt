@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.receiver
+package io.neocrypto.chat.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

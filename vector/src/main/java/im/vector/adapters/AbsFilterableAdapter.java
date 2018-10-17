@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +24,7 @@ import android.widget.Filterable;
 
 import org.matrix.androidsdk.MXSession;
 
-import im.vector.Matrix;
+import io.neocrypto.chat.Matrix;
 
 /**
  * Abstract adapter to manage filtering

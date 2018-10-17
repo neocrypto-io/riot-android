@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,8 +40,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.R;
-import im.vector.util.RoomDirectoryData;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.RoomDirectoryData;
 
 public class RoomDirectoryAdapter extends RecyclerView.Adapter<RoomDirectoryAdapter.RoomDirectoryViewHolder> {
 

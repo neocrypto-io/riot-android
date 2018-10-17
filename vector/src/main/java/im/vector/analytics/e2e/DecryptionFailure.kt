@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.analytics.e2e
+package io.neocrypto.chat.analytics.e2e
 
 import java.util.*
 

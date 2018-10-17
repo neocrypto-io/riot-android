@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -51,18 +51,18 @@ import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
-import im.vector.R;
-import im.vector.activity.VectorMemberDetailsActivity;
-import im.vector.adapters.ParticipantAdapterItem;
-import im.vector.adapters.PeopleAdapter;
-import im.vector.contacts.Contact;
-import im.vector.contacts.ContactsManager;
-import im.vector.contacts.PIDsRetriever;
-import im.vector.util.HomeRoomsViewModel;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.VectorUtils;
-import im.vector.view.EmptyViewItemDecoration;
-import im.vector.view.SimpleDividerItemDecoration;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.VectorMemberDetailsActivity;
+import io.neocrypto.chat.adapters.ParticipantAdapterItem;
+import io.neocrypto.chat.adapters.PeopleAdapter;
+import io.neocrypto.chat.contacts.Contact;
+import io.neocrypto.chat.contacts.ContactsManager;
+import io.neocrypto.chat.contacts.PIDsRetriever;
+import io.neocrypto.chat.util.HomeRoomsViewModel;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.view.EmptyViewItemDecoration;
+import io.neocrypto.chat.view.SimpleDividerItemDecoration;
 
 public class PeopleFragment extends AbsHomeFragment implements ContactsManager.ContactsManagerListener, AbsHomeFragment.OnRoomChangedListener {
     private static final String LOG_TAG = PeopleFragment.class.getSimpleName();

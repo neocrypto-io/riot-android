@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -36,9 +36,9 @@ import org.matrix.androidsdk.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.adapters.VectorReadReceiptsAdapter;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.VectorReadReceiptsAdapter;
 
 /**
  * A dialog fragment showing the read receipts for an event

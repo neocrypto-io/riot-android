@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package im.vector.settings
+package io.neocrypto.chat.settings
 
 import android.content.res.Configuration
 import android.preference.PreferenceManager
 import android.text.TextUtils
 import androidx.core.content.edit
-import im.vector.R
-import im.vector.VectorApp
+import io.neocrypto.chat.R
+import io.neocrypto.chat.VectorApp
 
 /**
  * Object to manage the Font Scale choice of the user

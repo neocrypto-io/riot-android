@@ -27,7 +27,7 @@
             android:indeterminateTint="@color/tab_groups_secondary"
             android:visibility="visible" />
 
-        <im.vector.view.RiotViewPager
+        <io.neocrypto.chat.view.RiotViewPager
             android:id="@+id/groups_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

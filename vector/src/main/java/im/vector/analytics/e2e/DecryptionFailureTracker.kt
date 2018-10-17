@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package im.vector.analytics.e2e
+package io.neocrypto.chat.analytics.e2e
 
-import im.vector.analytics.Analytics
-import im.vector.analytics.TrackingEvent
+import io.neocrypto.chat.analytics.Analytics
+import io.neocrypto.chat.analytics.TrackingEvent
 import org.matrix.androidsdk.crypto.MXCryptoError
 import org.matrix.androidsdk.data.RoomState
 import org.matrix.androidsdk.listeners.MXEventListener

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -43,13 +43,13 @@ import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.adapters.HomeRoomAdapter;
-import im.vector.util.HomeRoomsViewModel;
-import im.vector.util.RoomUtils;
-import im.vector.view.EmptyViewItemDecoration;
-import im.vector.view.SimpleDividerItemDecoration;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.adapters.HomeRoomAdapter;
+import io.neocrypto.chat.util.HomeRoomsViewModel;
+import io.neocrypto.chat.util.RoomUtils;
+import io.neocrypto.chat.view.EmptyViewItemDecoration;
+import io.neocrypto.chat.view.SimpleDividerItemDecoration;
 
 public class FavouritesFragment extends AbsHomeFragment implements HomeRoomAdapter.OnSelectRoomListener {
     private static final String LOG_TAG = FavouritesFragment.class.getSimpleName();

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -73,9 +73,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.adapters.ParticipantAdapterItem;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.adapters.ParticipantAdapterItem;
 
 public class VectorUtils {
 
@@ -705,7 +705,7 @@ public class VectorUtils {
      * @return the version. an empty string is not found.
      */
     public static String getApplicationVersion(final Context context) {
-        return im.vector.Matrix.getInstance(context).getVersion(false, true);
+        return io.neocrypto.chat.Matrix.getInstance(context).getVersion(false, true);
     }
 
     /**

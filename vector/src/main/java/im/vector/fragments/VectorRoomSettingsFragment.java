@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -78,19 +78,19 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.VectorMediasPickerActivity;
-import im.vector.activity.VectorMemberDetailsActivity;
-import im.vector.preference.AddressPreference;
-import im.vector.preference.RoomAvatarPreference;
-import im.vector.preference.VectorCustomActionEditTextPreference;
-import im.vector.preference.VectorListPreference;
-import im.vector.preference.VectorSwitchPreference;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.VectorMediasPickerActivity;
+import io.neocrypto.chat.activity.VectorMemberDetailsActivity;
+import io.neocrypto.chat.preference.AddressPreference;
+import io.neocrypto.chat.preference.RoomAvatarPreference;
+import io.neocrypto.chat.preference.VectorCustomActionEditTextPreference;
+import io.neocrypto.chat.preference.VectorListPreference;
+import io.neocrypto.chat.preference.VectorSwitchPreference;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorUtils;
 
 public class VectorRoomSettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     // internal constants values

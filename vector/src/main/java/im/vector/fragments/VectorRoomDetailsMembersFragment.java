@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -68,15 +68,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.core.widget.ToastKt;
-import im.vector.R;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.MXCActionBarActivity;
-import im.vector.activity.VectorMemberDetailsActivity;
-import im.vector.activity.VectorRoomInviteMembersActivity;
-import im.vector.adapters.ParticipantAdapterItem;
-import im.vector.adapters.VectorRoomDetailsMembersAdapter;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.MXCActionBarActivity;
+import io.neocrypto.chat.activity.VectorMemberDetailsActivity;
+import io.neocrypto.chat.activity.VectorRoomInviteMembersActivity;
+import io.neocrypto.chat.adapters.ParticipantAdapterItem;
+import io.neocrypto.chat.adapters.VectorRoomDetailsMembersAdapter;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorUtils;
 
 public class VectorRoomDetailsMembersFragment extends VectorBaseFragment {
     private static final String LOG_TAG = VectorRoomDetailsMembersFragment.class.getSimpleName();

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments
+package io.neocrypto.chat.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -23,7 +23,7 @@ import android.support.v4.app.Fragment
 import android.view.View
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import im.vector.activity.VectorAppCompatActivity
+import io.neocrypto.chat.activity.VectorAppCompatActivity
 import org.matrix.androidsdk.util.Log
 
 

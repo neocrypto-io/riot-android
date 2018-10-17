@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.notifications;
+package io.neocrypto.chat.notifications;
 
 import android.content.Context;
 import android.os.Parcel;
@@ -43,12 +43,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.LockScreenActivity;
-import im.vector.util.RiotEventDisplay;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.LockScreenActivity;
+import io.neocrypto.chat.util.RiotEventDisplay;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * RoomsNotifications

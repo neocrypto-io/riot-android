@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,13 +37,13 @@ import org.matrix.androidsdk.rest.model.publicroom.PublicRoom;
 
 import java.util.List;
 
-import im.vector.Matrix;
-import im.vector.PublicRoomsManager;
-import im.vector.R;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.VectorPublicRoomsActivity;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.adapters.VectorRoomSummaryAdapter;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.PublicRoomsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.VectorPublicRoomsActivity;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.adapters.VectorRoomSummaryAdapter;
 
 public class VectorSearchRoomsListFragment extends VectorRecentsListFragment {
     // the session

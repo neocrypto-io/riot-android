@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity
+package io.neocrypto.chat.activity
 
 import android.content.Context
 import android.content.Intent
@@ -23,9 +23,9 @@ import android.support.annotation.StringRes
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import butterknife.BindView
-import im.vector.R
-import im.vector.webview.VectorWebViewClient
-import im.vector.webview.WebViewMode
+import io.neocrypto.chat.R
+import io.neocrypto.chat.webview.VectorWebViewClient
+import io.neocrypto.chat.webview.WebViewMode
 
 /**
  * This class is responsible for managing a WebView

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,8 +38,8 @@ import org.matrix.androidsdk.rest.model.MatrixError;
 import org.matrix.androidsdk.rest.model.pid.ThreePid;
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.Matrix;
-import im.vector.R;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
 import kotlin.Pair;
 
 public class PhoneNumberVerificationActivity extends VectorAppCompatActivity implements TextView.OnEditorActionListener, TextWatcher {

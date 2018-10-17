@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -26,11 +26,11 @@ import android.widget.TextView;
 
 import org.matrix.androidsdk.MXSession;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.util.VectorUtils;
-import im.vector.view.VectorCircularImageView;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.view.VectorCircularImageView;
 
 import org.matrix.androidsdk.rest.model.User;
 

@@ -1,4 +1,4 @@
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -18,7 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 /**
  * Adapter for previews of media files.

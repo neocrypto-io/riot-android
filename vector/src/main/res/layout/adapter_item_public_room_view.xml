@@ -7,7 +7,7 @@
     android:paddingRight="16dp">
 
 
-    <im.vector.view.VectorCircularImageView
+    <io.neocrypto.chat.view.VectorCircularImageView
         android:id="@+id/public_room_avatar"
         android:layout_width="@dimen/chat_avatar_size"
         android:layout_height="@dimen/chat_avatar_size"

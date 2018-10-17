@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -32,9 +32,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.util.SlashCommandsParser;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.util.SlashCommandsParser;
 
 /**
  * This class describes a list of auto-completed slash commands

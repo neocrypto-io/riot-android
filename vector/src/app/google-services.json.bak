@@ -1,27 +1,31 @@
 {
   "project_info": {
-    "project_number": "102705246586",
-    "firebase_url": "https://neocrypto-chat.firebaseio.com",
-    "project_id": "neocrypto-chat",
-    "storage_bucket": "neocrypto-chat.appspot.com"
+    "project_number": "912726360885",
+    "firebase_url": "https://vector-alpha.firebaseio.com",
+    "project_id": "vector-alpha",
+    "storage_bucket": "vector-alpha.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:102705246586:android:86c26d9af88720d1",
+        "mobilesdk_app_id": "1:912726360885:android:448c9b63161abc9c",
         "android_client_info": {
           "package_name": "io.neocrypto.chat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "102705246586-lb017kp498rhd2fevnnt6thufm3r0611.apps.googleusercontent.com",
+          "client_id": "912726360885-rsae0i66rgqt6ivnudu1pv4tksg9i8b2.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "912726360885-e87n3jva9uoj4vbidvijq78ebg02asv2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCSza9xAHHN3oslzVbaHJ8VArODwcD0QmY"
+          "current_key": "AIzaSyAFZX8IhIfgzdOZvxDP_ISO5WYoU7jmQ5c"
         }
       ],
       "services": {

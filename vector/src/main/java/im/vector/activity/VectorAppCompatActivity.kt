@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity
+package io.neocrypto.chat.activity
 
 import android.content.Context
 import android.os.Bundle
@@ -29,14 +29,14 @@ import androidx.core.view.isVisible
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import im.vector.BuildConfig
-import im.vector.R
-import im.vector.VectorApp
-import im.vector.activity.interfaces.Restorable
-import im.vector.dialogs.ConsentNotGivenHelper
-import im.vector.receiver.DebugReceiver
-import im.vector.util.AssetReader
-import im.vector.util.ThemeUtils
+import io.neocrypto.chat.BuildConfig
+import io.neocrypto.chat.R
+import io.neocrypto.chat.VectorApp
+import io.neocrypto.chat.activity.interfaces.Restorable
+import io.neocrypto.chat.dialogs.ConsentNotGivenHelper
+import io.neocrypto.chat.receiver.DebugReceiver
+import io.neocrypto.chat.util.AssetReader
+import io.neocrypto.chat.util.ThemeUtils
 import org.matrix.androidsdk.util.Log
 
 /**

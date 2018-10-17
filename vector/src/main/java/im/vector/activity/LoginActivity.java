@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -74,21 +74,21 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import im.vector.LoginHandler;
-import im.vector.Matrix;
-import im.vector.PhoneNumberHandler;
-import im.vector.R;
-import im.vector.RegistrationManager;
-import im.vector.UnrecognizedCertHandler;
-import im.vector.activity.util.RequestCodesKt;
-import im.vector.features.hhs.ResourceLimitDialogHelper;
-import im.vector.receiver.VectorRegistrationReceiver;
-import im.vector.receiver.VectorUniversalLinkReceiver;
-import im.vector.repositories.ServerUrlsRepository;
-import im.vector.services.EventStreamService;
-import im.vector.util.PhoneNumberUtils;
-import im.vector.util.ThemeUtils;
-import im.vector.util.ViewUtilKt;
+import io.neocrypto.chat.LoginHandler;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.PhoneNumberHandler;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.RegistrationManager;
+import io.neocrypto.chat.UnrecognizedCertHandler;
+import io.neocrypto.chat.activity.util.RequestCodesKt;
+import io.neocrypto.chat.features.hhs.ResourceLimitDialogHelper;
+import io.neocrypto.chat.receiver.VectorRegistrationReceiver;
+import io.neocrypto.chat.receiver.VectorUniversalLinkReceiver;
+import io.neocrypto.chat.repositories.ServerUrlsRepository;
+import io.neocrypto.chat.services.EventStreamService;
+import io.neocrypto.chat.util.PhoneNumberUtils;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.ViewUtilKt;
 import kotlin.Pair;
 
 /**

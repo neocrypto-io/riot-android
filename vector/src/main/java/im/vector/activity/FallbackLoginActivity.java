@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,7 +39,7 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 /**
  * FallbackLoginActivity is the fallback login activity

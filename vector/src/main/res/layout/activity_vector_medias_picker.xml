@@ -40,7 +40,7 @@
                     android:background="@android:color/black" />
 
                 <!-- button to record a video -->
-                <im.vector.view.VideoRecordView
+                <io.neocrypto.chat.view.VideoRecordView
                     android:id="@+id/medias_record_animation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

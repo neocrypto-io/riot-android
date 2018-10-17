@@ -25,7 +25,7 @@
             android:layout_width="40dp"
             android:layout_height="32dp">
 
-            <im.vector.view.VectorCircularImageView
+            <io.neocrypto.chat.view.VectorCircularImageView
                 android:id="@+id/room_avatar_image_view"
                 android:layout_width="32dp"
                 android:layout_height="32dp"

@@ -9,32 +9,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <im.vector.view.HomeSectionView
+        <io.neocrypto.chat.view.HomeSectionView
             android:id="@+id/invitations_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <im.vector.view.HomeSectionView
+        <io.neocrypto.chat.view.HomeSectionView
             android:id="@+id/favourites_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <im.vector.view.HomeSectionView
+        <io.neocrypto.chat.view.HomeSectionView
             android:id="@+id/direct_chats_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <im.vector.view.HomeSectionView
+        <io.neocrypto.chat.view.HomeSectionView
             android:id="@+id/rooms_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <im.vector.view.HomeSectionView
+        <io.neocrypto.chat.view.HomeSectionView
             android:id="@+id/low_priority_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <im.vector.view.HomeSectionView
+        <io.neocrypto.chat.view.HomeSectionView
             android:id="@+id/server_notices_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.text.SpannableString;
@@ -39,9 +39,9 @@ import org.matrix.androidsdk.util.Log;
 
 import java.util.List;
 
-import im.vector.R;
-import im.vector.widgets.Widget;
-import im.vector.widgets.WidgetsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.widgets.Widget;
+import io.neocrypto.chat.widgets.WidgetsManager;
 
 /**
  * This class displays if there is an ongoing conference call.

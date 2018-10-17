@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,15 +62,15 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.adapters.VectorMemberDetailsAdapter;
-import im.vector.adapters.VectorMemberDetailsDevicesAdapter;
-import im.vector.extensions.MatrixSdkExtensionsKt;
-import im.vector.fragments.VectorUnknownDevicesFragment;
-import im.vector.util.CallsManager;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.VectorMemberDetailsAdapter;
+import io.neocrypto.chat.adapters.VectorMemberDetailsDevicesAdapter;
+import io.neocrypto.chat.extensions.MatrixSdkExtensionsKt;
+import io.neocrypto.chat.fragments.VectorUnknownDevicesFragment;
+import io.neocrypto.chat.util.CallsManager;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.VectorUtils;
 import kotlin.Pair;
 
 /**

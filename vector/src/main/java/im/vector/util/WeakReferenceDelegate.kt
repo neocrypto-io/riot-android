@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.util
+package io.neocrypto.chat.util
 
 import java.lang.ref.WeakReference
 import kotlin.reflect.KProperty

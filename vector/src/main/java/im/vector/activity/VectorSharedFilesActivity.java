@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.Intent;
 
@@ -28,8 +28,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.Matrix;
-import im.vector.R;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
 
 /**
  * Dummy activity used to manage the shared

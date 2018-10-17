@@ -38,7 +38,7 @@
             android:src="@drawable/ic_material_play_circle" />
     </RelativeLayout>
 
-    <im.vector.view.PieFractionView
+    <io.neocrypto.chat.view.PieFractionView
         android:id="@+id/media_slider_pie_view"
         android:layout_width="100dp"
         android:layout_height="100dp"

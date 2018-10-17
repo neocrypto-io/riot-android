@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,8 +28,8 @@ import android.support.v7.app.AlertDialog;
 
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.R;
-import im.vector.VectorApp;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
 
 /**
  * Manages the rage sakes

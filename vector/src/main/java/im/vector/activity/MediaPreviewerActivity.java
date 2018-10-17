@@ -1,4 +1,4 @@
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,8 +23,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import im.vector.R;
-import im.vector.adapters.MediaPreviewAdapter;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.MediaPreviewAdapter;
 import kotlin.Pair;
 
 /**

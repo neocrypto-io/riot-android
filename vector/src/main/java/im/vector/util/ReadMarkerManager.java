@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -43,11 +43,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.activity.MXCActionBarActivity;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.adapters.VectorMessagesAdapter;
-import im.vector.fragments.VectorMessageListFragment;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.MXCActionBarActivity;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.adapters.VectorMessagesAdapter;
+import io.neocrypto.chat.fragments.VectorMessageListFragment;
 
 /**
  * Class handling the read marker for a given room

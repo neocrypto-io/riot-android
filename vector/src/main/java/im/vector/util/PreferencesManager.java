@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -38,8 +38,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import im.vector.R;
-import im.vector.repositories.ServerUrlsRepository;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.repositories.ServerUrlsRepository;
 
 public class PreferencesManager {
 

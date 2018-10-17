@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.features.hhs
+package io.neocrypto.chat.features.hhs
 
 import android.app.Activity
 import android.graphics.Typeface
@@ -22,10 +22,10 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.text.style.StyleSpan
 import com.binaryfork.spanny.Spanny
-import im.vector.R
-import im.vector.activity.interfaces.Restorable
-import im.vector.dialogs.DialogLocker
-import im.vector.util.openUri
+import io.neocrypto.chat.R
+import io.neocrypto.chat.activity.interfaces.Restorable
+import io.neocrypto.chat.dialogs.DialogLocker
+import io.neocrypto.chat.util.openUri
 import org.matrix.androidsdk.rest.model.MatrixError
 
 private const val LOG_TAG = "ResourceLimitDialogHelper"

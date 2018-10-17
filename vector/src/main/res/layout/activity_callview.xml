@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:background="?attr/riot_primary_background_color">
 
-            <im.vector.view.VectorCircularImageView
+            <io.neocrypto.chat.view.VectorCircularImageView
                 android:id="@+id/call_other_member"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -116,7 +116,7 @@
 
         </LinearLayout>
 
-        <im.vector.view.VectorPendingCallView
+        <io.neocrypto.chat.view.VectorPendingCallView
             android:id="@+id/header_pending_callview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

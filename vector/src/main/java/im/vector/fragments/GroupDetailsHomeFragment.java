@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -31,10 +31,10 @@ import android.widget.TextView;
 import org.matrix.androidsdk.rest.model.group.Group;
 
 import butterknife.BindView;
-import im.vector.R;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorImageGetter;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorImageGetter;
+import io.neocrypto.chat.util.VectorUtils;
 
 public class GroupDetailsHomeFragment extends GroupDetailsBaseFragment {
     private static final String LOG_TAG = GroupDetailsHomeFragment.class.getSimpleName();

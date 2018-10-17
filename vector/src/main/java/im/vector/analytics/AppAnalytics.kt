@@ -1,8 +1,8 @@
-package im.vector.analytics
+package io.neocrypto.chat.analytics
 
 import android.content.Context
-import im.vector.BuildConfig
-import im.vector.util.PreferencesManager
+import io.neocrypto.chat.BuildConfig
+import io.neocrypto.chat.util.PreferencesManager
 import org.matrix.androidsdk.util.Log
 
 class AppAnalytics(private val context: Context, private vararg val analytics: Analytics) : Analytics {

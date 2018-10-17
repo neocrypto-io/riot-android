@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -23,11 +23,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import im.vector.R;
-import im.vector.fragments.GroupDetailsBaseFragment;
-import im.vector.fragments.GroupDetailsHomeFragment;
-import im.vector.fragments.GroupDetailsPeopleFragment;
-import im.vector.fragments.GroupDetailsRoomsFragment;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.fragments.GroupDetailsBaseFragment;
+import io.neocrypto.chat.fragments.GroupDetailsHomeFragment;
+import io.neocrypto.chat.fragments.GroupDetailsPeopleFragment;
+import io.neocrypto.chat.fragments.GroupDetailsRoomsFragment;
 
 /**
  * Groups pager adapter

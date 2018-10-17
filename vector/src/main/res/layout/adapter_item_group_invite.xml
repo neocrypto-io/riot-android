@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="74dp">
 
-        <im.vector.view.VectorCircularImageView
+        <io.neocrypto.chat.view.VectorCircularImageView
             android:id="@+id/room_avatar"
             android:layout_width="@dimen/chat_avatar_size"
             android:layout_height="@dimen/chat_avatar_size"

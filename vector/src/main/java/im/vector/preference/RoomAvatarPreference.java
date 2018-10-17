@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.preference;
+package io.neocrypto.chat.preference;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -22,7 +22,7 @@ import android.util.AttributeSet;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.Room;
 
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * Specialized class to target a Room avatar preference.

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.db;
+package io.neocrypto.chat.db;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -30,8 +30,8 @@ import android.webkit.MimeTypeMap;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import im.vector.BuildConfig;
-import im.vector.VectorApp;
+import io.neocrypto.chat.BuildConfig;
+import io.neocrypto.chat.VectorApp;
 
 public class VectorContentProvider extends ContentProvider {
     private static final String LOG_TAG = VectorContentProvider.class.getSimpleName();

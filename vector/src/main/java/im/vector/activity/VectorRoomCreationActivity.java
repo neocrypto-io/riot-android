@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -45,9 +45,9 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.core.widget.ToastKt;
-import im.vector.R;
-import im.vector.adapters.ParticipantAdapterItem;
-import im.vector.adapters.VectorRoomCreationAdapter;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.ParticipantAdapterItem;
+import io.neocrypto.chat.adapters.VectorRoomCreationAdapter;
 
 public class VectorRoomCreationActivity extends MXCActionBarActivity {
     // tags

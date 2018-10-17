@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -31,7 +31,7 @@ import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.crypto.data.MXDeviceInfo;
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 /**
  * This class displays a list of members to create a room.

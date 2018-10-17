@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.preference;
+package io.neocrypto.chat.preference;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -33,8 +33,8 @@ import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.MyUser;
 import org.matrix.androidsdk.rest.model.group.Group;
 
-import im.vector.R;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.VectorUtils;
 
 public class VectorGroupPreference extends VectorSwitchPreference {
     private static final String LOG_TAG = VectorGroupPreference.class.getSimpleName();

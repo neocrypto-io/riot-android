@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.receiver;
+package io.neocrypto.chat.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,8 +23,8 @@ import android.text.TextUtils;
 
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.activity.CommonActivityUtils;
-import im.vector.util.PreferencesManager;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.util.PreferencesManager;
 
 public class VectorBootReceiver extends BroadcastReceiver {
     private static final String LOG_TAG = VectorBootReceiver.class.getSimpleName();

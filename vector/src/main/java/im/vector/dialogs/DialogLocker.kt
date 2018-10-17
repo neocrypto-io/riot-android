@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package im.vector.dialogs
+package io.neocrypto.chat.dialogs
 
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import im.vector.activity.interfaces.Restorable
+import io.neocrypto.chat.activity.interfaces.Restorable
 import org.matrix.androidsdk.util.Log
 
 private const val KEY_DIALOG_IS_DISPLAYED = "DialogLocker.KEY_DIALOG_IS_DISPLAYED"

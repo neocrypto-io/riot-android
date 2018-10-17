@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,11 +35,11 @@ import org.matrix.androidsdk.data.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.activity.VectorMemberDetailsActivity;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorUtils;
-import im.vector.view.VectorCircularImageView;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.VectorMemberDetailsActivity;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.view.VectorCircularImageView;
 
 /**
  * An adapter which can display the available actions list

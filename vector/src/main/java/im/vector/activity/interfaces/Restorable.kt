@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity.interfaces
+package io.neocrypto.chat.activity.interfaces
 
 import android.os.Bundle
 

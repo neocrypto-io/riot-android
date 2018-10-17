@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,10 +44,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.adapters.RoomDirectoryAdapter;
-import im.vector.util.RoomDirectoryData;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.RoomDirectoryAdapter;
+import io.neocrypto.chat.util.RoomDirectoryData;
 import kotlin.Pair;
 
 public class RoomDirectoryPickerActivity extends VectorAppCompatActivity implements RoomDirectoryAdapter.OnSelectRoomDirectoryListener {

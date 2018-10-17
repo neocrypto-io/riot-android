@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.graphics.Bitmap;
 import android.text.TextUtils;
@@ -38,10 +38,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import im.vector.VectorApp;
-import im.vector.contacts.Contact;
-import im.vector.contacts.PIDsRetriever;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.contacts.Contact;
+import io.neocrypto.chat.contacts.PIDsRetriever;
+import io.neocrypto.chat.util.VectorUtils;
 
 // Class representing a room participant.
 public class ParticipantAdapterItem implements java.io.Serializable {

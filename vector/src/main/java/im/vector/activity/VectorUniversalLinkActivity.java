@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -35,11 +35,11 @@ import org.matrix.androidsdk.util.Log;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.LoginHandler;
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.receiver.VectorRegistrationReceiver;
-import im.vector.receiver.VectorUniversalLinkReceiver;
+import io.neocrypto.chat.LoginHandler;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.receiver.VectorRegistrationReceiver;
+import io.neocrypto.chat.receiver.VectorUniversalLinkReceiver;
 
 /**
  * Dummy activity used to dispatch the vector URL links.

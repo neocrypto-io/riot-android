@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.util.GroupUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.GroupUtils;
 
 public class GroupDetailsRoomsAdapter extends AbsAdapter {
     private static final int TYPE_GROUP_ROOMS = 22;

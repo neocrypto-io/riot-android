@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -39,13 +39,13 @@ import org.matrix.androidsdk.util.Log;
 import java.io.File;
 import java.util.List;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.adapters.VectorMediasViewerAdapter;
-import im.vector.db.VectorContentProvider;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.SlidableMediaInfo;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.adapters.VectorMediasViewerAdapter;
+import io.neocrypto.chat.db.VectorContentProvider;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.SlidableMediaInfo;
 
 /**
  * Display a medias list.

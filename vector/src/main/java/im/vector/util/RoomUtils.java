@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -59,10 +59,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.adapters.AdapterUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.adapters.AdapterUtils;
 
 public class RoomUtils {
 

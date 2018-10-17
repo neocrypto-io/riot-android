@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.adapters.ImageCompressionDescription;
-import im.vector.adapters.ImageSizesAdapter;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.ImageCompressionDescription;
+import io.neocrypto.chat.adapters.ImageSizesAdapter;
 
 /**
  * A dialog fragment showing a list of image selections string

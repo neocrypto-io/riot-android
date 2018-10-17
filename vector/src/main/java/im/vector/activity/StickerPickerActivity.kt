@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity
+package io.neocrypto.chat.activity
 
 import android.app.Activity
 import android.content.Context
@@ -22,10 +22,10 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import com.google.gson.Gson
-import im.vector.R
-import im.vector.activity.util.INTEGRATION_MANAGER_ACTIVITY_REQUEST_CODE
-import im.vector.types.JsonDict
-import im.vector.util.ThemeUtils
+import io.neocrypto.chat.R
+import io.neocrypto.chat.activity.util.INTEGRATION_MANAGER_ACTIVITY_REQUEST_CODE
+import io.neocrypto.chat.types.JsonDict
+import io.neocrypto.chat.util.ThemeUtils
 import org.matrix.androidsdk.util.Log
 import java.net.URLEncoder
 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -42,14 +42,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.VectorHomeActivity;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.adapters.AbsAdapter;
-import im.vector.util.HomeRoomsViewModel;
-import im.vector.util.RoomUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.VectorHomeActivity;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.adapters.AbsAdapter;
+import io.neocrypto.chat.util.HomeRoomsViewModel;
+import io.neocrypto.chat.util.RoomUtils;
 
 /**
  * Abstract fragment providing the universal search

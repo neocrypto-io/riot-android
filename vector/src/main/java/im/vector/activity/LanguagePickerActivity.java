@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -34,10 +34,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.adapters.LanguagesAdapter;
-import im.vector.util.ThemeUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.adapters.LanguagesAdapter;
+import io.neocrypto.chat.util.ThemeUtils;
 import kotlin.Pair;
 
 public class LanguagePickerActivity extends VectorAppCompatActivity implements LanguagesAdapter.OnSelectLocaleListener, SearchView.OnQueryTextListener {

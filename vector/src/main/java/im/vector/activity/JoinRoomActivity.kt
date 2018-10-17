@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package im.vector.activity
+package io.neocrypto.chat.activity
 
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-import im.vector.Matrix
-import im.vector.R
-import im.vector.notifications.NotificationUtils
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.R
+import io.neocrypto.chat.notifications.NotificationUtils
 import org.matrix.androidsdk.MXSession
 import org.matrix.androidsdk.data.Room
 import org.matrix.androidsdk.rest.callback.ApiCallback

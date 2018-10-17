@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -49,11 +49,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.zip.GZIPOutputStream;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.BugReportActivity;
-import im.vector.extensions.BasicExtensionsKt;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.BugReportActivity;
+import io.neocrypto.chat.extensions.BasicExtensionsKt;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

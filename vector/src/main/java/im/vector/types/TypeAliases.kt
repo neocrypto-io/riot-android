@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.types
+package io.neocrypto.chat.types
 
 
 /* ==========================================================================================

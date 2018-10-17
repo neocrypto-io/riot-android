@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.util
+package io.neocrypto.chat.util
 
 import android.content.Context
 import org.matrix.androidsdk.util.Log

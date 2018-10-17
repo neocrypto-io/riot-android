@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -30,13 +30,13 @@ import android.view.ViewGroup;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.fragments.MatrixMessageListFragment;
 
-import im.vector.PublicRoomsManager;
-import im.vector.R;
-import im.vector.fragments.VectorSearchMessagesListFragment;
-import im.vector.fragments.VectorSearchPeopleListFragment;
-import im.vector.fragments.VectorSearchRoomsFilesListFragment;
-import im.vector.fragments.VectorSearchRoomsListFragment;
-import im.vector.util.PermissionsToolsKt;
+import io.neocrypto.chat.PublicRoomsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.fragments.VectorSearchMessagesListFragment;
+import io.neocrypto.chat.fragments.VectorSearchPeopleListFragment;
+import io.neocrypto.chat.fragments.VectorSearchRoomsFilesListFragment;
+import io.neocrypto.chat.fragments.VectorSearchRoomsListFragment;
+import io.neocrypto.chat.util.PermissionsToolsKt;
 
 /**
  * Unified search pager adapter

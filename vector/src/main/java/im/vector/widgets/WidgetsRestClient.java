@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.widgets;
+package io.neocrypto.chat.widgets;
 
 import android.content.Context;
 import android.net.Uri;
@@ -26,7 +26,7 @@ import org.matrix.androidsdk.rest.callback.RestAdapterCallback;
 
 import java.util.Map;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 class WidgetsRestClient extends RestClient<WidgetsApi> {
     /**

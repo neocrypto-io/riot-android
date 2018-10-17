@@ -1,4 +1,4 @@
-package im.vector.analytics
+package io.neocrypto.chat.analytics
 
 import org.matrix.androidsdk.data.metrics.MetricsListener
 import java.util.concurrent.atomic.AtomicBoolean

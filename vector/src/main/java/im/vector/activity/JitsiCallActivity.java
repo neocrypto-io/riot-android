@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -41,10 +41,10 @@ import org.matrix.androidsdk.util.Log;
 import java.util.Map;
 
 import butterknife.BindView;
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.widgets.Widget;
-import im.vector.widgets.WidgetsManager;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.widgets.Widget;
+import io.neocrypto.chat.widgets.WidgetsManager;
 import kotlin.Pair;
 
 public class JitsiCallActivity extends VectorAppCompatActivity {

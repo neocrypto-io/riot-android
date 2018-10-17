@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector;
+package io.neocrypto.chat;
 
 import android.app.Activity;
 import android.content.Context;
@@ -59,14 +59,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.SplashActivity;
-import im.vector.analytics.MetricsListenerProxy;
-import im.vector.gcm.GcmRegistrationManager;
-import im.vector.services.EventStreamService;
-import im.vector.store.LoginStorage;
-import im.vector.util.PreferencesManager;
-import im.vector.widgets.WidgetsManager;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.SplashActivity;
+import io.neocrypto.chat.analytics.MetricsListenerProxy;
+import io.neocrypto.chat.gcm.GcmRegistrationManager;
+import io.neocrypto.chat.services.EventStreamService;
+import io.neocrypto.chat.store.LoginStorage;
+import io.neocrypto.chat.util.PreferencesManager;
+import io.neocrypto.chat.widgets.WidgetsManager;
 
 /**
  * Singleton to control access to the Matrix SDK and providing point of control for MXSessions.

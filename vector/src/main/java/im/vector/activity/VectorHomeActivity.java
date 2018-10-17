@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -110,32 +110,32 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import im.vector.BuildConfig;
-import im.vector.Matrix;
-import im.vector.MyPresenceManager;
-import im.vector.PublicRoomsManager;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.util.RequestCodesKt;
-import im.vector.fragments.AbsHomeFragment;
-import im.vector.fragments.FavouritesFragment;
-import im.vector.fragments.GroupsFragment;
-import im.vector.fragments.HomeFragment;
-import im.vector.fragments.PeopleFragment;
-import im.vector.fragments.RoomsFragment;
-import im.vector.gcm.GcmRegistrationManager;
-import im.vector.receiver.VectorUniversalLinkReceiver;
-import im.vector.services.EventStreamService;
-import im.vector.util.BugReporter;
-import im.vector.util.CallsManager;
-import im.vector.util.HomeRoomsViewModel;
-import im.vector.util.PreferencesManager;
-import im.vector.util.RoomUtils;
-import im.vector.util.SystemUtilsKt;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorUtils;
-import im.vector.view.UnreadCounterBadgeView;
-import im.vector.view.VectorPendingCallView;
+import io.neocrypto.chat.BuildConfig;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.MyPresenceManager;
+import io.neocrypto.chat.PublicRoomsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.util.RequestCodesKt;
+import io.neocrypto.chat.fragments.AbsHomeFragment;
+import io.neocrypto.chat.fragments.FavouritesFragment;
+import io.neocrypto.chat.fragments.GroupsFragment;
+import io.neocrypto.chat.fragments.HomeFragment;
+import io.neocrypto.chat.fragments.PeopleFragment;
+import io.neocrypto.chat.fragments.RoomsFragment;
+import io.neocrypto.chat.gcm.GcmRegistrationManager;
+import io.neocrypto.chat.receiver.VectorUniversalLinkReceiver;
+import io.neocrypto.chat.services.EventStreamService;
+import io.neocrypto.chat.util.BugReporter;
+import io.neocrypto.chat.util.CallsManager;
+import io.neocrypto.chat.util.HomeRoomsViewModel;
+import io.neocrypto.chat.util.PreferencesManager;
+import io.neocrypto.chat.util.RoomUtils;
+import io.neocrypto.chat.util.SystemUtilsKt;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.view.UnreadCounterBadgeView;
+import io.neocrypto.chat.view.VectorPendingCallView;
 import kotlin.Pair;
 
 /**
@@ -177,7 +177,7 @@ public class VectorHomeActivity extends VectorAppCompatActivity implements Searc
     private static final boolean WAITING_VIEW_STOP = false;
     public static final boolean WAITING_VIEW_START = true;
 
-    public static final String BROADCAST_ACTION_STOP_WAITING_VIEW = "im.vector.activity.ACTION_STOP_WAITING_VIEW";
+    public static final String BROADCAST_ACTION_STOP_WAITING_VIEW = "io.neocrypto.chat.activity.ACTION_STOP_WAITING_VIEW";
 
     private static final String TAG_FRAGMENT_HOME = "TAG_FRAGMENT_HOME";
     private static final String TAG_FRAGMENT_FAVOURITES = "TAG_FRAGMENT_FAVOURITES";

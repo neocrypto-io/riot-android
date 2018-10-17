@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,10 +35,10 @@ import org.matrix.androidsdk.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.adapters.VectorMessagesAdapter;
-import im.vector.adapters.VectorSearchMessagesListAdapter;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.adapters.VectorMessagesAdapter;
+import io.neocrypto.chat.adapters.VectorSearchMessagesListAdapter;
 
 public class VectorSearchMessagesListFragment extends VectorMessageListFragment {
     private static final String LOG_TAG = VectorSearchMessagesListFragment.class.getSimpleName();

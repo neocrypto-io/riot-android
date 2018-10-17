@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package im.vector.gcm;
+package io.neocrypto.chat.gcm;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.Matrix;
+import io.neocrypto.chat.Matrix;
 
 public class MatrixInstanceIDListenerService extends FirebaseInstanceIdService {
 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -32,11 +32,11 @@ import android.widget.Filter;
 
 import org.jetbrains.annotations.NotNull;
 
-import im.vector.R;
-import im.vector.adapters.CountryAdapter;
-import im.vector.util.CountryPhoneData;
-import im.vector.util.PhoneNumberUtils;
-import im.vector.util.ThemeUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.CountryAdapter;
+import io.neocrypto.chat.util.CountryPhoneData;
+import io.neocrypto.chat.util.PhoneNumberUtils;
+import io.neocrypto.chat.util.ThemeUtils;
 import kotlin.Pair;
 
 public class CountryPickerActivity extends VectorAppCompatActivity implements CountryAdapter.OnSelectCountryListener, SearchView.OnQueryTextListener {

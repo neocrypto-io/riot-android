@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector;
+package io.neocrypto.chat;
 
 import android.app.Activity;
 import android.content.DialogInterface;

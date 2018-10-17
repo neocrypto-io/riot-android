@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -28,9 +28,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import im.vector.R;
-import im.vector.adapters.AdapterSection;
-import im.vector.util.ThemeUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.AdapterSection;
+import io.neocrypto.chat.util.ThemeUtils;
 
 public class SectionView extends RelativeLayout {
 

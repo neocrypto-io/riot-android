@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import im.vector.R;
-import im.vector.adapters.AdapterUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.AdapterUtils;
 
 /**
  * A EventGroup is a special event that can contain MessageRows

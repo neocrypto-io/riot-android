@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package im.vector.repositories
+package io.neocrypto.chat.repositories
 
 import android.content.Context
 import android.preference.PreferenceManager
 import android.text.TextUtils
 import androidx.core.content.edit
-import im.vector.R
+import io.neocrypto.chat.R
 
 /**
  * Object to store and retrieve home and identity server urls

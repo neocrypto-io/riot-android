@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package im.vector.dialogs
+package io.neocrypto.chat.dialogs
 
 import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import im.vector.Matrix
-import im.vector.R
-import im.vector.activity.VectorWebViewActivity
-import im.vector.activity.interfaces.Restorable
-import im.vector.webview.WebViewMode
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.R
+import io.neocrypto.chat.activity.VectorWebViewActivity
+import io.neocrypto.chat.activity.interfaces.Restorable
+import io.neocrypto.chat.webview.WebViewMode
 import org.matrix.androidsdk.rest.model.MatrixError
 import org.matrix.androidsdk.util.Log
 

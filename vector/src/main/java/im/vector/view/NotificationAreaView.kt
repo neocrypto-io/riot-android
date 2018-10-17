@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.view
+package io.neocrypto.chat.view
 
 import android.content.Context
 import android.graphics.Color
@@ -35,11 +35,11 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.binaryfork.spanny.Spanny
-import im.vector.R
-import im.vector.features.hhs.ResourceLimitErrorFormatter
-import im.vector.listeners.IMessagesAdapterActionsListener
-import im.vector.util.MatrixURLSpan
-import im.vector.util.ThemeUtils
+import io.neocrypto.chat.R
+import io.neocrypto.chat.features.hhs.ResourceLimitErrorFormatter
+import io.neocrypto.chat.listeners.IMessagesAdapterActionsListener
+import io.neocrypto.chat.util.MatrixURLSpan
+import io.neocrypto.chat.util.ThemeUtils
 import org.matrix.androidsdk.MXPatterns
 import org.matrix.androidsdk.rest.model.MatrixError
 import org.matrix.androidsdk.rest.model.RoomTombstoneContent

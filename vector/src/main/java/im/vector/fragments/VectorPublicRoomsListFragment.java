@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -41,13 +41,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.Matrix;
-import im.vector.PublicRoomsManager;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.adapters.VectorPublicRoomsAdapter;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.PublicRoomsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.adapters.VectorPublicRoomsAdapter;
 
 public class VectorPublicRoomsListFragment extends VectorBaseFragment {
     private static final String LOG_TAG = VectorPublicRoomsListFragment.class.getSimpleName();

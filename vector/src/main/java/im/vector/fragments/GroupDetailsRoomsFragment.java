@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -33,11 +33,11 @@ import org.matrix.androidsdk.rest.callback.SuccessCallback;
 import org.matrix.androidsdk.rest.model.group.GroupRoom;
 
 import butterknife.BindView;
-import im.vector.R;
-import im.vector.adapters.GroupDetailsRoomsAdapter;
-import im.vector.util.GroupUtils;
-import im.vector.view.EmptyViewItemDecoration;
-import im.vector.view.SimpleDividerItemDecoration;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.adapters.GroupDetailsRoomsAdapter;
+import io.neocrypto.chat.util.GroupUtils;
+import io.neocrypto.chat.view.EmptyViewItemDecoration;
+import io.neocrypto.chat.view.SimpleDividerItemDecoration;
 
 public class GroupDetailsRoomsFragment extends GroupDetailsBaseFragment {
     @BindView(R.id.recyclerview)

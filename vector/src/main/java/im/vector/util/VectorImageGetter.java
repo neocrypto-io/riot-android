@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,8 +35,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import im.vector.R;
-import im.vector.VectorApp;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
 
 public class VectorImageGetter implements Html.ImageGetter {
     private final String LOG_TAG = VectorImageGetter.class.getSimpleName();

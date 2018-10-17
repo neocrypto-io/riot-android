@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.util.BitmapUtilKt;
+import io.neocrypto.chat.util.BitmapUtilKt;
 
 /**
  * Display a circular image.

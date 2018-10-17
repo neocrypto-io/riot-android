@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.view;
+package io.neocrypto.chat.view;
 
 import android.content.Context;
 import android.os.Handler;
@@ -33,10 +33,10 @@ import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.rest.callback.ApiCallback;
 import org.matrix.androidsdk.rest.model.MatrixError;
 
-import im.vector.R;
-import im.vector.util.CallUtilities;
-import im.vector.util.CallsManager;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.CallUtilities;
+import io.neocrypto.chat.util.CallsManager;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * This class displays the pending call information.

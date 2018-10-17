@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -39,9 +39,9 @@ import org.matrix.androidsdk.rest.model.group.GroupProfile;
 import java.util.HashMap;
 import java.util.Map;
 
-import im.vector.R;
-import im.vector.activity.VectorGroupDetailsActivity;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.VectorGroupDetailsActivity;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * An adapter which can display groups list

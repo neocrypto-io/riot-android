@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.content.Context;
 
@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import im.vector.R;
+import io.neocrypto.chat.R;
 
 /**
  * This class contains the call toolbox.

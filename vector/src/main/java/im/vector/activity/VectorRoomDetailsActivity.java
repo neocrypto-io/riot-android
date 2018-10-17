@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -34,14 +34,14 @@ import org.matrix.androidsdk.util.Log;
 
 import java.util.List;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.contacts.ContactsManager;
-import im.vector.extensions.MatrixSdkExtensionsKt;
-import im.vector.fragments.VectorRoomDetailsMembersFragment;
-import im.vector.fragments.VectorRoomSettingsFragment;
-import im.vector.fragments.VectorSearchRoomFilesListFragment;
-import im.vector.util.PermissionsToolsKt;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.contacts.ContactsManager;
+import io.neocrypto.chat.extensions.MatrixSdkExtensionsKt;
+import io.neocrypto.chat.fragments.VectorRoomDetailsMembersFragment;
+import io.neocrypto.chat.fragments.VectorRoomSettingsFragment;
+import io.neocrypto.chat.fragments.VectorSearchRoomFilesListFragment;
+import io.neocrypto.chat.util.PermissionsToolsKt;
 
 /**
  * This class implements the room details screen, using a tab UI pattern.
@@ -59,9 +59,9 @@ public class VectorRoomDetailsActivity extends MXCActionBarActivity implements T
     public static final String EXTRA_SELECTED_TAB_ID = "VectorRoomDetailsActivity.EXTRA_SELECTED_TAB_ID";
 
     // tab related items
-    private static final String TAG_FRAGMENT_PEOPLE_ROOM_DETAILS = "im.vector.activity.TAG_FRAGMENT_PEOPLE_ROOM_DETAILS";
-    private static final String TAG_FRAGMENT_FILES_DETAILS = "im.vector.activity.TAG_FRAGMENT_FILES_DETAILS";
-    private static final String TAG_FRAGMENT_SETTINGS_ROOM_DETAIL = "im.vector.activity.TAG_FRAGMENT_SETTINGS_ROOM_DETAIL";
+    private static final String TAG_FRAGMENT_PEOPLE_ROOM_DETAILS = "io.neocrypto.chat.activity.TAG_FRAGMENT_PEOPLE_ROOM_DETAILS";
+    private static final String TAG_FRAGMENT_FILES_DETAILS = "io.neocrypto.chat.activity.TAG_FRAGMENT_FILES_DETAILS";
+    private static final String TAG_FRAGMENT_SETTINGS_ROOM_DETAIL = "io.neocrypto.chat.activity.TAG_FRAGMENT_SETTINGS_ROOM_DETAIL";
     private static final String KEY_FRAGMENT_TAG = "KEY_FRAGMENT_TAG";
 
     // a tab can be selected at launch (with EXTRA_SELECTED_TAB_ID)

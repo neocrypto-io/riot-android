@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -24,8 +24,8 @@ import org.matrix.androidsdk.fragments.MatrixMessagesFragment;
 import org.matrix.androidsdk.rest.model.MatrixError;
 import org.matrix.androidsdk.util.Log;
 
-import im.vector.Matrix;
-import im.vector.R;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
 
 public class VectorMessagesFragment extends MatrixMessagesFragment {
     private static final String LOG_TAG = VectorMessagesFragment.class.getSimpleName();

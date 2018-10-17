@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.net.Uri;
 import android.text.Layout;
@@ -27,7 +27,7 @@ import android.text.style.URLSpan;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-import im.vector.listeners.IMessagesAdapterActionsListener;
+import io.neocrypto.chat.listeners.IMessagesAdapterActionsListener;
 
 // This class tracks the link click on textview
 public class MatrixLinkMovementMethod extends LinkMovementMethod {

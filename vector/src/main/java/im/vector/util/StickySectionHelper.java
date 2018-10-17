@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.util;
+package io.neocrypto.chat.util;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,8 +29,8 @@ import org.matrix.androidsdk.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.adapters.AdapterSection;
-import im.vector.view.SectionView;
+import io.neocrypto.chat.adapters.AdapterSection;
+import io.neocrypto.chat.view.SectionView;
 
 public class StickySectionHelper extends RecyclerView.OnScrollListener implements View.OnLayoutChangeListener {
 

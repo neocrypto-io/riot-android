@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.support.annotation.CallSuper;
@@ -30,8 +30,8 @@ import org.matrix.androidsdk.data.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.vector.R;
-import im.vector.util.RoomUtils;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.util.RoomUtils;
 
 public class HomeRoomAdapter extends AbsFilterableAdapter<RoomViewHolder> {
     private final int mLayoutRes;

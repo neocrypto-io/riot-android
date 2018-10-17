@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package im.vector.receiver
+package io.neocrypto.chat.receiver
 
 import android.content.*
 import android.preference.PreferenceManager
 import android.util.Log
 import androidx.core.content.edit
-import im.vector.Matrix
-import im.vector.util.lsFiles
+import io.neocrypto.chat.Matrix
+import io.neocrypto.chat.util.lsFiles
 
 /**
  * Receiver to handle some command from ADB
@@ -63,9 +63,9 @@ class DebugReceiver : BroadcastReceiver() {
     companion object {
         private const val LOG_TAG = "DebugReceiver"
 
-        private const val DEBUG_ACTION_DUMP_FILESYSTEM = "im.vector.receiver.DEBUG_ACTION_DUMP_FILESYSTEM"
-        private const val DEBUG_ACTION_DUMP_PREFERENCES = "im.vector.receiver.DEBUG_ACTION_DUMP_PREFERENCES"
-        private const val DEBUG_ACTION_ALTER_SCALAR_TOKEN = "im.vector.receiver.DEBUG_ACTION_ALTER_SCALAR_TOKEN"
+        private const val DEBUG_ACTION_DUMP_FILESYSTEM = "io.neocrypto.chat.receiver.DEBUG_ACTION_DUMP_FILESYSTEM"
+        private const val DEBUG_ACTION_DUMP_PREFERENCES = "io.neocrypto.chat.receiver.DEBUG_ACTION_DUMP_PREFERENCES"
+        private const val DEBUG_ACTION_ALTER_SCALAR_TOKEN = "io.neocrypto.chat.receiver.DEBUG_ACTION_ALTER_SCALAR_TOKEN"
 
         fun getIntentFilter() = IntentFilter().apply {
             addAction(DEBUG_ACTION_DUMP_FILESYSTEM)

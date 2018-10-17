@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.fragments;
+package io.neocrypto.chat.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -53,16 +53,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import im.vector.Matrix;
-import im.vector.PublicRoomsManager;
-import im.vector.R;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.activity.VectorPublicRoomsActivity;
-import im.vector.activity.VectorRoomActivity;
-import im.vector.adapters.VectorRoomSummaryAdapter;
-import im.vector.services.EventStreamService;
-import im.vector.util.RoomUtils;
-import im.vector.view.RecentsExpandableListView;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.PublicRoomsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.activity.VectorPublicRoomsActivity;
+import io.neocrypto.chat.activity.VectorRoomActivity;
+import io.neocrypto.chat.adapters.VectorRoomSummaryAdapter;
+import io.neocrypto.chat.services.EventStreamService;
+import io.neocrypto.chat.util.RoomUtils;
+import io.neocrypto.chat.view.RecentsExpandableListView;
 
 public class VectorRecentsListFragment extends VectorBaseFragment implements
         VectorRoomSummaryAdapter.RoomEventListener,

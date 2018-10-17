@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package im.vector.extensions
+package io.neocrypto.chat.extensions
 
 fun Boolean.toOnOff() = if (this) "ON" else "OFF"

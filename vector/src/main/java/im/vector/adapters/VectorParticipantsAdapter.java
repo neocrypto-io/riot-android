@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -55,14 +55,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.activity.CommonActivityUtils;
-import im.vector.contacts.Contact;
-import im.vector.contacts.ContactsManager;
-import im.vector.contacts.PIDsRetriever;
-import im.vector.util.VectorUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.activity.CommonActivityUtils;
+import io.neocrypto.chat.contacts.Contact;
+import io.neocrypto.chat.contacts.ContactsManager;
+import io.neocrypto.chat.contacts.PIDsRetriever;
+import io.neocrypto.chat.util.VectorUtils;
 
 /**
  * This class displays the users search results list.

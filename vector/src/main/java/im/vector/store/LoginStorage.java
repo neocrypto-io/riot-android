@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.store;
+package io.neocrypto.chat.store;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.adapters;
+package io.neocrypto.chat.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -73,18 +73,18 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.listeners.IMessagesAdapterActionsListener;
-import im.vector.util.MatrixLinkMovementMethod;
-import im.vector.util.MatrixURLSpan;
-import im.vector.util.RiotEventDisplay;
-import im.vector.util.ThemeUtils;
-import im.vector.util.VectorImageGetter;
-import im.vector.util.VectorUtils;
-import im.vector.view.PillView;
-import im.vector.view.UrlPreviewView;
-import im.vector.widgets.WidgetsManager;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.listeners.IMessagesAdapterActionsListener;
+import io.neocrypto.chat.util.MatrixLinkMovementMethod;
+import io.neocrypto.chat.util.MatrixURLSpan;
+import io.neocrypto.chat.util.RiotEventDisplay;
+import io.neocrypto.chat.util.ThemeUtils;
+import io.neocrypto.chat.util.VectorImageGetter;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.view.PillView;
+import io.neocrypto.chat.view.UrlPreviewView;
+import io.neocrypto.chat.widgets.WidgetsManager;
 
 /**
  * An helper to display message information

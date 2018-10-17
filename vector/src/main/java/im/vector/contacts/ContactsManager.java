@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.contacts;
+package io.neocrypto.chat.contacts;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -46,9 +46,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import im.vector.Matrix;
-import im.vector.VectorApp;
-import im.vector.util.PhoneNumberUtils;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.util.PhoneNumberUtils;
 
 /**
  * Manage the local contacts

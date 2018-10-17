@@ -7,8 +7,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
@@ -16,7 +16,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "im.vector"
+        applicationId "io.neocrypto.chat"
         minSdkVersion 16
         targetSdkVersion 26
         // use the version code
@@ -88,7 +88,7 @@ android {
 
     productFlavors {
         app {
-            applicationId "im.vector.alpha"
+            applicationId "io.neocrypto.chat"
             // use the version name
             versionCode rootProject.ext.versionCodeProp
             versionName rootProject.ext.versionNameProp
@@ -99,7 +99,7 @@ android {
         }
 
         appfdroid {
-            applicationId "im.vector.alpha"
+            applicationId "io.neocrypto.chat"
             // use the version name
             versionCode rootProject.ext.versionCodeProp
             versionName rootProject.ext.versionNameProp
@@ -215,7 +215,6 @@ dependencies {
     implementation(name: 'react-native-webrtc', ext: 'aar')
     implementation(name: 'react-native', ext: 'aar')
     implementation(name: 'react-native-locale-detector', ext: 'aar')
-
 
     // another tracking than GA
     implementation 'org.piwik.sdk:piwik-sdk:2.0.0'

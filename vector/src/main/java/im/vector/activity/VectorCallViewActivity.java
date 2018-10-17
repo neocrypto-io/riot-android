@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package im.vector.activity;
+package io.neocrypto.chat.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -61,14 +61,14 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
-import im.vector.util.CallsManager;
-import im.vector.util.PermissionsToolsKt;
-import im.vector.util.VectorUtils;
-import im.vector.util.ViewUtilKt;
-import im.vector.view.VectorPendingCallView;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
+import io.neocrypto.chat.util.CallsManager;
+import io.neocrypto.chat.util.PermissionsToolsKt;
+import io.neocrypto.chat.util.VectorUtils;
+import io.neocrypto.chat.util.ViewUtilKt;
+import io.neocrypto.chat.view.VectorPendingCallView;
 import kotlin.Pair;
 
 /**

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package im.vector.widgets;
+package io.neocrypto.chat.widgets;
 
 import android.content.Context;
 import android.os.Handler;
@@ -43,9 +43,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import im.vector.Matrix;
-import im.vector.R;
-import im.vector.VectorApp;
+import io.neocrypto.chat.Matrix;
+import io.neocrypto.chat.R;
+import io.neocrypto.chat.VectorApp;
 
 public class WidgetsManager {
     private static final String LOG_TAG = WidgetsManager.class.getSimpleName();
@@ -53,7 +53,7 @@ public class WidgetsManager {
     /**
      * The type of matrix event used for scalar widgets.
      */
-    public static final String WIDGET_EVENT_TYPE = "im.vector.modular.widgets";
+    public static final String WIDGET_EVENT_TYPE = "io.neocrypto.chat.modular.widgets";
 
     /**
      * The type for widget in user account
@@ -127,14 +127,14 @@ public class WidgetsManager {
      * @return the active widgets list
      */
     private List<Widget> getActiveWidgets(final MXSession session, final Room room, final Set<String> widgetTypes, final Set<String> excludedTypes) {
-        // Get all im.vector.modular.widgets state events in the room
+        // Get all io.neocrypto.chat.modular.widgets state events in the room
         List<Event> widgetEvents = room.getState().getStateEvents(new HashSet<>(Arrays.asList(WIDGET_EVENT_TYPE)));
 
         // Widget id -> widget
         Map<String, Widget> widgets = new HashMap<>();
 
         // Order widgetEvents with the last event first
-        // There can be several im.vector.modular.widgets state events for a same widget but
+        // There can be several io.neocrypto.chat.modular.widgets state events for a same widget but
         // only the last one must be considered.
 
         Collections.sort(widgetEvents, new Comparator<Event>() {
@@ -145,7 +145,7 @@ public class WidgetsManager {
             }
         });
 
-        // Create each widget from its latest im.vector.modular.widgets state event
+        // Create each widget from its latest io.neocrypto.chat.modular.widgets state event
         for (Event widgetEvent : widgetEvents) {
             // Filter widget types if required
             if ((null != widgetTypes) || (null != excludedTypes)) {
