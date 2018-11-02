@@ -38,6 +38,7 @@ import org.matrix.androidsdk.util.Log;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.vector.R;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.RoomUtils;
 import im.vector.util.VectorUtils;
 
@@ -139,9 +140,9 @@ public class RoomViewHolder extends RecyclerView.ViewHolder {
         int notificationCount;
 
         // Setup colors
-        int mFuchsiaColor = ContextCompat.getColor(context, R.color.vector_fuchsia_color);
-        int mGreenColor = ContextCompat.getColor(context, R.color.vector_green_color);
-        int mSilverColor = ContextCompat.getColor(context, R.color.vector_silver_color);
+        int defaultColor = ThemeUtils.INSTANCE.getColor(context, R.attr.vctr_default_icon_tint_color);
+        int fuchsiaColor = ContextCompat.getColor(context, R.color.vector_fuchsia_color);
+        int silverColor = ContextCompat.getColor(context, R.color.vector_silver_color);
 
         highlightCount = roomSummary.getHighlightCount();
         notificationCount = roomSummary.getNotificationCount();
@@ -153,11 +154,11 @@ public class RoomViewHolder extends RecyclerView.ViewHolder {
 
         int bingUnreadColor;
         if (isInvitation || (0 != highlightCount)) {
-            bingUnreadColor = mFuchsiaColor;
+            bingUnreadColor = fuchsiaColor;
         } else if (0 != notificationCount) {
-            bingUnreadColor = mGreenColor;
+            bingUnreadColor = defaultColor;
         } else if (0 != unreadMsgCount) {
-            bingUnreadColor = mSilverColor;
+            bingUnreadColor = silverColor;
         } else {
             bingUnreadColor = Color.TRANSPARENT;
         }
@@ -175,7 +176,7 @@ public class RoomViewHolder extends RecyclerView.ViewHolder {
             vRoomUnreadCount.setVisibility(View.GONE);
         }
 
-        String roomName = VectorUtils.getRoomDisplayName(context, session, room);
+        String roomName = room.getRoomDisplayName(context);
         if (vRoomNameServer != null) {
             // This view holder is for the home page, we have up to two lines to display the name
             if (MXPatterns.isRoomAlias(roomName)) {

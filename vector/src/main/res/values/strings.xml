@@ -138,7 +138,7 @@
     <string name="send_bug_report_include_logs">Send logs</string>
     <string name="send_bug_report_include_crash_logs">Send crash logs</string>
     <string name="send_bug_report_include_screenshot">Send screenshot</string>
-    <string name="send_bug_report">Bug Report</string>
+    <string name="send_bug_report">Report bug</string>
     <string name="send_bug_report_description">Please describe the bug. What did you do? What did you expect to happen? What actually happened?</string>
     <string name="send_bug_report_description_in_english">If possible, please write the description in English.</string>
     <string name="send_bug_report_placeholder">Describe your problem here</string>
@@ -509,20 +509,6 @@
     <string name="room_event_action_report_prompt_ignore_user">Do you want to hide all messages from this user?\n\nNote that this action will restart the app and it may take some time.</string>
     <string name="room_event_action_cancel_upload">Cancel Upload</string>
     <string name="room_event_action_cancel_download">Cancel Download</string>
-
-    <!-- Room display name -->
-    <string name="room_displayname_invite_from">Invite from %s</string>
-    <string name="room_displayname_room_invite">Room Invite</string>
-
-    <!-- The 2 parameters will be members' name -->
-    <string name="room_displayname_two_members">%1$s and %2$s</string>
-
-    <plurals name="room_displayname_three_and_more_members">
-        <item quantity="one">%1$s and 1 other</item>
-        <item quantity="other">%1$s and %2$d others</item>
-    </plurals>
-
-    <string name="room_displayname_no_title">Empty room</string>
 
     <!-- Search -->
     <string name="search_hint">Search</string>

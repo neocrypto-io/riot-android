@@ -1,8 +1,36 @@
-Changes in Riot 0.8.18 (2018-XX-XX)
+Changes in Riot 0.8.19 (2018-XX-XX)
 ===================================================
 
 MatrixSdk:
  - Upgrade to version 0.X.Y.
+
+Features:
+ - Enable Lazy Loading by default, if the hs supports it
+ - Add RTL support (#2376, #2271)
+
+Improvements:
+ -
+
+Other changes:
+ - F-Droid version: restart event stream on application upgrade (#2105)
+ - Locales management has been moved to a dedicated file
+
+Bugfix:
+ - Status.im backgrounds, header, buttons, and missing items (#2672)
+ - Fix Permalinks and registration issue (#2689)
+ - Mention from read receipts list doesn't work (#656)
+
+Translations:
+ -
+
+Build:
+ -
+
+Changes in Riot 0.8.18 (2018-10-18)
+===================================================
+
+MatrixSdk:
+ - Upgrade to version 0.9.12.
 
 Features:
  - Status.im theme
@@ -11,9 +39,10 @@ Improvements:
  - Use LocalBroadcastManager when applicable (#2595)
  - Menu version copies version number to clipboard (#2570)
  - Tapping on profile picture in sidebar opens settings page (#2597)
+ - Ask for Camera permission only when the user want to change the room avatar (#2575)
 
 Other changes:
- -
+ - Room display name is now computed by the Matrix SDK
 
 Bugfix:
  - When exporting E2E keys, it isn't clear that you are creating a new password (#2626)
@@ -26,10 +55,7 @@ Bugfix:
  - Fix issue of html rendering in emote message (#2652)
 
 Translations:
- -
-
-Build:
- -
+ - Fix issue with indonesian translations. This language is now available.
 
 Changes in Riot 0.8.17 (2018-10-10)
 ===================================================

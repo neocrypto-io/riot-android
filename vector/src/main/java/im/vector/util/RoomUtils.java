@@ -63,6 +63,7 @@ import im.vector.Matrix;
 import im.vector.R;
 import im.vector.activity.VectorRoomActivity;
 import im.vector.adapters.AdapterUtils;
+import im.vector.ui.themes.ThemeUtils;
 
 public class RoomUtils {
 
@@ -364,9 +365,11 @@ public class RoomUtils {
 
         if (null != roomSummary) {
             if (roomSummary.getLatestReceivedEvent() != null) {
-                eventDisplay = new EventDisplay(context, roomSummary.getLatestReceivedEvent(), roomSummary.getLatestRoomState());
+                eventDisplay = new EventDisplay(context);
                 eventDisplay.setPrependMessagesWithAuthor(true);
-                messageToDisplay = eventDisplay.getTextualDisplay(ThemeUtils.INSTANCE.getColor(context, R.attr.room_notification_text_color));
+                messageToDisplay = eventDisplay.getTextualDisplay(ThemeUtils.INSTANCE.getColor(context, R.attr.vctr_room_notification_text_color),
+                        roomSummary.getLatestReceivedEvent(),
+                        roomSummary.getLatestRoomState());
             }
 
             // check if this is an invite
@@ -477,7 +480,7 @@ public class RoomUtils {
             popup = new PopupMenu(popmenuContext, actionView);
         }
         popup.getMenuInflater().inflate(R.menu.vector_home_room_settings, popup.getMenu());
-        ThemeUtils.INSTANCE.tintMenuIcons(popup.getMenu(), ThemeUtils.INSTANCE.getColor(context, R.attr.settings_icon_tint_color));
+        ThemeUtils.INSTANCE.tintMenuIcons(popup.getMenu(), ThemeUtils.INSTANCE.getColor(context, R.attr.vctr_settings_icon_tint_color));
 
         if (room.isLeft()) {
             popup.getMenu().setGroupVisible(R.id.active_room_actions, false);
@@ -693,7 +696,7 @@ public class RoomUtils {
             return;
         }
 
-        String roomName = VectorUtils.getRoomDisplayName(context, session, room);
+        String roomName = room.getRoomDisplayName(context);
 
         Bitmap bitmap = null;
 
@@ -809,14 +812,15 @@ public class RoomUtils {
      * @param constraint
      * @return filtered rooms
      */
-    public static List<Room> getFilteredRooms(final Context context, final MXSession session,
-                                              final List<Room> roomsToFilter, final CharSequence constraint) {
+    public static List<Room> getFilteredRooms(final Context context,
+                                              final List<Room> roomsToFilter,
+                                              final CharSequence constraint) {
         final String filterPattern = constraint != null ? constraint.toString().trim() : null;
         if (!TextUtils.isEmpty(filterPattern)) {
             List<Room> filteredRoom = new ArrayList<>();
             Pattern pattern = Pattern.compile(Pattern.quote(filterPattern), Pattern.CASE_INSENSITIVE);
             for (final Room room : roomsToFilter) {
-                final String roomName = VectorUtils.getRoomDisplayName(context, session, room);
+                final String roomName = room.getRoomDisplayName(context);
                 if (pattern.matcher(roomName).find()) {
                     filteredRoom.add(room);
                 }

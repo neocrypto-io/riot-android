@@ -80,17 +80,19 @@ import java.util.List;
 
 import im.vector.Matrix;
 import im.vector.R;
-import im.vector.VectorApp;
 import im.vector.activity.CommonActivityUtils;
 import im.vector.activity.VectorMediasPickerActivity;
 import im.vector.activity.VectorMemberDetailsActivity;
+import im.vector.extensions.MatrixSdkExtensionsKt;
 import im.vector.preference.AddressPreference;
 import im.vector.preference.RoomAvatarPreference;
 import im.vector.preference.VectorCustomActionEditTextPreference;
 import im.vector.preference.VectorListPreference;
 import im.vector.preference.VectorSwitchPreference;
+import im.vector.ui.themes.ThemeUtils;
+import im.vector.util.PermissionsToolsKt;
+import im.vector.settings.VectorLocale;
 import im.vector.util.SystemUtilsKt;
-import im.vector.util.ThemeUtils;
 import im.vector.util.VectorUtils;
 
 public class VectorRoomSettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -440,7 +442,7 @@ public class VectorRoomSettingsFragment extends PreferenceFragment implements Sh
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 if ((null != mRoomPhotoAvatar) && mRoomPhotoAvatar.isEnabled()) {
-                    onRoomAvatarPreferenceChanged();
+                    onRoomAvatarPreferenceClicked();
                     return true; //True if the click was handled.
                 } else
                     return false;
@@ -463,7 +465,7 @@ public class VectorRoomSettingsFragment extends PreferenceFragment implements Sh
         }
 
         // seems known issue that the preferences screen does not use the activity theme
-        view.setBackgroundColor(ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.riot_primary_background_color));
+        view.setBackgroundColor(ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.vctr_riot_primary_background_color));
         return view;
     }
 
@@ -915,7 +917,7 @@ public class VectorRoomSettingsFragment extends PreferenceFragment implements Sh
 
         if (aKey.equals(PREF_KEY_ROOM_PHOTO_AVATAR)) {
             // unused flow: onSharedPreferenceChanged not triggered for room avatar photo
-            onRoomAvatarPreferenceChanged();
+            onRoomAvatarPreferenceClicked();
         } else if (aKey.equals(PREF_KEY_ROOM_NAME)) {
             onRoomNamePreferenceChanged();
         } else if (aKey.equals(PREF_KEY_ROOM_TOPIC)) {
@@ -1167,15 +1169,18 @@ public class VectorRoomSettingsFragment extends PreferenceFragment implements Sh
      * Update the room avatar.
      * Start the camera activity to take the avatar picture.
      */
-    private void onRoomAvatarPreferenceChanged() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(getActivity(), VectorMediasPickerActivity.class);
-                intent.putExtra(VectorMediasPickerActivity.EXTRA_AVATAR_MODE, true);
-                startActivityForResult(intent, REQ_CODE_UPDATE_ROOM_AVATAR);
-            }
-        });
+    public void onRoomAvatarPreferenceClicked() {
+        int permissionToBeGranted = PermissionsToolsKt.PERMISSIONS_FOR_ROOM_AVATAR;
+        // remove camera permission request if the user has not enough power level
+        if (!MatrixSdkExtensionsKt.isPowerLevelEnoughForAvatarUpdate(mRoom, mSession)) {
+            permissionToBeGranted &= ~PermissionsToolsKt.PERMISSION_CAMERA;
+        }
+
+        if (PermissionsToolsKt.checkPermissions(permissionToBeGranted, getActivity(), PermissionsToolsKt.PERMISSION_REQUEST_CODE_CHANGE_AVATAR)) {
+            Intent intent = new Intent(getActivity(), VectorMediasPickerActivity.class);
+            intent.putExtra(VectorMediasPickerActivity.EXTRA_AVATAR_MODE, true);
+            startActivityForResult(intent, REQ_CODE_UPDATE_ROOM_AVATAR);
+        }
     }
 
     /**
@@ -1326,8 +1331,8 @@ public class VectorRoomSettingsFragment extends PreferenceFragment implements Sh
                 Collections.sort(bannedMembers, new Comparator<RoomMember>() {
                     @Override
                     public int compare(RoomMember m1, RoomMember m2) {
-                        return m1.getUserId().toLowerCase(VectorApp.getApplicationLocale())
-                                .compareTo(m2.getUserId().toLowerCase(VectorApp.getApplicationLocale()));
+                        return m1.getUserId().toLowerCase(VectorLocale.INSTANCE.getApplicationLocale())
+                                .compareTo(m2.getUserId().toLowerCase(VectorLocale.INSTANCE.getApplicationLocale()));
                     }
                 });
 
@@ -1473,7 +1478,7 @@ public class VectorRoomSettingsFragment extends PreferenceFragment implements Sh
             addAddressPreference.setDialogTitle(R.string.room_settings_add_new_group);
             addAddressPreference.setKey(FLAIR_PREFERENCE_KEY_BASE + "__add");
             addAddressPreference.setIcon(ThemeUtils.INSTANCE.tintDrawable(getActivity(),
-                    ContextCompat.getDrawable(getActivity(), R.drawable.ic_add_black), R.attr.settings_icon_tint_color));
+                    ContextCompat.getDrawable(getActivity(), R.drawable.ic_add_black), R.attr.vctr_settings_icon_tint_color));
 
             addAddressPreference.setOnPreferenceChangeListener(
                     new Preference.OnPreferenceChangeListener() {
@@ -1576,7 +1581,7 @@ public class VectorRoomSettingsFragment extends PreferenceFragment implements Sh
         }
 
         Menu menu = popup.getMenu();
-        ThemeUtils.INSTANCE.tintMenuIcons(menu, ThemeUtils.INSTANCE.getColor(context, R.attr.icon_tint_on_light_action_bar_color));
+        ThemeUtils.INSTANCE.tintMenuIcons(menu, ThemeUtils.INSTANCE.getColor(context, R.attr.vctr_icon_tint_on_light_action_bar_color));
 
         String canonicalAlias = mRoom.getState().getCanonicalAlias();
         final boolean canUpdateCanonicalAlias = canUpdateCanonicalAlias();
@@ -1718,7 +1723,7 @@ public class VectorRoomSettingsFragment extends PreferenceFragment implements Sh
         addAddressPreference.setDialogTitle(R.string.room_settings_addresses_add_new_address);
         addAddressPreference.setKey(ADD_ADDRESSES_PREFERENCE_KEY);
         addAddressPreference.setIcon(ThemeUtils.INSTANCE.tintDrawable(getActivity(),
-                ContextCompat.getDrawable(getActivity(), R.drawable.ic_add_black), R.attr.settings_icon_tint_color));
+                ContextCompat.getDrawable(getActivity(), R.drawable.ic_add_black), R.attr.vctr_settings_icon_tint_color));
 
         addAddressPreference.setOnPreferenceChangeListener(
                 new Preference.OnPreferenceChangeListener() {
@@ -1865,14 +1870,14 @@ public class VectorRoomSettingsFragment extends PreferenceFragment implements Sh
                 isEncryptedPreference.setTitle(R.string.room_settings_addresses_e2e_disabled);
                 isEncryptedPreference.setKey(key);
                 isEncryptedPreference.setIcon(ThemeUtils.INSTANCE.tintDrawable(getActivity(),
-                        getResources().getDrawable(R.drawable.e2e_unencrypted), R.attr.settings_icon_tint_color));
+                        getResources().getDrawable(R.drawable.e2e_unencrypted), R.attr.vctr_settings_icon_tint_color));
                 mAdvandceSettingsCategory.addPreference(isEncryptedPreference);
             } else if (mSession.isCryptoEnabled()) {
                 final VectorSwitchPreference encryptSwitchPreference = new VectorSwitchPreference(getActivity());
                 encryptSwitchPreference.setTitle(R.string.room_settings_addresses_e2e_encryption_warning);
                 encryptSwitchPreference.setKey(key);
                 encryptSwitchPreference.setIcon(ThemeUtils.INSTANCE.tintDrawable(getActivity(),
-                        getResources().getDrawable(R.drawable.e2e_unencrypted), R.attr.settings_icon_tint_color));
+                        getResources().getDrawable(R.drawable.e2e_unencrypted), R.attr.vctr_settings_icon_tint_color));
                 encryptSwitchPreference.setChecked(false);
                 mAdvandceSettingsCategory.addPreference(encryptSwitchPreference);
 

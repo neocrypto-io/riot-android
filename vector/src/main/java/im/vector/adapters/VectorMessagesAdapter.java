@@ -39,7 +39,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.QuoteSpan;
 import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -64,7 +63,6 @@ import org.matrix.androidsdk.adapters.MessageRow;
 import org.matrix.androidsdk.crypto.MXCryptoError;
 import org.matrix.androidsdk.crypto.data.MXDeviceInfo;
 import org.matrix.androidsdk.data.Room;
-import org.matrix.androidsdk.data.RoomState;
 import org.matrix.androidsdk.db.MXMediasCache;
 import org.matrix.androidsdk.interfaces.HtmlToolbox;
 import org.matrix.androidsdk.rest.model.Event;
@@ -102,14 +100,15 @@ import im.vector.R;
 import im.vector.VectorApp;
 import im.vector.extensions.MatrixSdkExtensionsKt;
 import im.vector.listeners.IMessagesAdapterActionsListener;
+import im.vector.settings.VectorLocale;
 import im.vector.ui.VectorQuoteSpan;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.EmojiKt;
 import im.vector.util.EventGroup;
 import im.vector.util.MatrixLinkMovementMethod;
 import im.vector.util.MatrixURLSpan;
 import im.vector.util.PreferencesManager;
 import im.vector.util.RiotEventDisplay;
-import im.vector.util.ThemeUtils;
 import im.vector.util.VectorImageGetter;
 import im.vector.widgets.WidgetsManager;
 
@@ -257,7 +256,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
                 if (mHtmlTagHandler == null) {
                     mHtmlTagHandler = new HtmlTagHandler();
                     mHtmlTagHandler.mContext = mContext;
-                    mHtmlTagHandler.setCodeBlockBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.markdown_block_background_color));
+                    mHtmlTagHandler.setCodeBlockBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_markdown_block_background_color));
                 }
                 return mHtmlTagHandler;
             }
@@ -373,13 +372,13 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
                 mSession, mMaxImageWidth, mMaxImageHeight, mNotSentMessageTextColor, mDefaultMessageTextColor);
         mHelper = new VectorMessagesAdapterHelper(context, mSession, this);
 
-        mLocale = VectorApp.getApplicationLocale();
+        mLocale = VectorLocale.INSTANCE.getApplicationLocale();
 
         mAlwaysShowTimeStamps = PreferencesManager.alwaysShowTimeStamps(VectorApp.getInstance());
         mHideReadReceipts = PreferencesManager.hideReadReceipts(VectorApp.getInstance());
 
         mPadlockDrawable = ThemeUtils.INSTANCE.tintDrawable(mContext,
-                ContextCompat.getDrawable(mContext, R.drawable.e2e_unencrypted), R.attr.settings_icon_tint_color);
+                ContextCompat.getDrawable(mContext, R.drawable.e2e_unencrypted), R.attr.vctr_settings_icon_tint_color);
     }
 
     /*
@@ -416,31 +415,31 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
 
     // customization methods
     private int getDefaultMessageTextColor() {
-        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.message_text_color);
+        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_message_text_color);
     }
 
     private int getNoticeTextColor() {
-        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.notice_text_color);
+        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_notice_text_color);
     }
 
     private int getEncryptingMessageTextColor() {
-        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.encrypting_message_text_color);
+        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_encrypting_message_text_color);
     }
 
     private int getSendingMessageTextColor() {
-        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.sending_message_text_color);
+        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_sending_message_text_color);
     }
 
     private int getHighlightMessageTextColor() {
-        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.highlighted_message_text_color);
+        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_highlighted_message_text_color);
     }
 
     private int getSearchHighlightMessageTextColor() {
-        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.highlighted_searched_message_text_color);
+        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_highlighted_searched_message_text_color);
     }
 
     private int getNotSentMessageTextColor() {
-        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.unsent_message_text_color);
+        return ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_unsent_message_text_color);
     }
 
     /*
@@ -1148,7 +1147,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             if (row.getEvent().isUndelivered() || row.getEvent().isUnknownDevice()) {
                 tsTextView.setTextColor(mNotSentMessageTextColor);
             } else {
-                tsTextView.setTextColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.default_text_light_color));
+                tsTextView.setTextColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_default_text_light_color));
             }
 
             tsTextView.setVisibility((((position + 1) == getCount()) || mIsSearchMode || mAlwaysShowTimeStamps) ? View.VISIBLE : View.GONE);
@@ -1226,15 +1225,9 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
                     return convertView;
                 }
 
-                RoomState roomState = row.getRoomState();
+                EventDisplay display = new RiotEventDisplay(mContext, mHtmlToolbox);
 
-                EventDisplay display = new RiotEventDisplay(mContext, event, roomState, mHtmlToolbox);
-                CharSequence textualDisplay = display.getTextualDisplay();
-
-                SpannableString body = new SpannableString((null == textualDisplay) ? "" : textualDisplay);
-
-                // Change to BlockQuote Spannable to customize it
-                replaceQuoteSpans(body);
+                Spannable body = row.getText(new VectorQuoteSpan(mContext), display);
 
                 CharSequence result = mHelper.highlightPattern(body,
                         mPattern,
@@ -1281,22 +1274,6 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
     }
 
     /**
-     * Replace all QuoteSpan instances by instances of VectorQuoteSpan
-     *
-     * @param spannable
-     */
-    private void replaceQuoteSpans(Spannable spannable) {
-        QuoteSpan[] quoteSpans = spannable.getSpans(0, spannable.length(), QuoteSpan.class);
-        for (QuoteSpan quoteSpan : quoteSpans) {
-            int start = spannable.getSpanStart(quoteSpan);
-            int end = spannable.getSpanEnd(quoteSpan);
-            int flags = spannable.getSpanFlags(quoteSpan);
-            spannable.removeSpan(quoteSpan);
-            spannable.setSpan(new VectorQuoteSpan(mContext), start, end, flags);
-        }
-    }
-
-    /**
      * For ROW_TYPE_CODE message which may contain mixture of
      * fenced and inline code blocks and non-code (issue 145)
      */
@@ -1337,7 +1314,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
                 container.addView(blockView);
                 textViews.add(tv);
 
-                ((View) tv.getParent()).setBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.markdown_block_background_color));
+                ((View) tv.getParent()).setBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_markdown_block_background_color));
             } else {
                 // Not a fenced block
                 final TextView tv = (TextView) mLayoutInflater.inflate(R.layout.adapter_item_vector_message_code_text, null);
@@ -1449,12 +1426,11 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
         try {
             MessageRow row = getItem(position);
             Event msg = row.getEvent();
-            RoomState roomState = row.getRoomState();
 
             CharSequence notice;
 
-            EventDisplay display = new RiotEventDisplay(mContext, msg, roomState);
-            notice = display.getTextualDisplay();
+            EventDisplay display = new RiotEventDisplay(mContext);
+            notice = row.getText(null, display);
 
             TextView noticeTextView = convertView.findViewById(R.id.messagesAdapter_body);
 
@@ -1511,7 +1487,6 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
         try {
             MessageRow row = getItem(position);
             Event event = row.getEvent();
-            RoomState roomState = row.getRoomState();
 
             TextView emoteTextView = convertView.findViewById(R.id.messagesAdapter_body);
 
@@ -1521,9 +1496,8 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             }
 
             Message message = JsonUtils.toMessage(event.getContent());
-            String userDisplayName = (null == roomState) ? event.getSender() : roomState.getMemberName(event.getSender());
 
-            CharSequence body = "* " + userDisplayName + " " + message.body;
+            CharSequence body = "* " + row.getSenderDisplayName() + " " + message.body;
 
             if (TextUtils.equals(Message.FORMAT_MATRIX_HTML, message.format)) {
                 String htmlString = mHelper.getSanitisedHtml(message.formatted_body);
@@ -1531,7 +1505,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
                 if (null != htmlString) {
                     CharSequence sequence = mHelper.convertToHtml(htmlString);
 
-                    body = TextUtils.concat("* ", userDisplayName, " ", sequence);
+                    body = TextUtils.concat("* ", row.getSenderDisplayName(), " ", sequence);
                 }
             }
 
@@ -1750,8 +1724,8 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             convertView = mLayoutInflater.inflate(mRowTypeToLayoutId.get(ROW_TYPE_VERSIONED_ROOM), parent, false);
         }
         final MessageRow row = getItem(position);
-        final RoomState roomState = row.getRoomState();
-        final RoomCreateContent.Predecessor predecessor = roomState.getRoomCreateContent().predecessor;
+        // In this case, predecessor cannot be null
+        final RoomCreateContent.Predecessor predecessor = row.getRoomCreateContentPredecessor();
 
         final String roomLink = PermalinkUtils.createPermalink(predecessor.roomId);
         final ClickableSpan urlSpan = new MatrixURLSpan(roomLink, MXPatterns.PATTERN_CONTAIN_APP_LINK_PERMALINK_ROOM_ID, mVectorMessagesAdapterEventsListener);
@@ -1799,6 +1773,10 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
         }
 
         boolean isSupported = VectorMessagesAdapterHelper.isDisplayableEvent(mContext, row);
+
+        if (!isSupported) {
+            Log.w(LOG_TAG, "Unsupported row. Event type: " + event.getType());
+        }
 
         if (isSupported && TextUtils.equals(event.getType(), Event.EVENT_TYPE_STATE_ROOM_MEMBER)) {
             RoomMember roomMember = JsonUtils.toRoomMember(event.getContent());
@@ -2517,7 +2495,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
         }
 
         Menu menu = popup.getMenu();
-        ThemeUtils.INSTANCE.tintMenuIcons(menu, ThemeUtils.INSTANCE.getColor(mContext, R.attr.settings_icon_tint_color));
+        ThemeUtils.INSTANCE.tintMenuIcons(menu, ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_settings_icon_tint_color));
 
         // hide entries
         for (int i = 0; i < menu.size(); i++) {
