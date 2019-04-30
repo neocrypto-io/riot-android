@@ -33,7 +33,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import org.matrix.androidsdk.data.RoomMediaMessage;
-import org.matrix.androidsdk.db.MXMediasCache;
+import org.matrix.androidsdk.db.MXMediaCache;
 import org.matrix.androidsdk.rest.model.message.Message;
 import org.matrix.androidsdk.util.ImageUtils;
 import org.matrix.androidsdk.util.Log;
@@ -76,7 +76,7 @@ public class VectorRoomMediasSender {
     private final VectorMessageListFragment mVectorMessageListFragment;
 
     // the medias cache
-    private final MXMediasCache mMediasCache;
+    private final MXMediaCache mMediasCache;
 
     // the background thread
     private static HandlerThread mHandlerThread = null;
@@ -86,12 +86,15 @@ public class VectorRoomMediasSender {
     private List<RoomMediaMessage> mSharedDataItems;
     private String mImageCompressionDescription;
 
+    // media compression
+    private static final int MEDIA_COMPRESSION_CHOOSE = 0;
+
     /**
      * Constructor
      *
      * @param roomActivity the room activity.
      */
-    public VectorRoomMediasSender(VectorRoomActivity roomActivity, VectorMessageListFragment vectorMessageListFragment, MXMediasCache mediasCache) {
+    public VectorRoomMediasSender(VectorRoomActivity roomActivity, VectorMessageListFragment vectorMessageListFragment, MXMediaCache mediasCache) {
         mVectorRoomActivity = roomActivity;
         mVectorMessageListFragment = vectorMessageListFragment;
         mMediasCache = mediasCache;
@@ -723,6 +726,24 @@ public class VectorRoomMediasSender {
                 final ImageCompressionSizes imageSizes = computeImageSizes(options.outWidth, options.outHeight);
 
                 imageStream.close();
+
+                int prefResize = PreferencesManager.getSelectedDefaultMediaCompressionLevel(mVectorRoomActivity);
+                if (prefResize > MEDIA_COMPRESSION_CHOOSE) {
+                    // subtract "choose" option
+                    int opt = prefResize - 1;
+                    // get highest index
+                    int sizesIdx = imageSizes.getImageSizesList().size() - 1;
+
+                    // adjust selection if there are less than 4 sizes available
+                    if (opt > 0 && sizesIdx < 3) {
+                        opt -= 3 - sizesIdx;
+                    }
+                    // bounds check
+                    if (opt > sizesIdx) opt = sizesIdx;
+                    else if (opt < 0) opt = 0;
+
+                    mImageCompressionDescription = imageSizes.getImageSizesDescription(mVectorRoomActivity).get(opt);
+                }
 
                 // the user already selects a compression
                 if (null != mImageCompressionDescription) {

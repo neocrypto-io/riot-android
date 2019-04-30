@@ -17,10 +17,10 @@
  */
 package im.vector.activity;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.ExifInterface;
-import android.os.Bundle;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -34,7 +34,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jetbrains.annotations.NotNull;
 import org.matrix.androidsdk.MXPatterns;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.call.IMXCall;
@@ -62,17 +61,18 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import im.vector.Matrix;
 import im.vector.R;
 import im.vector.adapters.VectorMemberDetailsAdapter;
 import im.vector.adapters.VectorMemberDetailsDevicesAdapter;
 import im.vector.extensions.MatrixSdkExtensionsKt;
 import im.vector.fragments.VectorUnknownDevicesFragment;
+import im.vector.listeners.YesNoListener;
 import im.vector.util.CallsManager;
 import im.vector.util.PermissionsToolsKt;
 import im.vector.util.SystemUtilsKt;
 import im.vector.util.VectorUtils;
-import kotlin.Triple;
 
 /**
  * VectorMemberDetailsActivity displays the member information and allows to perform some dedicated actions.
@@ -90,8 +90,6 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
     public static final String EXTRA_STORE_ID = "EXTRA_STORE_ID";
 
     public static final String RESULT_MENTION_ID = "RESULT_MENTION_ID";
-
-    private static final String AVATAR_FULLSCREEN_MODE = "AVATAR_FULLSCREEN_MODE";
 
     // list view items associated actions
     private static final int ITEM_ACTION_INVITE = 0;
@@ -127,20 +125,16 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
     private VectorMemberDetailsDevicesAdapter mDevicesListViewAdapter;
 
     // UI widgets
-    @BindView(R.id.avatar_img)
+    @BindView(R.id.member_detail_avatar)
     ImageView mMemberAvatarImageView;
     @BindView(R.id.member_avatar_badge)
     ImageView mMemberAvatarBadgeImageView;
-    @BindView(R.id.member_details_name)
-    TextView mMemberNameTextView;
+    @BindView(R.id.member_details_display_name)
+    TextView mMemberDisplayNameTextView;
+    @BindView(R.id.member_details_user_id)
+    TextView mMemberUserIdTextView;
     @BindView(R.id.member_details_presence)
     TextView mPresenceTextView;
-
-    // full screen avatar
-    @BindView(R.id.member_details_fullscreen_avatar_layout)
-    View mFullMemberAvatarLayout;
-    @BindView(R.id.member_details_fullscreen_avatar_image_view)
-    ImageView mFullMemberAvatarImageView;
 
     // listview
     @BindView(R.id.member_details_actions_list_view)
@@ -324,6 +318,7 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
                         CommonActivityUtils.displayUnknownDevicesDialog(mSession,
                                 VectorMemberDetailsActivity.this,
                                 (MXUsersDevicesMap<MXDeviceInfo>) cryptoError.mExceptionData,
+                                true,
                                 new VectorUnknownDevicesFragment.IUnknownDevicesSendAnywayListener() {
                                     @Override
                                     public void onSendAnyway() {
@@ -483,9 +478,26 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
 
             case ITEM_ACTION_BAN:
                 if (null != mRoom) {
-                    enableProgressBarView(CommonActivityUtils.UTILS_DISPLAY_PROGRESS_BAR);
-                    mRoom.ban(mRoomMember.getUserId(), null, mRoomActionsListener);
-                    Log.d(LOG_TAG, "## performItemAction(): Block (Ban)");
+                    // Ask for a reason
+                    View layout = getLayoutInflater().inflate(R.layout.dialog_base_edit_text, null);
+
+                    final TextView input = layout.findViewById(R.id.edit_text);
+                    input.setHint(R.string.reason_hint);
+
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.room_participants_ban_prompt_msg)
+                            .setView(layout)
+                            .setPositiveButton(R.string.room_participants_action_ban, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            enableProgressBarView(CommonActivityUtils.UTILS_DISPLAY_PROGRESS_BAR);
+                                            mRoom.ban(mRoomMember.getUserId(), input.getText().toString(), mRoomActionsListener);
+                                            Log.d(LOG_TAG, "## performItemAction(): Block (Ban)");
+                                        }
+                                    }
+                            )
+                            .setNegativeButton(R.string.cancel, null)
+                            .show();
                 }
                 break;
 
@@ -499,9 +511,27 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
 
             case ITEM_ACTION_KICK:
                 if (null != mRoom) {
-                    enableProgressBarView(CommonActivityUtils.UTILS_DISPLAY_PROGRESS_BAR);
-                    mRoom.kick(mRoomMember.getUserId(), mRoomActionsListener);
-                    Log.d(LOG_TAG, "## performItemAction(): Kick");
+                    // Ask for a reason
+                    View layout = getLayoutInflater().inflate(R.layout.dialog_base_edit_text, null);
+
+                    final TextView input = layout.findViewById(R.id.edit_text);
+                    input.setHint(R.string.reason_hint);
+
+                    new AlertDialog.Builder(this)
+                            .setTitle(getResources().getQuantityString(R.plurals.room_participants_kick_prompt_msg, 1))
+                            .setView(layout)
+                            .setPositiveButton(R.string.room_participants_action_kick, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            enableProgressBarView(CommonActivityUtils.UTILS_DISPLAY_PROGRESS_BAR);
+                                            mRoom.kick(mRoomMember.getUserId(), input.getText().toString(), mRoomActionsListener);
+                                            Log.d(LOG_TAG, "## performItemAction(): Kick");
+                                        }
+                                    }
+                            )
+                            .setNegativeButton(R.string.cancel, null)
+                            .show();
+
                 }
                 break;
 
@@ -629,6 +659,11 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
      * @param aVisibilityToSet View.GONE to hide the view, View.VISIBLE to show
      */
     private void setScreenDevicesListVisibility(int aVisibilityToSet) {
+        if (mDevicesListHeaderView == null) {
+            // Activity is destroyed
+            return;
+        }
+
         mDevicesListHeaderView.setVisibility(aVisibilityToSet);
         mDevicesListView.setVisibility(aVisibilityToSet);
 
@@ -1095,21 +1130,22 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
             }
 
             // direct chats management
-
-            // list other direct rooms
-            List<String> roomIds = mSession.getDataHandler().getDirectChatRoomIdsList(mMemberId);
-            for (String roomId : roomIds) {
-                Room room = mSession.getDataHandler().getRoom(roomId);
-                if (null != room) {
-                    directMessagesActions.add(new VectorMemberDetailsAdapter.AdapterMemberActionItems(room));
+            if (mMemberId != null && mSession != null && !mMemberId.equals(mSession.getMyUserId())) {
+                // list other direct rooms
+                List<String> roomIds = mSession.getDataHandler().getDirectChatRoomIdsList(mMemberId);
+                for (String roomId : roomIds) {
+                    Room room = mSession.getDataHandler().getRoom(roomId);
+                    if (null != room) {
+                        directMessagesActions.add(new VectorMemberDetailsAdapter.AdapterMemberActionItems(room));
+                    }
                 }
+
+                imageResource = R.drawable.ic_add_black;
+                actionText = getString(R.string.start_new_chat);
+                directMessagesActions.add(new VectorMemberDetailsAdapter.AdapterMemberActionItems(imageResource, actionText, ITEM_ACTION_START_CHAT));
+
+                mListViewAdapter.setDirectCallsActionsList(directMessagesActions);
             }
-
-            imageResource = R.drawable.ic_add_black;
-            actionText = getString(R.string.start_new_chat);
-            directMessagesActions.add(new VectorMemberDetailsAdapter.AdapterMemberActionItems(imageResource, actionText, ITEM_ACTION_START_CHAT));
-
-            mListViewAdapter.setDirectCallsActionsList(directMessagesActions);
             mListViewAdapter.notifyDataSetChanged();
 
             mExpandableListView.post(new Runnable() {
@@ -1123,12 +1159,6 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
                 }
             });
         }
-    }
-
-    @NotNull
-    @Override
-    public Triple getOtherThemes() {
-        return new Triple(R.style.AppTheme_NoActionBar_Dark, R.style.AppTheme_NoActionBar_Black, R.style.AppTheme_NoActionBar_Status);
     }
 
     @Override
@@ -1194,51 +1224,10 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
                 }
             });
 
-
-            // when clicking on the username
-            // switch member name <-> member id
-            mMemberNameTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    User user = mSession.getDataHandler().getUser(mMemberId);
-
-                    if (TextUtils.equals(mMemberNameTextView.getText(), mMemberId)) {
-                        if ((null != user) && !TextUtils.isEmpty(user.displayname)) {
-                            mMemberNameTextView.setText(user.displayname);
-                        }
-                    } else {
-                        mMemberNameTextView.setText(mMemberId);
-                    }
-                }
-            });
-
-            // long tap : copy to the clipboard
-            mMemberNameTextView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    SystemUtilsKt.copyToClipboard(VectorMemberDetailsActivity.this, mMemberNameTextView.getText());
-                    return true;
-                }
-            });
-
             mMemberAvatarImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     displayFullScreenAvatar();
-                }
-            });
-
-            mFullMemberAvatarImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    hideFullScreenAvatar();
-                }
-            });
-
-            mFullMemberAvatarLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    hideFullScreenAvatar();
                 }
             });
 
@@ -1251,10 +1240,6 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
                 public void onSuccess(Boolean info) {
                     // update the UI
                     updateUi();
-
-                    if (!isFirstCreation() && getSavedInstanceState().getBoolean(AVATAR_FULLSCREEN_MODE, false)) {
-                        displayFullScreenAvatar();
-                    }
                 }
             });
 
@@ -1273,10 +1258,7 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((KeyEvent.KEYCODE_BACK == keyCode)) {
-            if (View.VISIBLE == mFullMemberAvatarLayout.getVisibility()) {
-                hideFullScreenAvatar();
-                return true;
-            } else if ((View.VISIBLE == mDevicesListView.getVisibility())) {
+            if ((View.VISIBLE == mDevicesListView.getVisibility())) {
                 setScreenDevicesListVisibility(View.GONE);
                 return true;
             }
@@ -1285,29 +1267,6 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
         return super.onKeyDown(keyCode, event);
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Always call the superclass so it can save the view hierarchy state
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean(AVATAR_FULLSCREEN_MODE, View.VISIBLE == mFullMemberAvatarLayout.getVisibility());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        if (savedInstanceState.getBoolean(AVATAR_FULLSCREEN_MODE, false)) {
-            displayFullScreenAvatar();
-        }
-    }
-
-    /**
-     * Hide the fullscreen avatar.
-     */
-    private void hideFullScreenAvatar() {
-        mFullMemberAvatarLayout.setVisibility(View.GONE);
-    }
 
     /**
      * Display the user/member avatar in fullscreen.
@@ -1331,9 +1290,14 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
         }
 
         if (!TextUtils.isEmpty(avatarUrl)) {
-            mFullMemberAvatarLayout.setVisibility(View.VISIBLE);
-            mSession.getMediasCache().loadBitmap(mSession.getHomeServerConfig(),
-                    mFullMemberAvatarImageView, avatarUrl, 0, ExifInterface.ORIENTATION_UNDEFINED, null, null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options =
+                        ActivityOptions.makeSceneTransitionAnimation(this, mMemberAvatarImageView, "vector_transition_avatar");
+                startActivity(VectorAvatarViewerActivity.Companion.getIntent(this, mSession.getMyUserId(), avatarUrl), options.toBundle());
+            } else {
+                // No transition
+                startActivity(VectorAvatarViewerActivity.Companion.getIntent(this, mSession.getMyUserId(), avatarUrl));
+            }
         }
     }
 
@@ -1447,17 +1411,17 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
             return;
         }
 
-        if (null != mMemberNameTextView) {
-            if ((null != mRoomMember) && !TextUtils.isEmpty(mRoomMember.displayname)) {
-                mMemberNameTextView.setText(mRoomMember.displayname);
-            } else {
-                refreshUser();
-                mMemberNameTextView.setText(mUser.displayname);
-            }
-
-            // do not display the activity name in the action bar
-            setTitle("");
+        if ((null != mRoomMember) && !TextUtils.isEmpty(mRoomMember.displayname)) {
+            mMemberDisplayNameTextView.setText(mRoomMember.displayname);
+        } else {
+            refreshUser();
+            mMemberDisplayNameTextView.setText(mUser.displayname);
         }
+
+        mMemberUserIdTextView.setText(mMemberId);
+
+        // do not display the activity name in the action bar
+        setTitle("");
 
         // disable the progress bar
         enableProgressBarView(CommonActivityUtils.UTILS_HIDE_PROGRESS_BAR);
@@ -1578,27 +1542,45 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
         }
     }
 
+    /* ==========================================================================================
+     * UI Event
+     * ========================================================================================== */
+
+    @OnClick({R.id.member_details_user_id, R.id.member_details_display_name})
+    void onUserInfoClicked(TextView v) {
+        // Copy to the clipboard
+        SystemUtilsKt.copyToClipboard(this, v.getText());
+    }
+
     // ********* IDevicesAdapterListener implementation *********
+
+    private void refreshUserDevicesList() {
+        // Refresh the adapter data
+        List<MXDeviceInfo> deviceList = mSession.getCrypto().getUserDevices(mMemberId);
+
+        mDevicesListViewAdapter.clear();
+        mDevicesListViewAdapter.addAll(deviceList);
+    }
 
     private final ApiCallback<Void> mDevicesVerificationCallback = new ApiCallback<Void>() {
         @Override
         public void onSuccess(Void info) {
-            mDevicesListViewAdapter.notifyDataSetChanged();
+            refreshUserDevicesList();
         }
 
         @Override
         public void onNetworkError(Exception e) {
-            mDevicesListViewAdapter.notifyDataSetChanged();
+            refreshUserDevicesList();
         }
 
         @Override
         public void onMatrixError(MatrixError e) {
-            mDevicesListViewAdapter.notifyDataSetChanged();
+            refreshUserDevicesList();
         }
 
         @Override
         public void onUnexpectedError(Exception e) {
-            mDevicesListViewAdapter.notifyDataSetChanged();
+            refreshUserDevicesList();
         }
     };
 
@@ -1612,7 +1594,17 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
 
             case MXDeviceInfo.DEVICE_VERIFICATION_UNVERIFIED:
             default: // Blocked
-                CommonActivityUtils.displayDeviceVerificationDialog(aDeviceInfo, mMemberId, mSession, this, mDevicesVerificationCallback);
+                CommonActivityUtils.displayDeviceVerificationDialog(aDeviceInfo, mMemberId, mSession, this, new YesNoListener() {
+                    @Override
+                    public void yes() {
+                        refreshUserDevicesList();
+                    }
+
+                    @Override
+                    public void no() {
+                        // Nothing to do
+                    }
+                });
                 break;
         }
     }
@@ -1626,8 +1618,6 @@ public class VectorMemberDetailsActivity extends MXCActionBarActivity implements
             mSession.getCrypto()
                     .setDeviceVerification(MXDeviceInfo.DEVICE_VERIFICATION_BLOCKED, aDeviceInfo.deviceId, aDeviceInfo.userId, mDevicesVerificationCallback);
         }
-
-        mDevicesListViewAdapter.notifyDataSetChanged();
     }
     // ***********************************************************
 }

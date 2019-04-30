@@ -18,6 +18,7 @@
 package im.vector.activity
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.annotation.*
 import android.support.v7.app.AppCompatActivity
@@ -35,14 +36,18 @@ import im.vector.VectorApp
 import im.vector.activity.interfaces.Restorable
 import im.vector.dialogs.ConsentNotGivenHelper
 import im.vector.receiver.DebugReceiver
+import im.vector.ui.themes.ActivityOtherThemes
+import im.vector.ui.themes.ThemeUtils
 import im.vector.util.AssetReader
-import im.vector.util.ThemeUtils
+import im.vector.util.BugReporter
 import org.matrix.androidsdk.util.Log
 
 /**
  * Parent class for all Activities in Vector application
  */
 abstract class VectorAppCompatActivity : AppCompatActivity() {
+
+    private var LOG_TAG = VectorAppCompatActivity::class.java.simpleName
 
     /* ==========================================================================================
      * DATA
@@ -59,7 +64,6 @@ abstract class VectorAppCompatActivity : AppCompatActivity() {
      * UI
      * ========================================================================================== */
 
-    // TODO Maintenance: Toolbar is bound here now. Use this member in children Activities
     @Nullable
     @BindView(R.id.toolbar)
     protected lateinit var toolbar: Toolbar
@@ -147,6 +151,13 @@ abstract class VectorAppCompatActivity : AppCompatActivity() {
         }
     }
 
+    override fun onMultiWindowModeChanged(isInMultiWindowMode: Boolean, newConfig: Configuration?) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode, newConfig)
+
+        Log.w(LOG_TAG, "onMultiWindowModeChanged. isInMultiWindowMode: $isInMultiWindowMode")
+        BugReporter.setMultiWindowMode(isInMultiWindowMode)
+    }
+
     /* ==========================================================================================
      * MENU MANAGEMENT
      * ========================================================================================== */
@@ -196,13 +207,13 @@ abstract class VectorAppCompatActivity : AppCompatActivity() {
     @MenuRes
     open fun getMenuRes() = -1
 
-    open fun getMenuTint() = R.attr.icon_tint_on_dark_action_bar_color
+    @AttrRes
+    open fun getMenuTint() = R.attr.vctr_icon_tint_on_dark_action_bar_color
 
     /**
-     * Return a Triple with Dark, Black, and Status.im theme
+     * Return a object containing other themes for this activity
      */
-    open fun getOtherThemes(): Triple<Int, Int, Int> = Triple(R.style.AppTheme_Dark, R.style.AppTheme_Black, R.style.AppTheme_Status)
-
+    open fun getOtherThemes(): ActivityOtherThemes = ActivityOtherThemes.Default
 
     //==============================================================================================
     // Handle loading view (also called waiting view or spinner view)
@@ -226,14 +237,14 @@ abstract class VectorAppCompatActivity : AppCompatActivity() {
     /**
      * Show the waiting view
      */
-    fun showWaitingView() {
+    open fun showWaitingView() {
         waitingView?.isVisible = true
     }
 
     /**
      * Hide the waiting view
      */
-    fun hideWaitingView() {
+    open fun hideWaitingView() {
         waitingView?.isVisible = false
     }
 

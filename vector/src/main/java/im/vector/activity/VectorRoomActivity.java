@@ -21,17 +21,17 @@ package im.vector.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -73,11 +73,9 @@ import org.matrix.androidsdk.data.RoomPreviewData;
 import org.matrix.androidsdk.data.RoomState;
 import org.matrix.androidsdk.data.RoomSummary;
 import org.matrix.androidsdk.db.MXLatestChatMessageCache;
-import org.matrix.androidsdk.fragments.IconAndTextDialogFragment;
 import org.matrix.androidsdk.fragments.MatrixMessageListFragment;
 import org.matrix.androidsdk.listeners.IMXNetworkEventListener;
 import org.matrix.androidsdk.listeners.MXEventListener;
-import org.matrix.androidsdk.listeners.MXMediaUploadListener;
 import org.matrix.androidsdk.rest.callback.ApiCallback;
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.model.Event;
@@ -91,7 +89,6 @@ import org.matrix.androidsdk.rest.model.message.Message;
 import org.matrix.androidsdk.util.JsonUtils;
 import org.matrix.androidsdk.util.Log;
 import org.matrix.androidsdk.util.PermalinkUtils;
-import org.matrix.androidsdk.util.ResourceUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,20 +99,22 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import butterknife.OnTouch;
 import im.vector.Matrix;
 import im.vector.R;
 import im.vector.VectorApp;
-import im.vector.ViewedRoomTracker;
 import im.vector.activity.util.RequestCodesKt;
-import im.vector.extensions.MatrixSdkExtensionsKt;
+import im.vector.dialogs.DialogCallAdapter;
+import im.vector.dialogs.DialogListItem;
+import im.vector.dialogs.DialogSendItemAdapter;
 import im.vector.features.hhs.LimitResourceState;
 import im.vector.features.hhs.ResourceLimitEventListener;
 import im.vector.fragments.VectorMessageListFragment;
+import im.vector.fragments.VectorReadReceiptsDialogFragment;
 import im.vector.fragments.VectorUnknownDevicesFragment;
 import im.vector.listeners.IMessagesAdapterActionsListener;
-import im.vector.notifications.NotificationUtils;
-import im.vector.services.EventStreamService;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.CallsManager;
 import im.vector.util.ExternalApplicationsUtilKt;
 import im.vector.util.MatrixURLSpan;
@@ -124,7 +123,6 @@ import im.vector.util.PreferencesManager;
 import im.vector.util.ReadMarkerManager;
 import im.vector.util.RoomUtils;
 import im.vector.util.SlashCommandsParser;
-import im.vector.util.ThemeUtils;
 import im.vector.util.VectorMarkdownParser;
 import im.vector.util.VectorRoomMediasSender;
 import im.vector.util.VectorUtils;
@@ -135,7 +133,6 @@ import im.vector.view.VectorOngoingConferenceCallView;
 import im.vector.view.VectorPendingCallView;
 import im.vector.widgets.Widget;
 import im.vector.widgets.WidgetsManager;
-import kotlin.Triple;
 
 /**
  * Displays a single room with messages.
@@ -144,7 +141,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         MatrixMessageListFragment.IRoomPreviewDataListener,
         MatrixMessageListFragment.IEventSendingListener,
         MatrixMessageListFragment.IOnScrollListener,
-        VectorMessageListFragment.VectorMessageListFragmentListener {
+        VectorMessageListFragment.VectorMessageListFragmentListener,
+        VectorReadReceiptsDialogFragment.VectorReadReceiptsDialogFragmentListener {
 
     // the session
     public static final String EXTRA_MATRIX_ID = MXCActionBarActivity.EXTRA_MATRIX_ID;
@@ -175,8 +173,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     public static final String EXTRA_START_CALL_ID = "EXTRA_START_CALL_ID";
 
     private static final String TAG_FRAGMENT_MATRIX_MESSAGE_LIST = "TAG_FRAGMENT_MATRIX_MESSAGE_LIST";
-    private static final String TAG_FRAGMENT_ATTACHMENTS_DIALOG = "TAG_FRAGMENT_ATTACHMENTS_DIALOG";
-    private static final String TAG_FRAGMENT_CALL_OPTIONS = "TAG_FRAGMENT_CALL_OPTIONS";
 
     private static final String LOG_TAG = VectorRoomActivity.class.getSimpleName();
     private static final int TYPING_TIMEOUT_MS = 10000;
@@ -187,10 +183,16 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     private static final int REQUEST_FILES_REQUEST_CODE = 0;
     private static final int TAKE_IMAGE_REQUEST_CODE = 1;
     public static final int GET_MENTION_REQUEST_CODE = 2;
-    private static final int REQUEST_ROOM_AVATAR_CODE = 3;
     private static final int INVITE_USER_REQUEST_CODE = 4;
     public static final int UNREAD_PREVIEW_REQUEST_CODE = 5;
     private static final int RECORD_AUDIO_REQUEST_CODE = 6;
+
+    // media selection
+    private static final int MEDIA_SOURCE_FILE = 1;
+    private static final int MEDIA_SOURCE_VOICE = 2;
+    private static final int MEDIA_SOURCE_STICKER = 3;
+    private static final int MEDIA_SOURCE_PHOTO = 4;
+    private static final int MEDIA_SOURCE_VIDEO = 5;
 
     private static final String CAMERA_VALUE_TITLE = "attachment"; // Samsung devices need a filepath to write to or else won't return a Uri (!!!)
     private String mLatestTakePictureCameraUri = null; // has to be String not Uri because of Serializable
@@ -223,7 +225,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     @BindView(R.id.editText_messageBox)
     VectorAutoCompleteTextView mEditText;
 
-    private ImageView mAvatarImageView;
+    @BindView(R.id.room_self_avatar)
+    ImageView mAvatarImageView;
 
     @BindView(R.id.bottom_separator)
     View mBottomSeparator;
@@ -276,7 +279,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     @BindView(R.id.action_bar_header_room_topic)
     TextView mActionBarHeaderRoomTopic;
 
-    private ImageView mActionBarHeaderRoomAvatar;
+    @BindView(R.id.room_header_avatar)
+    ImageView mActionBarHeaderRoomAvatar;
 
     // notifications area
     @BindView(R.id.room_notifications_area)
@@ -608,12 +612,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     // Activity classes
     //================================================================================
 
-    @NotNull
-    @Override
-    public Triple getOtherThemes() {
-        return new Triple(R.style.AppTheme_NoActionBar_Dark, R.style.AppTheme_NoActionBar_Black, R.style.AppTheme_NoActionBar_Status);
-    }
-
     @Override
     public int getLayoutRes() {
         return R.layout.activity_vector_room;
@@ -663,7 +661,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         }
 
         //setDragEdge(SwipeBackLayout.DragEdge.LEFT);
-        mActionBarHeaderRoomAvatar = mRoomHeaderView.findViewById(R.id.avatar_img);
 
         // hide the header room as soon as the bottom layout (text edit zone) is touched
         mBottomLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -671,6 +668,39 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
                 return false;
+            }
+        });
+
+        mNotificationsArea.setDelegate(new NotificationAreaView.Delegate() {
+            @NotNull
+            @Override
+            public IMessagesAdapterActionsListener providesMessagesActionListener() {
+                return mVectorMessageListFragment;
+            }
+
+            @Override
+            public void resendUnsentEvents() {
+                mVectorMessageListFragment.resendUnsentMessages();
+            }
+
+            @Override
+            public void deleteUnsentEvents() {
+                mVectorMessageListFragment.deleteUnsentEvents();
+            }
+
+            @Override
+            public void closeScreen() {
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void jumpToBottom() {
+                if (mReadMarkerManager != null) {
+                    mReadMarkerManager.handleJumpToBottom();
+                } else {
+                    mVectorMessageListFragment.scrollToBottom(0);
+                }
             }
         });
 
@@ -684,12 +714,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         mDefaultTopic = intent.getStringExtra(EXTRA_DEFAULT_TOPIC);
         mIsUnreadPreviewMode = intent.getBooleanExtra(EXTRA_IS_UNREAD_PREVIEW_MODE, false);
 
-        // the user has tapped on the "View" notification button
-        if ((null != intent.getAction()) && (intent.getAction().startsWith(NotificationUtils.TAP_TO_VIEW_ACTION))) {
-            // remove any pending notifications
-            NotificationUtils.INSTANCE.cancelAllNotifications(this);
-        }
-
         if (mIsUnreadPreviewMode) {
             Log.d(LOG_TAG, "Displaying " + roomId + " in unread preview mode");
         } else if (!TextUtils.isEmpty(mEventId) || (null != sRoomPreviewData)) {
@@ -698,13 +722,19 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             Log.d(LOG_TAG, "Displaying " + roomId);
         }
 
-        // IME's DONE button is treated as a send action
+        if (PreferencesManager.sendMessageWithEnter(this)) {
+            // imeOptions="actionSend" only works with single line, so we remove multiline inputType
+            mEditText.setInputType(mEditText.getInputType() & ~EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE);
+            mEditText.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        }
+
+        // IME's DONE and SEND button is treated as a send action
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 int imeActionId = actionId & EditorInfo.IME_MASK_ACTION;
 
-                if (EditorInfo.IME_ACTION_DONE == imeActionId) {
+                if (EditorInfo.IME_ACTION_DONE == imeActionId || EditorInfo.IME_ACTION_SEND == imeActionId) {
                     sendTextMessage();
                     return true;
                 }
@@ -754,8 +784,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
         mMyUserId = mSession.getCredentials().userId;
 
-        CommonActivityUtils.resumeEventStream(this);
-
         FragmentManager fm = getSupportFragmentManager();
         mVectorMessageListFragment = (VectorMessageListFragment) fm.findFragmentByTag(TAG_FRAGMENT_MATRIX_MESSAGE_LIST);
         if (mVectorMessageListFragment == null) {
@@ -774,7 +802,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
         mVectorMessageListFragment.setListener(this);
 
-        mVectorRoomMediasSender = new VectorRoomMediasSender(this, mVectorMessageListFragment, Matrix.getInstance(this).getMediasCache());
+        mVectorRoomMediasSender = new VectorRoomMediasSender(this, mVectorMessageListFragment, Matrix.getInstance(this).getMediaCache());
 
         manageRoomPreview();
 
@@ -968,12 +996,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             }
         });
 
-        View avatarLayout = findViewById(R.id.room_self_avatar);
-
-        if (null != avatarLayout) {
-            mAvatarImageView = avatarLayout.findViewById(R.id.avatar_img);
-        }
-
         refreshSelfAvatar();
 
         // in case a "Send as" dialog was in progress when the activity was destroyed (life cycle)
@@ -999,38 +1021,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             }
         }
 
-        mNotificationsArea.setDelegate(new NotificationAreaView.Delegate() {
-            @NotNull
-            @Override
-            public IMessagesAdapterActionsListener providesMessagesActionListener() {
-                return mVectorMessageListFragment;
-            }
-
-            @Override
-            public void resendUnsentEvents() {
-                mVectorMessageListFragment.resendUnsentMessages();
-            }
-
-            @Override
-            public void deleteUnsentEvents() {
-                mVectorMessageListFragment.deleteUnsentEvents();
-            }
-
-            @Override
-            public void closeScreen() {
-                setResult(Activity.RESULT_OK);
-                finish();
-            }
-
-            @Override
-            public void jumpToBottom() {
-                if (mReadMarkerManager != null) {
-                    mReadMarkerManager.handleJumpToBottom();
-                } else {
-                    mVectorMessageListFragment.scrollToBottom(0);
-                }
-            }
-        });
         Log.d(LOG_TAG, "End of create");
     }
 
@@ -1118,16 +1108,13 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         mActiveWidgetsBanner.onActivityPause();
 
         // to have notifications for this room
-        ViewedRoomTracker.getInstance().setViewedRoomId(null);
-        ViewedRoomTracker.getInstance().setMatrixId(null);
+        VectorApp.getInstance().getNotificationDrawerManager().setCurrentRoom(null);
     }
 
     @Override
     protected void onResume() {
         Log.d(LOG_TAG, "++ Resume the activity");
         super.onResume();
-
-        ViewedRoomTracker.getInstance().setMatrixId(mSession.getCredentials().userId);
 
         if (null != mRoom) {
             // check if the room has been left from another client.
@@ -1153,7 +1140,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
             // to do not trigger notifications for this room
             // because it is displayed.
-            ViewedRoomTracker.getInstance().setViewedRoomId(mRoom.getRoomId());
+            VectorApp.getInstance().getNotificationDrawerManager().setCurrentRoom(mRoom.getRoomId());
 
             // listen for room name or topic changes
             mRoom.addEventListener(mRoomEventListener);
@@ -1169,10 +1156,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         mSession.getDataHandler().addListener(mResourceLimitEventListener);
 
         Matrix.getInstance(this).addNetworkEventListener(mNetworkEventListener);
-
-        if (null != mRoom) {
-            EventStreamService.cancelNotificationsForRoomId(mSession.getCredentials().userId, mRoom.getRoomId());
-        }
 
         // sanity checks
         if ((null != mRoom) && (null != Matrix.getInstance(this).getDefaultLatestChatMessageCache())) {
@@ -1225,7 +1208,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             // can only manage one call instance.
             // either there is no active call or resume the active one
             if ((null == call) || call.getCallId().equals(mCallId)) {
-                final Intent intent = new Intent(VectorRoomActivity.this, VectorCallViewActivity.class);
+                final Intent intent = new Intent(this, VectorCallViewActivity.class);
                 intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
                 intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, mCallId);
 
@@ -1247,8 +1230,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             mVectorOngoingConferenceCallView.onActivityResume();
             mActiveWidgetsBanner.onActivityResume();
         }
-
-        displayE2eRoomAlert();
 
         // init the auto-completion list from the room members
         mEditText.initAutoCompletions(mSession, mRoom);
@@ -1298,9 +1279,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 case GET_MENTION_REQUEST_CODE:
                     insertUserDisplayNameInTextEditor(data.getStringExtra(VectorMemberDetailsActivity.RESULT_MENTION_ID));
                     break;
-                case REQUEST_ROOM_AVATAR_CODE:
-                    onActivityResultRoomAvatarUpdate(data);
-                    break;
                 case INVITE_USER_REQUEST_CODE:
                     onActivityResultRoomInvite(data);
                     break;
@@ -1343,6 +1321,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         CommonActivityUtils.displayUnknownDevicesDialog(mSession,
                 this,
                 (MXUsersDevicesMap<MXDeviceInfo>) error.mExceptionData,
+                false,
                 new VectorUnknownDevicesFragment.IUnknownDevicesSendAnywayListener() {
                     @Override
                     public void onSendAnyway() {
@@ -1432,6 +1411,10 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     public void onScrollStateChanged(int scrollState) {
         if (mReadMarkerManager != null) {
             mReadMarkerManager.onScrollStateChanged(scrollState);
+        }
+
+        if (mNotificationsArea != null) {
+            mNotificationsArea.setScrollState(scrollState);
         }
     }
 
@@ -1557,7 +1540,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 try {
                     enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
 
-                    final Intent searchIntent = new Intent(VectorRoomActivity.this, VectorUnifiedSearchActivity.class);
+                    final Intent searchIntent = new Intent(this, VectorUnifiedSearchActivity.class);
                     searchIntent.putExtra(VectorUnifiedSearchActivity.EXTRA_ROOM_ID, mRoom.getRoomId());
                     startActivity(searchIntent);
                 } catch (Exception e) {
@@ -1578,7 +1561,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             case R.id.ic_action_room_leave:
                 if (null != mRoom) {
                     Log.d(LOG_TAG, "Leave the room " + mRoom.getRoomId());
-                    new AlertDialog.Builder(VectorRoomActivity.this)
+                    new AlertDialog.Builder(this)
                             .setTitle(R.string.room_participants_leave_prompt_title)
                             .setMessage(R.string.room_participants_leave_prompt_msg)
                             .setPositiveButton(R.string.leave, new DialogInterface.OnClickListener() {
@@ -1680,7 +1663,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
      */
     private void displayConfCallNotAllowed() {
         // display the dialog with the info text
-        new AlertDialog.Builder(VectorRoomActivity.this)
+        new AlertDialog.Builder(this)
                 .setTitle(R.string.missing_permissions_title_to_start_conf_call)
                 .setMessage(R.string.missing_permissions_to_start_conf_call)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -1697,55 +1680,55 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         // hide the header room
         enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
 
-        final Integer[] lIcons = new Integer[]{R.drawable.voice_call_green, R.drawable.video_call_green};
-        final Integer[] lTexts = new Integer[]{R.string.action_voice_call, R.string.action_video_call};
+        new AlertDialog.Builder(this)
+                .setAdapter(new DialogCallAdapter(this), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onCallItemClicked(which);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
 
-        IconAndTextDialogFragment fragment = IconAndTextDialogFragment.newInstance(lIcons, lTexts,
-                ThemeUtils.INSTANCE.getColor(this, R.attr.riot_primary_background_color),
-                ThemeUtils.INSTANCE.getColor(this, R.attr.riot_primary_text_color));
-        fragment.setOnClickListener(new IconAndTextDialogFragment.OnItemClickListener() {
-            @Override
-            public void onItemClick(IconAndTextDialogFragment dialogFragment, int position) {
-                final boolean isVideoCall;
-                final int permissions;
-                final int requestCode;
+    /**
+     * @param which 0 for voice call, 1 for video call
+     */
+    private void onCallItemClicked(int which) {
+        final boolean isVideoCall;
+        final int permissions;
+        final int requestCode;
 
+        if (which == 0) {
+            isVideoCall = false;
+            permissions = PermissionsToolsKt.PERMISSIONS_FOR_AUDIO_IP_CALL;
+            requestCode = PermissionsToolsKt.PERMISSION_REQUEST_CODE_AUDIO_CALL;
+        } else {
+            isVideoCall = true;
+            permissions = PermissionsToolsKt.PERMISSIONS_FOR_VIDEO_IP_CALL;
+            requestCode = PermissionsToolsKt.PERMISSION_REQUEST_CODE_VIDEO_CALL;
+        }
 
-                if (position == 1) {
-                    isVideoCall = true;
-                    permissions = PermissionsToolsKt.PERMISSIONS_FOR_VIDEO_IP_CALL;
-                    requestCode = PermissionsToolsKt.PERMISSION_REQUEST_CODE_VIDEO_CALL;
-                } else {
-                    isVideoCall = false;
-                    permissions = PermissionsToolsKt.PERMISSIONS_FOR_AUDIO_IP_CALL;
-                    requestCode = PermissionsToolsKt.PERMISSION_REQUEST_CODE_AUDIO_CALL;
-                }
+        AlertDialog.Builder builder = new AlertDialog.Builder(VectorRoomActivity.this)
+                .setTitle(R.string.dialog_title_confirmation);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(VectorRoomActivity.this)
-                        .setTitle(R.string.dialog_title_confirmation);
+        if (isVideoCall) {
+            builder.setMessage(getString(R.string.start_video_call_prompt_msg));
+        } else {
+            builder.setMessage(getString(R.string.start_voice_call_prompt_msg));
+        }
 
-                if (isVideoCall) {
-                    builder.setMessage(getString(R.string.start_video_call_prompt_msg));
-                } else {
-                    builder.setMessage(getString(R.string.start_voice_call_prompt_msg));
-                }
-
-                builder
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (PermissionsToolsKt.checkPermissions(permissions, VectorRoomActivity.this, requestCode)) {
-                                    startIpCall(PreferencesManager.useJitsiConfCall(VectorRoomActivity.this), isVideoCall);
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .show();
-            }
-        });
-
-        // display the fragment dialog
-        fragment.show(getSupportFragmentManager(), TAG_FRAGMENT_CALL_OPTIONS);
+        builder
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (PermissionsToolsKt.checkPermissions(permissions, VectorRoomActivity.this, requestCode)) {
+                            startIpCall(PreferencesManager.useJitsiConfCall(VectorRoomActivity.this), isVideoCall);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     /**
@@ -1755,10 +1738,19 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
      * @param aIsVideoCall true if it is a video call
      */
     private void launchJitsiActivity(Widget widget, boolean aIsVideoCall) {
-        final Intent intent = new Intent(VectorRoomActivity.this, JitsiCallActivity.class);
-        intent.putExtra(JitsiCallActivity.EXTRA_WIDGET_ID, widget);
-        intent.putExtra(JitsiCallActivity.EXTRA_ENABLE_VIDEO, aIsVideoCall);
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            // Display a error dialog for old API
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_title_error)
+                    .setMessage(R.string.error_jitsi_not_supported_on_old_device)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+        } else {
+            final Intent intent = new Intent(this, JitsiCallActivity.class);
+            intent.putExtra(JitsiCallActivity.EXTRA_WIDGET_ID, widget);
+            intent.putExtra(JitsiCallActivity.EXTRA_ENABLE_VIDEO, aIsVideoCall);
+            startActivity(intent);
+        }
     }
 
     /**
@@ -1775,9 +1767,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             public void onSuccess(Widget widget) {
                 hideWaitingView();
 
-                final Intent intent = new Intent(VectorRoomActivity.this, JitsiCallActivity.class);
-                intent.putExtra(JitsiCallActivity.EXTRA_WIDGET_ID, widget);
-                startActivity(intent);
+                launchJitsiActivity(widget, aIsVideoCall);
             }
 
             private void onError(String errorMessage) {
@@ -1837,12 +1827,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                         intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
                         intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, call.getCallId());
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(intent);
-                            }
-                        });
+                        startActivity(intent);
                     }
                 });
             }
@@ -1875,6 +1860,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                         CommonActivityUtils.displayUnknownDevicesDialog(mSession,
                                 VectorRoomActivity.this,
                                 (MXUsersDevicesMap<MXDeviceInfo>) cryptoError.mExceptionData,
+                                true,
                                 new VectorUnknownDevicesFragment.IUnknownDevicesSendAnywayListener() {
                                     @Override
                                     public void onSendAnyway() {
@@ -2005,7 +1991,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             // sanity checks
             if (null != bundle) {
                 if (bundle.containsKey(Intent.EXTRA_TEXT)) {
-                    mEditText.setText(mEditText.getText() + bundle.getString(Intent.EXTRA_TEXT));
+                    mEditText.append(bundle.getString(Intent.EXTRA_TEXT));
 
                     mEditText.post(new Runnable() {
                         @Override
@@ -2078,7 +2064,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
      */
     private void handleTypingNotification(boolean isTyping) {
         // the typing notifications are disabled ?
-        if (PreferencesManager.dontSendTypingNotifs(this)) {
+        if (!PreferencesManager.sendTypingNotifs(this)) {
             Log.d(LOG_TAG, "##handleTypingNotification() : the typing notifications are disabled");
             return;
         }
@@ -2176,7 +2162,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
         final boolean typingStatus = isTyping;
 
-        mRoom.sendTypingNotification(typingStatus, notificationTimeoutMS, new SimpleApiCallback<Void>(VectorRoomActivity.this) {
+        mRoom.sendTypingNotification(typingStatus, notificationTimeoutMS, new SimpleApiCallback<Void>(this) {
             @Override
             public void onSuccess(Void info) {
                 // Reset last typing date
@@ -2240,7 +2226,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
 
             // pop to the home activity
-            Intent intent = new Intent(VectorRoomActivity.this, VectorRoomDetailsActivity.class);
+            Intent intent = new Intent(this, VectorRoomDetailsActivity.class);
             intent.putExtra(VectorRoomDetailsActivity.EXTRA_ROOM_ID, mRoom.getRoomId());
             intent.putExtra(VectorRoomDetailsActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
             intent.putExtra(VectorRoomDetailsActivity.EXTRA_SELECTED_TAB_ID, selectedTab);
@@ -2305,7 +2291,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             // Use the builder context
-            View v = LayoutInflater.from(builder.getContext()).inflate(R.layout.no_sticker_pack_dialog, null);
+            View v = LayoutInflater.from(builder.getContext()).inflate(R.layout.dialog_no_sticker_pack, null);
 
             builder
                     .setView(v)
@@ -2353,8 +2339,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     private void launchCamera() {
         enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
 
-        Intent intent = new Intent(this, VectorMediasPickerActivity.class);
-        intent.putExtra(VectorMediasPickerActivity.EXTRA_VIDEO_RECORDING_MODE, true);
+        Intent intent = new Intent(this, VectorMediaPickerActivity.class);
+        intent.putExtra(VectorMediaPickerActivity.EXTRA_VIDEO_RECORDING_MODE, true);
         startActivityForResult(intent, TAKE_IMAGE_REQUEST_CODE);
     }
 
@@ -2362,30 +2348,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (0 == permissions.length) {
             Log.d(LOG_TAG, "## onRequestPermissionsResult(): cancelled " + requestCode);
-        } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE) {
-            boolean isCameraPermissionGranted = false;
-
-            for (int i = 0; i < permissions.length; i++) {
-                Log.d(LOG_TAG, "## onRequestPermissionsResult(): " + permissions[i] + "=" + grantResults[i]);
-
-                if (Manifest.permission.CAMERA.equals(permissions[i])) {
-                    if (PackageManager.PERMISSION_GRANTED == grantResults[i]) {
-                        Log.d(LOG_TAG, "## onRequestPermissionsResult(): CAMERA permission granted");
-                        isCameraPermissionGranted = true;
-                    } else {
-                        Log.d(LOG_TAG, "## onRequestPermissionsResult(): CAMERA permission not granted");
-                    }
-                }
-            }
-
-            // the user allows to use to the camera.
-            if (isCameraPermissionGranted) {
-                Intent intent = new Intent(this, VectorMediasPickerActivity.class);
-                intent.putExtra(VectorMediasPickerActivity.EXTRA_AVATAR_MODE, true);
-                startActivityForResult(intent, REQUEST_ROOM_AVATAR_CODE);
-            } else {
-                launchRoomDetails(VectorRoomDetailsActivity.SETTINGS_TAB_INDEX);
-            }
         } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_CAMERA
                 || requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_CAMERA
                 || requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_VIDEO_CAMERA) {
@@ -2453,8 +2415,28 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
      * Display UI buttons according to user input text.
      */
     private void manageSendMoreButtons() {
-        boolean hasText = (mEditText.getText().length() > 0);
-        mSendImageView.setImageResource(hasText ? R.drawable.ic_material_send_green : R.drawable.ic_material_file);
+        int img = R.drawable.ic_material_file;
+        if (!PreferencesManager.sendMessageWithEnter(this) && mEditText.getText().length() > 0) {
+            img = R.drawable.ic_material_send_green;
+        } else {
+            switch (PreferencesManager.getSelectedDefaultMediaSource(this)) {
+                case MEDIA_SOURCE_VOICE:
+                    if (PreferencesManager.isSendVoiceFeatureEnabled(this)) {
+                        img = R.drawable.vector_micro_green;
+                    }
+                    break;
+                case MEDIA_SOURCE_STICKER:
+                    img = R.drawable.ic_send_sticker;
+                    break;
+                case MEDIA_SOURCE_PHOTO:
+                    img = R.drawable.ic_material_camera;
+                    break;
+                case MEDIA_SOURCE_VIDEO:
+                    img = R.drawable.ic_material_videocam;
+                    break;
+            }
+        }
+        mSendImageView.setImageResource(img);
     }
 
     /**
@@ -2666,7 +2648,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             Widget activeWidget = mVectorOngoingConferenceCallView.getActiveWidget();
 
             if ((null == call) && (null == activeWidget)) {
-                mStartCallLayout.setVisibility((isCallSupported && (mEditText.getText().length() == 0)) ? View.VISIBLE : View.GONE);
+                mStartCallLayout.setVisibility((isCallSupported && (mEditText.getText().length() == 0
+                        || PreferencesManager.sendMessageWithEnter(this))) ? View.VISIBLE : View.GONE);
                 mStopCallLayout.setVisibility(View.GONE);
             } else if (null != activeWidget) {
                 mStartCallLayout.setVisibility(View.GONE);
@@ -2719,14 +2702,11 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 // nothing to display
                 mLatestTypingMessage = null;
             } else if (names.size() == 1) {
-                mLatestTypingMessage = String.format(VectorApp.getApplicationLocale(),
-                        getString(R.string.room_one_user_is_typing), names.get(0));
+                mLatestTypingMessage = getString(R.string.room_one_user_is_typing, names.get(0));
             } else if (names.size() == 2) {
-                mLatestTypingMessage = String.format(VectorApp.getApplicationLocale(),
-                        getString(R.string.room_two_users_are_typing), names.get(0), names.get(1));
+                mLatestTypingMessage = getString(R.string.room_two_users_are_typing, names.get(0), names.get(1));
             } else {
-                mLatestTypingMessage = String.format(VectorApp.getApplicationLocale(),
-                        getString(R.string.room_many_users_are_typing), names.get(0), names.get(1));
+                mLatestTypingMessage = getString(R.string.room_many_users_are_typing, names.get(0), names.get(1));
             }
         }
 
@@ -2957,7 +2937,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
      * @param span       the URL
      * @param value      roomAlias, roomId, groupId, eventId, etc.
      */
-    public void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span, final String value) {
+    private void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span, final String value) {
         int start = strBuilder.getSpanStart(span);
         int end = strBuilder.getSpanEnd(span);
 
@@ -3175,7 +3155,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 // hide the action bar header view and reset the arrow image (arrow reset to down)
                 mActionBarCustomArrowImageView.setImageResource(R.drawable.ic_arrow_drop_down_white);
                 mRoomHeaderView.setVisibility(View.GONE);
-                toolbar.setBackgroundColor(ThemeUtils.INSTANCE.getColor(this, R.attr.primary_color));
+                toolbar.setBackgroundColor(ThemeUtils.INSTANCE.getColor(this, R.attr.colorPrimary));
             }
         }
     }
@@ -3183,13 +3163,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     //================================================================================
     // Kick / ban mode management
     //================================================================================
-
-    /*
-        <string name="has_been_kicked">You have been kicked from %1$ by %2$</string>
-    <string name="reason_colon">Reason: %1$</string>
-    <string name="rejoin">Rejoin</string>
-    <string name="forget_room">Forget room</string>
-     */
 
     /**
      * Manage the room preview buttons area
@@ -3526,7 +3499,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             }
 
             // clear the activity stack to home activity
-            Intent intent = new Intent(VectorRoomActivity.this, VectorHomeActivity.class);
+            Intent intent = new Intent(this, VectorHomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             intent.putExtra(VectorHomeActivity.EXTRA_JUMP_TO_ROOM_PARAMS, (HashMap) params);
@@ -3618,76 +3591,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                     onDone(e.getMessage());
                 }
             });
-        }
-    }
-
-    /**
-     * Update the avatar from the data provided the medias picker.
-     *
-     * @param aData the provided data.
-     */
-    private void onActivityResultRoomAvatarUpdate(final Intent aData) {
-        // sanity check
-        if (null == mSession || null == mRoom) {
-            return;
-        }
-
-        Uri thumbnailUri = VectorUtils.getThumbnailUriFromIntent(this, aData, mSession.getMediasCache());
-
-        if (null != thumbnailUri) {
-            showWaitingView();
-
-            // save the bitmap URL on the server
-            ResourceUtils.Resource resource = ResourceUtils.openResource(this, thumbnailUri, null);
-            if (null != resource) {
-                mSession.getMediasCache().uploadContent(resource.mContentStream, null, resource.mMimeType, null, new MXMediaUploadListener() {
-                    @Override
-                    public void onUploadError(String uploadId, int serverResponseCode, String serverErrorMessage) {
-                        Log.e(LOG_TAG, "Fail to upload the avatar");
-                    }
-
-                    @Override
-                    public void onUploadComplete(final String uploadId, final String contentUri) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.d(LOG_TAG, "The avatar has been uploaded, update the room avatar");
-                                mRoom.updateAvatarUrl(contentUri, new ApiCallback<Void>() {
-
-                                    private void onDone(String message) {
-                                        if (!TextUtils.isEmpty(message)) {
-                                            Toast.makeText(VectorRoomActivity.this, message, Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        hideWaitingView();
-                                        updateRoomHeaderAvatar();
-                                    }
-
-                                    @Override
-                                    public void onSuccess(Void info) {
-                                        onDone(null);
-                                    }
-
-                                    @Override
-                                    public void onNetworkError(Exception e) {
-                                        onDone(e.getLocalizedMessage());
-                                    }
-
-                                    @Override
-                                    public void onMatrixError(MatrixError e) {
-                                        onDone(e.getLocalizedMessage());
-                                    }
-
-                                    @Override
-                                    public void onUnexpectedError(Exception e) {
-                                        onDone(e.getLocalizedMessage());
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
         }
     }
 
@@ -3821,23 +3724,18 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 .show();
     }
 
-    @OnClick(R.id.room_avatar)
+    @OnClick(R.id.room_header_avatar)
     void onRoomAvatarClick() {
-        // tap on the expanded room avatar
-        // sanity checks : reported by GA
-        if ((null != mRoom) && (null != mRoom.getState())) {
-            if (MatrixSdkExtensionsKt.isPowerLevelEnoughForAvatarUpdate(mRoom, mSession)) {
-                // need to check if the camera permission has been granted
-                if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_ROOM_AVATAR,
-                        this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
-                    Intent intent = new Intent(this, VectorMediasPickerActivity.class);
-                    intent.putExtra(VectorMediasPickerActivity.EXTRA_AVATAR_MODE, true);
-                    startActivityForResult(intent, REQUEST_ROOM_AVATAR_CODE);
-                }
+        if (mRoom != null && !TextUtils.isEmpty(mRoom.getAvatarUrl()))
+            // Display the avatar in fullscreen with animation
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options =
+                        ActivityOptions.makeSceneTransitionAnimation(this, mActionBarHeaderRoomAvatar, "vector_transition_avatar");
+                startActivity(VectorAvatarViewerActivity.Companion.getIntent(this, mSession.getMyUserId(), mRoom.getAvatarUrl()), options.toBundle());
             } else {
-                launchRoomDetails(VectorRoomDetailsActivity.SETTINGS_TAB_INDEX);
+                // No transition
+                startActivity(VectorAvatarViewerActivity.Companion.getIntent(this, mSession.getMyUserId(), mRoom.getAvatarUrl()));
             }
-        }
     }
 
     @OnClick(R.id.action_bar_header_room_title)
@@ -3895,27 +3793,18 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         launchInvitePeople();
     }
 
-    private static final String E2E_WARNINGS_PREFERENCES = "E2E_WARNINGS_PREFERENCES";
+    /* ==========================================================================================
+     * Interface VectorReadReceiptsDialogFragmentListener
+     * ========================================================================================== */
 
-    /**
-     * Display an e2e alert for the first opened room.
-     */
-    private void displayE2eRoomAlert() {
-        if (!isFinishing()) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-            if (!preferences.contains(E2E_WARNINGS_PREFERENCES) && (null != mRoom) && mRoom.isEncrypted()) {
-                preferences
-                        .edit()
-                        .putBoolean(E2E_WARNINGS_PREFERENCES, false)
-                        .apply();
-
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.room_e2e_alert_title)
-                        .setMessage(R.string.room_e2e_alert_message)
-                        .setPositiveButton(R.string.ok, null)
-                        .show();
-            }
+    @Override
+    public void onMemberClicked(@NotNull String userId) {
+        if (mRoom != null) {
+            Intent vectorMemberDetailIntent = new Intent(this, VectorMemberDetailsActivity.class);
+            vectorMemberDetailIntent.putExtra(VectorMemberDetailsActivity.EXTRA_ROOM_ID, mRoom.getRoomId());
+            vectorMemberDetailIntent.putExtra(VectorMemberDetailsActivity.EXTRA_MEMBER_ID, userId);
+            vectorMemberDetailIntent.putExtra(VectorMemberDetailsActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
+            startActivityForResult(vectorMemberDetailIntent, VectorRoomActivity.GET_MENTION_REQUEST_CODE);
         }
     }
 
@@ -3929,85 +3818,120 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
     }
 
+    private void chooseMediaSource(boolean useNativeCamera, boolean isVoiceFeatureEnabled) {
+        // hide the header room
+        enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
+
+        final List<DialogListItem> items = new ArrayList<>();
+
+        // Send file
+        items.add(DialogListItem.SendFile.INSTANCE);
+
+        // Send voice
+        if (isVoiceFeatureEnabled) {
+            items.add(DialogListItem.SendVoice.INSTANCE);
+        }
+
+        // Send sticker
+        items.add(DialogListItem.SendSticker.INSTANCE);
+
+        // Camera
+        if (useNativeCamera) {
+            items.add(DialogListItem.TakePhoto.INSTANCE);
+            items.add(DialogListItem.TakeVideo.INSTANCE);
+        } else {
+            items.add(DialogListItem.TakePhotoVideo.INSTANCE);
+        }
+
+        new AlertDialog.Builder(this)
+                .setAdapter(new DialogSendItemAdapter(this, items), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onSendChoiceClicked(items.get(which));
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
     @OnClick(R.id.room_send_image_view)
     void onSendClick() {
-        if (!TextUtils.isEmpty(mEditText.getText())) {
+        if (!TextUtils.isEmpty(mEditText.getText()) && !PreferencesManager.sendMessageWithEnter(this)) {
             sendTextMessage();
         } else {
-            // hide the header room
-            enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
+            boolean useNativeCamera = PreferencesManager.useNativeCamera(this);
+            boolean isVoiceFeatureEnabled = PreferencesManager.isSendVoiceFeatureEnabled(this);
 
-            FragmentManager fm = getSupportFragmentManager();
-            IconAndTextDialogFragment fragment = (IconAndTextDialogFragment) fm.findFragmentByTag(TAG_FRAGMENT_ATTACHMENTS_DIALOG);
-
-            if (fragment != null) {
-                fragment.dismissAllowingStateLoss();
-            }
-
-            List<Integer> messagesList = new ArrayList<>();
-            List<Integer> iconsList = new ArrayList<>();
-
-            // Send file
-            messagesList.add(R.string.option_send_files);
-            iconsList.add(R.drawable.ic_material_file);
-
-            // Send voice
-            if (PreferencesManager.isSendVoiceFeatureEnabled(VectorRoomActivity.this)) {
-                messagesList.add(R.string.option_send_voice);
-                iconsList.add(R.drawable.vector_micro_green);
-            }
-
-            // Send sticker
-            messagesList.add(R.string.option_send_sticker);
-            iconsList.add(R.drawable.ic_send_sticker);
-
-            // Camera
-            if (PreferencesManager.useNativeCamera(VectorRoomActivity.this)) {
-                messagesList.add(R.string.option_take_photo);
-                iconsList.add(R.drawable.ic_material_camera);
-                messagesList.add(R.string.option_take_video);
-                iconsList.add(R.drawable.ic_material_videocam);
-            } else {
-                messagesList.add(R.string.option_take_photo_video);
-                iconsList.add(R.drawable.ic_material_camera);
-            }
-
-            final Integer[] messages = messagesList.toArray(new Integer[0]);
-            final Integer[] icons = iconsList.toArray(new Integer[0]);
-
-            fragment = IconAndTextDialogFragment.newInstance(icons, messages,
-                    ThemeUtils.INSTANCE.getColor(VectorRoomActivity.this, R.attr.riot_primary_background_color),
-                    ThemeUtils.INSTANCE.getColor(VectorRoomActivity.this, R.attr.riot_primary_text_color));
-            fragment.setOnClickListener(new IconAndTextDialogFragment.OnItemClickListener() {
-                @Override
-                public void onItemClick(IconAndTextDialogFragment dialogFragment, int position) {
-                    Integer selectedVal = messages[position];
-
-                    if (selectedVal == R.string.option_send_files) {
-                        launchFileSelectionIntent();
-                    } else if (selectedVal == R.string.option_send_voice) {
-                        launchAudioRecorderIntent();
-                    } else if (selectedVal == R.string.option_send_sticker) {
-                        startStickerPickerActivity();
-                    } else if (selectedVal == R.string.option_take_photo_video) {
-                        if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_TAKING_PHOTO,
-                                VectorRoomActivity.this, PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_CAMERA)) {
-                            launchCamera();
-                        }
-                    } else if (selectedVal == R.string.option_take_photo) {
-                        if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_TAKING_PHOTO,
-                                VectorRoomActivity.this, PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_CAMERA)) {
-                            launchNativeCamera();
-                        }
-                    } else if (selectedVal == R.string.option_take_video) {
-                        if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_TAKING_PHOTO,
-                                VectorRoomActivity.this, PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_VIDEO_CAMERA)) {
-                            launchNativeVideoRecorder();
-                        }
+            switch (PreferencesManager.getSelectedDefaultMediaSource(this)) {
+                case MEDIA_SOURCE_FILE:
+                    onSendChoiceClicked(DialogListItem.SendFile.INSTANCE);
+                    return;
+                case MEDIA_SOURCE_VOICE:
+                    if (isVoiceFeatureEnabled) {
+                        onSendChoiceClicked(DialogListItem.SendVoice.INSTANCE);
+                        return;
                     }
-                }
-            });
-            fragment.show(fm, TAG_FRAGMENT_ATTACHMENTS_DIALOG);
+                    // show all options if voice feature is disabled
+                    break;
+                case MEDIA_SOURCE_STICKER:
+                    onSendChoiceClicked(DialogListItem.SendSticker.INSTANCE);
+                    return;
+                case MEDIA_SOURCE_PHOTO:
+                    if (useNativeCamera) {
+                        onSendChoiceClicked(DialogListItem.TakePhoto.INSTANCE);
+                        return;
+                    } else {
+                        onSendChoiceClicked(DialogListItem.TakePhotoVideo.INSTANCE);
+                        return;
+                    }
+                case MEDIA_SOURCE_VIDEO:
+                    if (useNativeCamera) {
+                        onSendChoiceClicked(DialogListItem.TakeVideo.INSTANCE);
+                        return;
+                    } else {
+                        onSendChoiceClicked(DialogListItem.TakePhotoVideo.INSTANCE);
+                        return;
+                    }
+            }
+
+            chooseMediaSource(useNativeCamera, isVoiceFeatureEnabled);
+        }
+    }
+
+    @OnLongClick(R.id.room_send_image_view)
+    boolean onLongClick() {
+        if (!TextUtils.isEmpty(mEditText.getText()) && !PreferencesManager.sendMessageWithEnter(this)) {
+            return false;
+        }
+        boolean useNativeCamera = PreferencesManager.useNativeCamera(this);
+        boolean isVoiceFeatureEnabled = PreferencesManager.isSendVoiceFeatureEnabled(this);
+        chooseMediaSource(useNativeCamera, isVoiceFeatureEnabled);
+
+        return true;
+    }
+
+    private void onSendChoiceClicked(DialogListItem dialogListItem) {
+        if (dialogListItem instanceof DialogListItem.SendFile) {
+            launchFileSelectionIntent();
+        } else if (dialogListItem instanceof DialogListItem.SendVoice) {
+            launchAudioRecorderIntent();
+        } else if (dialogListItem instanceof DialogListItem.SendSticker) {
+            startStickerPickerActivity();
+        } else if (dialogListItem instanceof DialogListItem.TakePhotoVideo) {
+            if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_TAKING_PHOTO,
+                    VectorRoomActivity.this, PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_CAMERA)) {
+                launchCamera();
+            }
+        } else if (dialogListItem instanceof DialogListItem.TakePhoto) {
+            if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_TAKING_PHOTO,
+                    VectorRoomActivity.this, PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_CAMERA)) {
+                launchNativeCamera();
+            }
+        } else if (dialogListItem instanceof DialogListItem.TakeVideo) {
+            if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_TAKING_PHOTO,
+                    VectorRoomActivity.this, PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_VIDEO_CAMERA)) {
+                launchNativeVideoRecorder();
+            }
         }
     }
 
@@ -4015,16 +3939,10 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     void onPendingCallClick() {
         IMXCall call = CallsManager.getSharedInstance().getActiveCall();
         if (null != call) {
-            final Intent intent = new Intent(VectorRoomActivity.this, VectorCallViewActivity.class);
+            final Intent intent = new Intent(this, VectorCallViewActivity.class);
             intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, call.getSession().getCredentials().userId);
             intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, call.getCallId());
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(intent);
-                }
-            });
+            startActivity(intent);
         } else {
             // if the call is no more active, just remove the view
             mVectorPendingCallView.onCallTerminated();
@@ -4046,14 +3964,14 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     void onStartCallClick() {
         if ((null != mRoom) && mRoom.isEncrypted() && (mRoom.getNumberOfMembers() > 2)) {
             // display the dialog with the info text
-            new AlertDialog.Builder(VectorRoomActivity.this)
+            new AlertDialog.Builder(this)
                     .setMessage(R.string.room_no_conference_call_in_encrypted_rooms)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(R.string.ok, null)
                     .show();
         } else if (isUserAllowedToStartConfCall()) {
             if (mRoom.getNumberOfMembers() > 2) {
-                new AlertDialog.Builder(VectorRoomActivity.this)
+                new AlertDialog.Builder(this)
                         .setTitle(R.string.conference_call_warning_title)
                         .setMessage(R.string.conference_call_warning_message)
                         .setIcon(android.R.drawable.ic_dialog_alert)

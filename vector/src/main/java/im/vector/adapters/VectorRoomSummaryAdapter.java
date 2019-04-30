@@ -20,7 +20,6 @@ package im.vector.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -52,11 +51,12 @@ import java.util.List;
 import im.vector.Matrix;
 import im.vector.PublicRoomsManager;
 import im.vector.R;
-import im.vector.VectorApp;
+import im.vector.settings.VectorLocale;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.RiotEventDisplay;
 import im.vector.util.RoomUtils;
-import im.vector.util.ThemeUtils;
 import im.vector.util.VectorUtils;
+import im.vector.util.ViewUtilKt;
 
 /**
  * An adapter which can display room information.
@@ -222,7 +222,7 @@ public class VectorRoomSummaryAdapter extends BaseExpandableListAdapter {
 
         if (!TextUtils.isEmpty(mSearchedPattern)) {
             String roomName = room.getRoomDisplayName(mContext);
-            res = (!TextUtils.isEmpty(roomName) && (roomName.toLowerCase(VectorApp.getApplicationLocale()).contains(mSearchedPattern)));
+            res = (!TextUtils.isEmpty(roomName) && (roomName.toLowerCase(VectorLocale.INSTANCE.getApplicationLocale()).contains(mSearchedPattern)));
         }
 
         return res;
@@ -625,29 +625,10 @@ public class VectorRoomSummaryAdapter extends BaseExpandableListAdapter {
         if (mIsSearchMode) {
             imageView.setVisibility(View.GONE);
         } else {
-            if (isExpanded) {
-                imageView.setImageResource(R.drawable.ic_material_expand_less_black);
-            } else {
-                imageView.setImageResource(R.drawable.ic_material_expand_more_black);
-            }
+            int expandLogoRes = isExpanded ? R.drawable.ic_material_expand_more_black : R.drawable.ic_material_expand_less_black;
+            imageView.setImageResource(expandLogoRes);
         }
         return convertView;
-    }
-
-    /**
-     * Apply a rounded (sides) rectangle as a background to the view provided in aTargetView.
-     *
-     * @param aTargetView      view to apply the background
-     * @param aBackgroundColor background colour
-     */
-    private static void setUnreadBackground(View aTargetView, int aBackgroundColor) {
-        if (null != aTargetView) {
-            GradientDrawable shape = new GradientDrawable();
-            shape.setShape(GradientDrawable.RECTANGLE);
-            shape.setCornerRadius(100);
-            shape.setColor(aBackgroundColor);
-            aTargetView.setBackground(shape);
-        }
     }
 
     /**
@@ -668,14 +649,14 @@ public class VectorRoomSummaryAdapter extends BaseExpandableListAdapter {
             return convertView;
         }
 
-        int roomNameBlack = ThemeUtils.INSTANCE.getColor(mContext, R.attr.riot_primary_text_color);
+        int roomNameBlack = ThemeUtils.INSTANCE.getColor(mContext, android.R.attr.textColorTertiary);
         int fushiaColor = ContextCompat.getColor(mContext, R.color.vector_fuchsia_color);
-        int vectorDefaultTimeStampColor = ThemeUtils.INSTANCE.getColor(mContext, R.attr.default_text_light_color);
-        int vectorGreenColor = ContextCompat.getColor(mContext, R.color.vector_green_color);
+        int vectorDefaultTimeStampColor = ThemeUtils.INSTANCE.getColor(mContext, android.R.attr.textColorSecondary);
+        int vectorAccentColor = ThemeUtils.INSTANCE.getColor(mContext, R.attr.colorAccent);
         int vectorSilverColor = ContextCompat.getColor(mContext, R.color.vector_silver_color);
 
         // retrieve the UI items
-        ImageView avatarImageView = convertView.findViewById(R.id.room_avatar);
+        ImageView avatarImageView = convertView.findViewById(R.id.adapter_item_recent_room_avatar);
         TextView roomNameTxtView = convertView.findViewById(R.id.roomSummaryAdapter_roomName);
         TextView roomMsgTxtView = convertView.findViewById(R.id.roomSummaryAdapter_roomMessage);
         View bingUnreadMsgView = convertView.findViewById(R.id.bing_indicator_unread_message);
@@ -788,7 +769,7 @@ public class VectorRoomSummaryAdapter extends BaseExpandableListAdapter {
         if (0 != highlightCount) {
             bingUnreadColor = fushiaColor;
         } else if (0 != notificationCount) {
-            bingUnreadColor = vectorGreenColor;
+            bingUnreadColor = vectorAccentColor;
         } else if (0 != unreadMsgCount) {
             bingUnreadColor = vectorSilverColor;
         } else {
@@ -801,7 +782,7 @@ public class VectorRoomSummaryAdapter extends BaseExpandableListAdapter {
             unreadCountTxtView.setVisibility(View.VISIBLE);
             unreadCountTxtView.setText(String.valueOf(notificationCount));
             unreadCountTxtView.setTypeface(null, Typeface.BOLD);
-            setUnreadBackground(unreadCountTxtView, bingUnreadColor);
+            ViewUtilKt.setRoundBackground(unreadCountTxtView, bingUnreadColor);
         } else {
             unreadCountTxtView.setVisibility(View.GONE);
         }
@@ -814,7 +795,7 @@ public class VectorRoomSummaryAdapter extends BaseExpandableListAdapter {
         }
 
         if (null != childRoom) {
-            directChatIcon.setVisibility(RoomUtils.isDirectChat(mMxSession, childRoom.getRoomId()) ? View.VISIBLE: View.GONE);
+            directChatIcon.setVisibility(RoomUtils.isDirectChat(mMxSession, childRoom.getRoomId()) ? View.VISIBLE : View.GONE);
             encryptedIcon.setVisibility(childRoom.isEncrypted() ? View.VISIBLE : View.GONE);
         } else {
             directChatIcon.setVisibility(View.GONE);
@@ -851,7 +832,7 @@ public class VectorRoomSummaryAdapter extends BaseExpandableListAdapter {
             unreadCountTxtView.setVisibility(View.VISIBLE);
             unreadCountTxtView.setText("!");
             unreadCountTxtView.setTypeface(null, Typeface.BOLD);
-            setUnreadBackground(unreadCountTxtView, fushiaColor);
+            ViewUtilKt.setRoundBackground(unreadCountTxtView, fushiaColor);
             timestampTxtView.setVisibility(View.GONE);
             actionImageView.setVisibility(View.GONE);
         } else {
@@ -919,7 +900,7 @@ public class VectorRoomSummaryAdapter extends BaseExpandableListAdapter {
             if (aChildRoomSummary.getLatestReceivedEvent() != null) {
                 eventDisplay = new RiotEventDisplay(mContext);
                 eventDisplay.setPrependMessagesWithAuthor(true);
-                messageToDisplayRetValue = eventDisplay.getTextualDisplay(ThemeUtils.INSTANCE.getColor(mContext, R.attr.riot_primary_text_color),
+                messageToDisplayRetValue = eventDisplay.getTextualDisplay(ThemeUtils.INSTANCE.getColor(mContext, android.R.attr.textColorTertiary),
                         aChildRoomSummary.getLatestReceivedEvent(),
                         aChildRoomSummary.getLatestRoomState());
             }
@@ -959,7 +940,7 @@ public class VectorRoomSummaryAdapter extends BaseExpandableListAdapter {
         String trimmedPattern = pattern;
 
         if (null != pattern) {
-            trimmedPattern = pattern.trim().toLowerCase(VectorApp.getApplicationLocale());
+            trimmedPattern = pattern.trim().toLowerCase(VectorLocale.INSTANCE.getApplicationLocale());
             trimmedPattern = TextUtils.getTrimmedLength(trimmedPattern) == 0 ? null : trimmedPattern;
         }
 

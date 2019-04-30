@@ -31,10 +31,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -63,8 +61,8 @@ import im.vector.R;
 import im.vector.activity.VectorGroupDetailsActivity;
 import im.vector.adapters.AbsAdapter;
 import im.vector.adapters.GroupAdapter;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.SystemUtilsKt;
-import im.vector.util.ThemeUtils;
 import im.vector.view.EmptyViewItemDecoration;
 import im.vector.view.SimpleDividerItemDecoration;
 
@@ -117,8 +115,8 @@ public class GroupsFragment extends AbsHomeFragment {
      */
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_groups, container, false);
+    public int getLayoutResId() {
+        return R.layout.fragment_groups;
     }
 
     @Override
@@ -126,8 +124,11 @@ public class GroupsFragment extends AbsHomeFragment {
         super.onActivityCreated(savedInstanceState);
 
         mGroupsManager = mSession.getGroupsManager();
-        mPrimaryColor = ContextCompat.getColor(getActivity(), R.color.tab_groups);
-        mSecondaryColor = ContextCompat.getColor(getActivity(), R.color.tab_groups_secondary);
+        mPrimaryColor = ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.vctr_tab_home);
+        mSecondaryColor = ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.vctr_tab_home_secondary);
+
+        mFabColor = ContextCompat.getColor(getActivity(), R.color.tab_groups);
+        mFabPressedColor = ContextCompat.getColor(getActivity(), R.color.tab_groups_secondary);
 
         initViews();
 
@@ -336,7 +337,7 @@ public class GroupsFragment extends AbsHomeFragment {
             popup = new PopupMenu(context, actionView);
         }
         popup.getMenuInflater().inflate(R.menu.vector_home_group_settings, popup.getMenu());
-        ThemeUtils.INSTANCE.tintMenuIcons(popup.getMenu(), ThemeUtils.INSTANCE.getColor(context, R.attr.settings_icon_tint_color));
+        ThemeUtils.INSTANCE.tintMenuIcons(popup.getMenu(), ThemeUtils.INSTANCE.getColor(context, R.attr.vctr_settings_icon_tint_color));
 
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -381,7 +382,7 @@ public class GroupsFragment extends AbsHomeFragment {
         final EditText idEditText = dialogView.findViewById(R.id.community_id_edit_text);
         final String hostName = mSession.getHomeServerConfig().getHomeserverUri().getHost();
         TextView hsNameView = dialogView.findViewById(R.id.community_hs_name_text_view);
-        hsNameView.setText(":" + hostName);
+        hsNameView.setText(hostName);
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setView(dialogView)

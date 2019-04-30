@@ -53,9 +53,6 @@ class DeactivateAccountActivity : VectorAppCompatActivity() {
      * Life cycle
      * ========================================================================================== */
 
-    override fun getOtherThemes(): Triple<Int, Int, Int> =
-            Triple(R.style.AppTheme_NoActionBar_Dark, R.style.AppTheme_NoActionBar_Black, R.style.AppTheme_NoActionBar_Status)
-
     override fun getLayoutRes() = R.layout.activity_deactivate_account
 
     override fun getTitleRes() = R.string.deactivate_account_title

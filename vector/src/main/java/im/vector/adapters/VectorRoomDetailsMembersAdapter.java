@@ -36,7 +36,7 @@ import android.widget.Toast;
 import org.matrix.androidsdk.MXDataHandler;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.Room;
-import org.matrix.androidsdk.db.MXMediasCache;
+import org.matrix.androidsdk.db.MXMediaCache;
 import org.matrix.androidsdk.rest.callback.ApiCallback;
 import org.matrix.androidsdk.rest.model.MatrixError;
 import org.matrix.androidsdk.rest.model.PowerLevels;
@@ -56,9 +56,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import im.vector.R;
-import im.vector.VectorApp;
 import im.vector.activity.CommonActivityUtils;
-import im.vector.util.ThemeUtils;
+import im.vector.settings.VectorLocale;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.VectorUtils;
 
 /**
@@ -194,7 +194,7 @@ public class VectorRoomDetailsMembersAdapter extends BaseExpandableListAdapter {
                                            int aGroupHeaderLayoutResourceId,
                                            MXSession aSession,
                                            String aRoomId,
-                                           MXMediasCache aMediasCache) {
+                                           MXMediaCache aMediasCache) {
         mContext = aContext;
         mLayoutInflater = LayoutInflater.from(aContext);
         mChildLayoutResourceId = aChildLayoutResourceId;// R.layout.adapter_item_vector_add_participants
@@ -222,7 +222,7 @@ public class VectorRoomDetailsMembersAdapter extends BaseExpandableListAdapter {
         } else {
             // new pattern different from previous one?
             if (!aPattern.trim().equals(mSearchPattern) || aIsRefreshForced) {
-                mSearchPattern = aPattern.trim().toLowerCase(VectorApp.getApplicationLocale());
+                mSearchPattern = aPattern.trim().toLowerCase(VectorLocale.INSTANCE.getApplicationLocale());
                 updateRoomMembersDataModel(searchListener);
             } else {
                 // search pattern is identical, notify listener and exit
@@ -729,10 +729,8 @@ public class VectorRoomDetailsMembersAdapter extends BaseExpandableListAdapter {
         // set the group title
         String titleValue = getGroupTitle(aGroupPosition);
         viewHolder.mTitleTxtView.setText(titleValue);
-
-        // set the expander logo
-        int expanderLogoResId = aIsExpanded ? R.drawable.ic_material_expand_more_black : R.drawable.ic_material_expand_less_black;
-        viewHolder.mExpanderLogoImageView.setImageResource(expanderLogoResId);
+        int expandLogoRes = aIsExpanded ? R.drawable.ic_material_expand_more_black : R.drawable.ic_material_expand_less_black;
+        viewHolder.mExpanderLogoImageView.setImageResource(expandLogoRes);
 
         return aConvertView;
     }
@@ -967,7 +965,7 @@ public class VectorRoomDetailsMembersAdapter extends BaseExpandableListAdapter {
             });
         }
 
-        int backgroundColor = ThemeUtils.INSTANCE.getColor(mContext, R.attr.riot_primary_background_color);
+        int backgroundColor = ThemeUtils.INSTANCE.getColor(mContext, android.R.attr.colorBackground);
 
         // multi selections mode
         // do not display a checkbox for oneself
@@ -977,7 +975,7 @@ public class VectorRoomDetailsMembersAdapter extends BaseExpandableListAdapter {
             viewHolder.mMultipleSelectionCheckBox.setChecked(mSelectedUserIds.indexOf(participant.mUserId) >= 0);
 
             if (viewHolder.mMultipleSelectionCheckBox.isChecked()) {
-                backgroundColor = ThemeUtils.INSTANCE.getColor(mContext, R.attr.multi_selection_background_color);
+                backgroundColor = ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_multi_selection_background_color);
             }
 
             viewHolder.mMultipleSelectionCheckBox.setOnClickListener(new View.OnClickListener() {
@@ -985,10 +983,10 @@ public class VectorRoomDetailsMembersAdapter extends BaseExpandableListAdapter {
                 public void onClick(View v) {
                     if (viewHolder.mMultipleSelectionCheckBox.isChecked()) {
                         mSelectedUserIds.add(participant.mUserId);
-                        viewHolder.mSwipeCellLayout.setBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.multi_selection_background_color));
+                        viewHolder.mSwipeCellLayout.setBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_multi_selection_background_color));
                     } else {
                         mSelectedUserIds.remove(participant.mUserId);
-                        viewHolder.mSwipeCellLayout.setBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.riot_primary_background_color));
+                        viewHolder.mSwipeCellLayout.setBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, android.R.attr.colorBackground));
                     }
 
                     if (null != mOnParticipantsListener) {

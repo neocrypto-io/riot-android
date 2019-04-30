@@ -31,6 +31,7 @@ import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.crypto.data.MXDeviceInfo;
 import org.matrix.androidsdk.crypto.data.MXUsersDevicesMap;
 import org.matrix.androidsdk.rest.callback.ApiCallback;
+import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.model.MatrixError;
 
 import java.util.ArrayList;
@@ -40,9 +41,11 @@ import im.vector.Matrix;
 import im.vector.R;
 import im.vector.activity.CommonActivityUtils;
 import im.vector.adapters.VectorUnknownDevicesAdapter;
+import im.vector.listeners.YesNoListener;
 
 public class VectorUnknownDevicesFragment extends DialogFragment {
     private static final String ARG_SESSION_ID = "VectorUnknownDevicesFragment.ARG_SESSION_ID";
+    private static final String ARG_IS_FOR_CALLING = "VectorUnknownDevicesFragment.ARG_IS_FOR_CALLING";
 
     /**
      * Define the SendAnyway button listener
@@ -56,14 +59,22 @@ public class VectorUnknownDevicesFragment extends DialogFragment {
 
     private static IUnknownDevicesSendAnywayListener mListener = null;
 
+    /**
+     * @param sessionId
+     * @param unknownDevicesMap
+     * @param isForCalling      true when the user wants to start a call
+     * @return
+     */
     public static VectorUnknownDevicesFragment newInstance(String sessionId,
                                                            MXUsersDevicesMap<MXDeviceInfo> unknownDevicesMap,
+                                                           boolean isForCalling,
                                                            IUnknownDevicesSendAnywayListener listener) {
         VectorUnknownDevicesFragment f = new VectorUnknownDevicesFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
         args.putString(ARG_SESSION_ID, sessionId);
+        args.putBoolean(ARG_IS_FOR_CALLING, isForCalling);
         // cannot serialize unknownDevicesMap if it is too large
         mUnknownDevicesMap = unknownDevicesMap;
         // idem for the listener
@@ -76,10 +87,13 @@ public class VectorUnknownDevicesFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSession = Matrix.getMXSession(getActivity(), getArguments().getString(ARG_SESSION_ID));
+        mIsForCalling = getArguments().getBoolean(ARG_IS_FOR_CALLING);
     }
 
     // current session
     private MXSession mSession;
+    // true when the user want to start a call
+    private boolean mIsForCalling;
     // list view
     private ExpandableListView mExpandableListView;
     // Devices list
@@ -132,42 +146,41 @@ public class VectorUnknownDevicesFragment extends DialogFragment {
                 adapter.notifyDataSetChanged();
             }
 
-            /**
-             * Common callback
-             */
-            final ApiCallback<Void> mCallback = new ApiCallback<Void>() {
-                @Override
-                public void onSuccess(Void info) {
-                    refresh();
-                }
-
-                @Override
-                public void onNetworkError(Exception e) {
-                    refresh();
-                }
-
-                @Override
-                public void onMatrixError(MatrixError e) {
-                    refresh();
-                }
-
-                @Override
-                public void onUnexpectedError(Exception e) {
-                    refresh();
-                }
-            };
-
             @Override
             public void OnVerifyDeviceClick(MXDeviceInfo aDeviceInfo) {
                 switch (aDeviceInfo.mVerified) {
                     case MXDeviceInfo.DEVICE_VERIFICATION_VERIFIED:
                         mSession.getCrypto()
-                                .setDeviceVerification(MXDeviceInfo.DEVICE_VERIFICATION_UNVERIFIED, aDeviceInfo.deviceId, aDeviceInfo.userId, mCallback);
+                                .setDeviceVerification(MXDeviceInfo.DEVICE_VERIFICATION_UNVERIFIED,
+                                        aDeviceInfo.deviceId,
+                                        aDeviceInfo.userId,
+                                        new SimpleApiCallback<Void>() {
+                                            @Override
+                                            public void onSuccess(Void info) {
+                                                aDeviceInfo.mVerified = MXDeviceInfo.DEVICE_VERIFICATION_UNVERIFIED;
+                                                refresh();
+                                            }
+                                        });
                         break;
 
                     case MXDeviceInfo.DEVICE_VERIFICATION_UNVERIFIED:
                     default: // Blocked
-                        CommonActivityUtils.displayDeviceVerificationDialog(aDeviceInfo, aDeviceInfo.userId, mSession, getActivity(), mCallback);
+                        CommonActivityUtils.displayDeviceVerificationDialog(aDeviceInfo,
+                                aDeviceInfo.userId,
+                                mSession,
+                                getActivity(),
+                                new YesNoListener() {
+                                    @Override
+                                    public void yes() {
+                                        aDeviceInfo.mVerified = MXDeviceInfo.DEVICE_VERIFICATION_VERIFIED;
+                                        refresh();
+                                    }
+
+                                    @Override
+                                    public void no() {
+                                        // Nothing to do
+                                    }
+                                });
                         break;
                 }
             }
@@ -176,12 +189,29 @@ public class VectorUnknownDevicesFragment extends DialogFragment {
             public void OnBlockDeviceClick(MXDeviceInfo aDeviceInfo) {
                 if (aDeviceInfo.mVerified == MXDeviceInfo.DEVICE_VERIFICATION_BLOCKED) {
                     mSession.getCrypto()
-                            .setDeviceVerification(MXDeviceInfo.DEVICE_VERIFICATION_UNVERIFIED, aDeviceInfo.deviceId, aDeviceInfo.userId, mCallback);
+                            .setDeviceVerification(MXDeviceInfo.DEVICE_VERIFICATION_UNVERIFIED,
+                                    aDeviceInfo.deviceId,
+                                    aDeviceInfo.userId,
+                                    new SimpleApiCallback<Void>() {
+                                        @Override
+                                        public void onSuccess(Void info) {
+                                            aDeviceInfo.mVerified = MXDeviceInfo.DEVICE_VERIFICATION_UNVERIFIED;
+                                            refresh();
+                                        }
+                                    });
                 } else {
                     mSession.getCrypto()
-                            .setDeviceVerification(MXDeviceInfo.DEVICE_VERIFICATION_BLOCKED, aDeviceInfo.deviceId, aDeviceInfo.userId, mCallback);
+                            .setDeviceVerification(MXDeviceInfo.DEVICE_VERIFICATION_BLOCKED,
+                                    aDeviceInfo.deviceId,
+                                    aDeviceInfo.userId,
+                                    new SimpleApiCallback<Void>() {
+                                        @Override
+                                        public void onSuccess(Void info) {
+                                            aDeviceInfo.mVerified = MXDeviceInfo.DEVICE_VERIFICATION_BLOCKED;
+                                            refresh();
+                                        }
+                                    });
                 }
-                refresh();
             }
         });
 
@@ -206,7 +236,8 @@ public class VectorUnknownDevicesFragment extends DialogFragment {
 
         if (null != mListener) {
             // Add action buttons
-            builder.setPositiveButton(R.string.send_anyway, new DialogInterface.OnClickListener() {
+            int messageResId = mIsForCalling ? R.string.call_anyway : R.string.send_anyway;
+            builder.setPositiveButton(messageResId, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                     mIsSendAnywayTapped = true;

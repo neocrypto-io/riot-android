@@ -17,7 +17,7 @@
 package im.vector.receiver
 
 import android.content.*
-import android.preference.PreferenceManager
+import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import androidx.core.content.edit
 import im.vector.Matrix
@@ -41,7 +41,7 @@ class DebugReceiver : BroadcastReceiver() {
     private fun dumpPreferences(context: Context) {
         logPrefs("DefaultSharedPreferences", PreferenceManager.getDefaultSharedPreferences(context))
         logPrefs("Vector.LoginStorage", context.getSharedPreferences("Vector.LoginStorage", Context.MODE_PRIVATE))
-        logPrefs("GcmRegistrationManager", context.getSharedPreferences("GcmRegistrationManager", Context.MODE_PRIVATE))
+        logPrefs("PushManager", context.getSharedPreferences("GcmRegistrationManager", Context.MODE_PRIVATE))
     }
 
     private fun logPrefs(name: String, sharedPreferences: SharedPreferences?) {

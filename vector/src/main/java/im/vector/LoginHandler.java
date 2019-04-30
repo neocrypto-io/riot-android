@@ -24,7 +24,6 @@ import android.text.TextUtils;
 import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.rest.callback.ApiCallback;
-import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.client.LoginRestClient;
 import org.matrix.androidsdk.rest.client.ThirdPidRestClient;
 import org.matrix.androidsdk.rest.model.MatrixError;
@@ -36,19 +35,21 @@ import org.matrix.androidsdk.rest.model.pid.ThreePid;
 import java.util.Collection;
 import java.util.List;
 
+import im.vector.settings.VectorLocale;
+
 public class LoginHandler {
     /**
-     * The account login / creation succeeds so create the dedicated session and store it.
+     * The account login succeeds so create the dedicated session and store it.
      *
      * @param appCtx      the application context.
      * @param hsConfig    the homeserver config
      * @param credentials the credentials
      * @param callback    the callback
      */
-    private void onRegistrationDone(Context appCtx,
-                                    HomeServerConnectionConfig hsConfig,
-                                    Credentials credentials,
-                                    ApiCallback<HomeServerConnectionConfig> callback) {
+    private void onLoginDone(Context appCtx,
+                             HomeServerConnectionConfig hsConfig,
+                             Credentials credentials,
+                             ApiCallback<Void> callback) {
         // sanity check - GA issue
         if (TextUtils.isEmpty(credentials.userId)) {
             callback.onMatrixError(new MatrixError(MatrixError.FORBIDDEN, "No user id"));
@@ -69,7 +70,7 @@ public class LoginHandler {
             Matrix.getInstance(appCtx).addSession(session);
         }
 
-        callback.onSuccess(hsConfig);
+        callback.onSuccess(null);
     }
 
     /**
@@ -90,13 +91,13 @@ public class LoginHandler {
                       final String phoneNumber,
                       final String phoneNumberCountry,
                       final String password,
-                      final ApiCallback<HomeServerConnectionConfig> callback) {
+                      final ApiCallback<Void> callback) {
         final Context appCtx = ctx.getApplicationContext();
 
         callLogin(ctx, hsConfig, username, phoneNumber, phoneNumberCountry, password, new UnrecognizedCertApiCallback<Credentials>(hsConfig, callback) {
             @Override
             public void onSuccess(Credentials credentials) {
-                onRegistrationDone(appCtx, hsConfig, credentials, callback);
+                onLoginDone(appCtx, hsConfig, credentials, callback);
             }
 
             @Override
@@ -129,7 +130,8 @@ public class LoginHandler {
         if (!TextUtils.isEmpty(username)) {
             if (android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
                 // Login with 3pid
-                client.loginWith3Pid(ThreePid.MEDIUM_EMAIL, username.toLowerCase(VectorApp.getApplicationLocale()), password, deviceName, null, callback);
+                client.loginWith3Pid(ThreePid.MEDIUM_EMAIL,
+                        username.toLowerCase(VectorLocale.INSTANCE.getApplicationLocale()), password, deviceName, null, callback);
             } else {
                 // Login with user
                 client.loginWithUser(username, password, deviceName, null, callback);
@@ -172,22 +174,11 @@ public class LoginHandler {
      */
     public void getSupportedRegistrationFlows(Context ctx,
                                               final HomeServerConnectionConfig hsConfig,
-                                              final ApiCallback<HomeServerConnectionConfig> callback) {
-        register(ctx, hsConfig, new RegistrationParams(), callback);
-    }
+                                              final ApiCallback<Void> callback) {
+        final RegistrationParams params = new RegistrationParams();
 
-    /**
-     * Retrieve the supported registration flows of a home server.
-     *
-     * @param ctx      the application context.
-     * @param hsConfig the home server config.
-     * @param callback the supported flows list callback.
-     */
-    private void register(Context ctx,
-                          final HomeServerConnectionConfig hsConfig,
-                          final RegistrationParams params,
-                          final ApiCallback<HomeServerConnectionConfig> callback) {
         final Context appCtx = ctx.getApplicationContext();
+
         LoginRestClient client = new LoginRestClient(hsConfig);
 
         // avoid dispatching the device name
@@ -196,7 +187,8 @@ public class LoginHandler {
         client.register(params, new UnrecognizedCertApiCallback<Credentials>(hsConfig, callback) {
             @Override
             public void onSuccess(Credentials credentials) {
-                onRegistrationDone(appCtx, hsConfig, credentials, callback);
+                // Should never happen, onMatrixError() will be called
+                onLoginDone(appCtx, hsConfig, credentials, callback);
             }
 
             @Override

@@ -22,16 +22,14 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
@@ -58,6 +56,7 @@ import im.vector.adapters.PeopleAdapter;
 import im.vector.contacts.Contact;
 import im.vector.contacts.ContactsManager;
 import im.vector.contacts.PIDsRetriever;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.HomeRoomsViewModel;
 import im.vector.util.PermissionsToolsKt;
 import im.vector.util.VectorUtils;
@@ -104,8 +103,8 @@ public class PeopleFragment extends AbsHomeFragment implements ContactsManager.C
      */
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_people, container, false);
+    public int getLayoutResId() {
+        return R.layout.fragment_people;
     }
 
     @Override
@@ -119,8 +118,11 @@ public class PeopleFragment extends AbsHomeFragment implements ContactsManager.C
             }
         };
 
-        mPrimaryColor = ContextCompat.getColor(getActivity(), R.color.tab_people);
-        mSecondaryColor = ContextCompat.getColor(getActivity(), R.color.tab_people_secondary);
+        mPrimaryColor = ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.vctr_tab_home);
+        mSecondaryColor = ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.vctr_tab_home_secondary);
+
+        mFabColor = ContextCompat.getColor(getActivity(), R.color.tab_people);
+        mFabPressedColor = ContextCompat.getColor(getActivity(), R.color.tab_people_secondary);
 
         initViews();
 

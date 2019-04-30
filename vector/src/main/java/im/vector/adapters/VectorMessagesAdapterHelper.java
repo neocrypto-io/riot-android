@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.Spannable;
@@ -50,6 +51,7 @@ import org.matrix.androidsdk.rest.callback.ApiCallback;
 import org.matrix.androidsdk.rest.model.Event;
 import org.matrix.androidsdk.rest.model.MatrixError;
 import org.matrix.androidsdk.rest.model.ReceiptData;
+import org.matrix.androidsdk.rest.model.RoomCreateContent;
 import org.matrix.androidsdk.rest.model.RoomMember;
 import org.matrix.androidsdk.rest.model.URLPreview;
 import org.matrix.androidsdk.rest.model.group.Group;
@@ -73,12 +75,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import im.vector.R;
-import im.vector.VectorApp;
 import im.vector.listeners.IMessagesAdapterActionsListener;
+import im.vector.settings.VectorLocale;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.MatrixLinkMovementMethod;
 import im.vector.util.MatrixURLSpan;
 import im.vector.util.RiotEventDisplay;
-import im.vector.util.ThemeUtils;
 import im.vector.util.VectorImageGetter;
 import im.vector.util.VectorUtils;
 import im.vector.view.PillView;
@@ -185,6 +187,10 @@ class VectorMessagesAdapterHelper {
                     final String fSenderId = event.getSender();
                     final String fDisplayName = (null == senderTextView.getText()) ? "" : senderTextView.getText().toString();
 
+                    Context context = senderTextView.getContext();
+                    int textColor = colorIndexForSender(fSenderId);
+                    senderTextView.setTextColor(context.getResources().getColor(textColor));
+
                     senderTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -231,9 +237,9 @@ class VectorMessagesAdapterHelper {
 
             List<ImageView> imageViews = new ArrayList<>();
 
-            imageViews.add((ImageView) (groupFlairView.findViewById(R.id.message_avatar_group_1).findViewById(R.id.avatar_img)));
-            imageViews.add((ImageView) (groupFlairView.findViewById(R.id.message_avatar_group_2).findViewById(R.id.avatar_img)));
-            imageViews.add((ImageView) (groupFlairView.findViewById(R.id.message_avatar_group_3).findViewById(R.id.avatar_img)));
+            imageViews.add(groupFlairView.findViewById(R.id.message_avatar_group_1));
+            imageViews.add(groupFlairView.findViewById(R.id.message_avatar_group_2));
+            imageViews.add(groupFlairView.findViewById(R.id.message_avatar_group_3));
 
             TextView moreText = groupFlairView.findViewById(R.id.message_more_than_expected);
 
@@ -306,15 +312,14 @@ class VectorMessagesAdapterHelper {
             }
 
             moreText.setVisibility((groupIdsSet.size() <= imageViews.size()) ? View.GONE : View.VISIBLE);
-            moreText.setText("+" + (groupIdsSet.size() - imageViews.size()));
+            moreText.setText(mContext.getString(R.string.plus_x, groupIdsSet.size() - imageViews.size()));
 
             if (groupIdsSet.size() > 0) {
                 groupFlairView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (null != mEventsListener) {
-                            mEventsListener.onGroupFlairClick(event.getSender()
-                                    , groupIds);
+                            mEventsListener.onGroupFlairClick(event.getSender(), groupIds);
                         }
                     }
                 });
@@ -490,13 +495,12 @@ class VectorMessagesAdapterHelper {
      */
     View setSenderAvatar(View convertView, MessageRow row, boolean isMergedView) {
         Event event = row.getEvent();
-        View avatarLayoutView = convertView.findViewById(R.id.messagesAdapter_roundAvatar);
+        ImageView avatarView = convertView.findViewById(R.id.messagesAdapter_avatar);
 
-        if (null != avatarLayoutView) {
+        if (null != avatarView) {
             final String userId = event.getSender();
 
-            avatarLayoutView.setClickable(true);
-            avatarLayoutView.setOnLongClickListener(new View.OnLongClickListener() {
+            avatarView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     return (null != mEventsListener) && mEventsListener.onAvatarLongClick(userId);
@@ -504,7 +508,7 @@ class VectorMessagesAdapterHelper {
             });
 
             // click on the avatar opens the details page
-            avatarLayoutView.setOnClickListener(new View.OnClickListener() {
+            avatarView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (null != mEventsListener) {
@@ -514,20 +518,19 @@ class VectorMessagesAdapterHelper {
             });
         }
 
-        if (null != avatarLayoutView) {
-            ImageView avatarImageView = avatarLayoutView.findViewById(R.id.avatar_img);
-
+        if (null != avatarView) {
             if (isMergedView) {
-                avatarLayoutView.setVisibility(View.GONE);
+                avatarView.setVisibility(View.INVISIBLE);
             } else {
-                avatarLayoutView.setVisibility(View.VISIBLE);
-                avatarImageView.setTag(null);
+                avatarView.setVisibility(View.VISIBLE);
 
-                loadMemberAvatar(avatarImageView, row);
+                avatarView.setTag(null);
+
+                loadMemberAvatar(avatarView, row);
             }
         }
 
-        return avatarLayoutView;
+        return avatarView;
     }
 
     /**
@@ -543,7 +546,7 @@ class VectorMessagesAdapterHelper {
         FrameLayout.LayoutParams subViewLinearLayout = (FrameLayout.LayoutParams) subView.getLayoutParams();
 
         ViewGroup.LayoutParams avatarLayout = avatarLayoutView.getLayoutParams();
-        subViewLinearLayout.gravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
+        subViewLinearLayout.gravity = Gravity.START | Gravity.CENTER_VERTICAL;
 
         if (isMergedView) {
             bodyLayout.setMargins(avatarLayout.width, bodyLayout.topMargin, bodyLayout.rightMargin, bodyLayout.bottomMargin);
@@ -685,11 +688,11 @@ class VectorMessagesAdapterHelper {
 
         List<View> imageViews = new ArrayList<>();
 
-        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_1).findViewById(R.id.avatar_img));
-        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_2).findViewById(R.id.avatar_img));
-        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_3).findViewById(R.id.avatar_img));
-        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_4).findViewById(R.id.avatar_img));
-        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_5).findViewById(R.id.avatar_img));
+        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_1));
+        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_2));
+        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_3));
+        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_4));
+        imageViews.add(avatarsListView.findViewById(R.id.message_avatar_receipt_5));
 
         TextView moreText = avatarsListView.findViewById(R.id.message_more_than_expected);
 
@@ -720,7 +723,7 @@ class VectorMessagesAdapterHelper {
         }
 
         moreText.setVisibility((receipts.size() <= imageViews.size()) ? View.GONE : View.VISIBLE);
-        moreText.setText((receipts.size() - imageViews.size()) + "+");
+        moreText.setText(mContext.getString(R.string.x_plus, receipts.size() - imageViews.size()));
 
         for (; index < imageViews.size(); index++) {
             imageViews.get(index).setVisibility(View.INVISIBLE);
@@ -893,7 +896,7 @@ class VectorMessagesAdapterHelper {
             return;
         }
 
-        textView.setBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.markdown_block_background_color));
+        textView.setBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_markdown_block_background_color));
     }
 
     /**
@@ -919,8 +922,8 @@ class VectorMessagesAdapterHelper {
     CharSequence highlightPattern(Spannable text, String pattern, CharacterStyle highLightTextStyle, boolean isHighlighted) {
         if (!TextUtils.isEmpty(pattern) && !TextUtils.isEmpty(text) && (text.length() >= pattern.length())) {
 
-            String lowerText = text.toString().toLowerCase(VectorApp.getApplicationLocale());
-            String lowerPattern = pattern.toLowerCase(VectorApp.getApplicationLocale());
+            String lowerText = text.toString().toLowerCase(VectorLocale.INSTANCE.getApplicationLocale());
+            String lowerPattern = pattern.toLowerCase(VectorLocale.INSTANCE.getApplicationLocale());
 
             int start = 0;
             int pos = lowerText.indexOf(lowerPattern, start);
@@ -951,7 +954,7 @@ class VectorMessagesAdapterHelper {
     CharSequence convertToHtml(String htmlFormattedText) {
         final HtmlTagHandler htmlTagHandler = new HtmlTagHandler();
         htmlTagHandler.mContext = mContext;
-        htmlTagHandler.setCodeBlockBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.markdown_block_background_color));
+        htmlTagHandler.setCodeBlockBackgroundColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.vctr_markdown_block_background_color));
 
         CharSequence sequence;
 
@@ -1018,10 +1021,16 @@ class VectorMessagesAdapterHelper {
         String eventType = event.getType();
 
         if (Event.EVENT_TYPE_MESSAGE.equals(eventType)) {
-            // A message is displayable as long as it has a body
-            // Redacted messages should not be displayed
+            // Redacted messages are not displayed (for the moment)
+            if (event.isRedacted()) {
+                return false;
+            }
+
+            // A message is displayable as long as it has a body, emote can have empty body, formatted message can also have empty body
             Message message = JsonUtils.toMessage(event.getContent());
-            return !event.isRedacted() && (!TextUtils.isEmpty(message.body) || TextUtils.equals(message.msgtype, Message.MSGTYPE_EMOTE));
+            return !TextUtils.isEmpty(message.body)
+                    || TextUtils.equals(message.msgtype, Message.MSGTYPE_EMOTE)
+                    || (TextUtils.equals(message.format, Message.FORMAT_MATRIX_HTML) && !TextUtils.isEmpty(message.formatted_body));
         } else if (Event.EVENT_TYPE_STICKER.equals(eventType)) {
             // A sticker is displayable as long as it has a body
             // Redacted stickers should not be displayed
@@ -1051,7 +1060,8 @@ class VectorMessagesAdapterHelper {
             // Matrix apps are enabled
             return true;
         } else if (Event.EVENT_TYPE_STATE_ROOM_CREATE.equals(eventType)) {
-            return row.getRoomCreateContentPredecessor() != null;
+            final RoomCreateContent roomCreateContent = JsonUtils.toRoomCreateContent(event.getContent());
+            return roomCreateContent != null && roomCreateContent.predecessor != null;
         }
         return false;
     }
@@ -1267,6 +1277,41 @@ class VectorMessagesAdapterHelper {
                 previewView.setUrlPreview(mContext, mSession, mUrlsPreviews.get(downloadKey), displayKey);
                 urlsPreviewLayout.addView(previewView);
             }
+        }
+    }
+
+    //Based on riot-web implementation
+    @ColorRes
+    private static int colorIndexForSender(String sender) {
+        int hash = 0;
+        int i;
+        char chr;
+        if (sender.length() == 0) {
+            return R.color.username_1;
+        }
+        for (i = 0; i < sender.length(); i++) {
+            chr = sender.charAt(i);
+            hash = ((hash << 5) - hash) + chr;
+            hash |= 0;
+        }
+        int cI = (Math.abs(hash) % 8) + 1;
+        switch (cI) {
+            case 1:
+                return R.color.username_1;
+            case 2:
+                return R.color.username_2;
+            case 3:
+                return R.color.username_3;
+            case 4:
+                return R.color.username_4;
+            case 5:
+                return R.color.username_5;
+            case 6:
+                return R.color.username_6;
+            case 7:
+                return R.color.username_7;
+            default:
+                return R.color.username_8;
         }
     }
 }

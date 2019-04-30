@@ -18,6 +18,7 @@
 
 package im.vector.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -48,7 +49,7 @@ import org.matrix.androidsdk.adapters.MessageRow;
 import org.matrix.androidsdk.crypto.data.MXDeviceInfo;
 import org.matrix.androidsdk.crypto.data.MXUsersDevicesMap;
 import org.matrix.androidsdk.data.RoomState;
-import org.matrix.androidsdk.db.MXMediasCache;
+import org.matrix.androidsdk.db.MXMediaCache;
 import org.matrix.androidsdk.fragments.MatrixMessageListFragment;
 import org.matrix.androidsdk.fragments.MatrixMessagesFragment;
 import org.matrix.androidsdk.listeners.MXMediaDownloadListener;
@@ -78,20 +79,22 @@ import im.vector.R;
 import im.vector.activity.CommonActivityUtils;
 import im.vector.activity.MXCActionBarActivity;
 import im.vector.activity.VectorHomeActivity;
-import im.vector.activity.VectorMediasViewerActivity;
+import im.vector.activity.VectorMediaViewerActivity;
 import im.vector.activity.VectorMemberDetailsActivity;
 import im.vector.activity.VectorRoomActivity;
 import im.vector.adapters.VectorMessagesAdapter;
 import im.vector.db.VectorContentProvider;
 import im.vector.extensions.MatrixSdkExtensionsKt;
 import im.vector.listeners.IMessagesAdapterActionsListener;
+import im.vector.listeners.YesNoListener;
 import im.vector.receiver.VectorUniversalLinkReceiver;
+import im.vector.ui.themes.ThemeUtils;
+import im.vector.util.EventGroup;
 import im.vector.util.ExternalApplicationsUtilKt;
 import im.vector.util.PermissionsToolsKt;
 import im.vector.util.PreferencesManager;
 import im.vector.util.SlidableMediaInfo;
 import im.vector.util.SystemUtilsKt;
-import im.vector.util.ThemeUtils;
 import im.vector.util.VectorImageGetter;
 import im.vector.widgets.WidgetsManager;
 
@@ -210,7 +213,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
             }
         });
 
-        v.setBackgroundColor(ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.riot_primary_background_color));
+        v.setBackgroundColor(ThemeUtils.INSTANCE.getColor(getActivity(), android.R.attr.colorBackground));
 
         return v;
     }
@@ -271,13 +274,13 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
     }
 
     @Override
-    public MXMediasCache getMXMediasCache() {
-        return Matrix.getInstance(getActivity()).getMediasCache();
+    public MXMediaCache getMXMediaCache() {
+        return Matrix.getInstance(getActivity()).getMediaCache();
     }
 
     @Override
     public VectorMessagesAdapter createMessagesAdapter() {
-        return new VectorMessagesAdapter(mSession, getActivity(), getMXMediasCache());
+        return new VectorMessagesAdapter(mSession, getActivity(), getMXMediaCache());
     }
 
     /**
@@ -374,12 +377,25 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
         }
     };
 
+    private final YesNoListener mYesNoListener = new YesNoListener() {
+        @Override
+        public void yes() {
+            mAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void no() {
+            mAdapter.notifyDataSetChanged();
+        }
+    };
+
     /**
      * the user taps on the e2e icon
      *
      * @param event      the event
      * @param deviceInfo the deviceinfo
      */
+    @SuppressLint("SetTextI18n")
     public void onE2eIconClick(final Event event, final MXDeviceInfo deviceInfo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -471,7 +487,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                     builder.setNegativeButton(R.string.encryption_information_verify, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             CommonActivityUtils.displayDeviceVerificationDialog(deviceInfo,
-                                    event.getSender(), mSession, getActivity(), mDeviceVerificationCallback);
+                                    event.getSender(), mSession, getActivity(), mYesNoListener);
                         }
                     });
 
@@ -499,7 +515,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                     builder.setNegativeButton(R.string.encryption_information_verify, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             CommonActivityUtils.displayDeviceVerificationDialog(deviceInfo,
-                                    event.getSender(), mSession, getActivity(), mDeviceVerificationCallback);
+                                    event.getSender(), mSession, getActivity(), mYesNoListener);
                         }
                     });
 
@@ -527,7 +543,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                                 EncryptedEventContent encryptedEventContent = JsonUtils.toEncryptedEventContent(event.getWireContent().getAsJsonObject());
 
                                 MXDeviceInfo deviceInfo = mSession.getCrypto()
-                                        .deviceWithIdentityKey(encryptedEventContent.sender_key, event.getSender(), encryptedEventContent.algorithm);
+                                        .deviceWithIdentityKey(encryptedEventContent.sender_key, encryptedEventContent.algorithm);
 
                                 if (null != deviceInfo) {
                                     dialog.cancel();
@@ -816,7 +832,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
         // Sanitize file name in case `m.body` contains a path.
         final String trimmedFileName = new File(filename).getName();
 
-        final MXMediasCache mediasCache = Matrix.getInstance(getActivity()).getMediasCache();
+        final MXMediaCache mediasCache = Matrix.getInstance(getActivity()).getMediaCache();
         // check if the media has already been downloaded
         if (mediasCache.isMediaCached(mediaUrl, mediaMimeType)) {
             mediasCache.createTmpDecryptedMediaFile(mediaUrl, mediaMimeType, encryptedFileInfo, new SimpleApiCallback<File>() {
@@ -974,10 +990,15 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
 
         for (int position = 0; position < mAdapter.getCount(); position++) {
             MessageRow row = mAdapter.getItem(position);
+
+            if (row.getEvent() instanceof EventGroup) {
+                // Ignore EventGroup
+                continue;
+            }
+
             Message message = JsonUtils.toMessage(row.getEvent().getContent());
 
             if (Message.MSGTYPE_IMAGE.equals(message.msgtype)) {
-
                 ImageMessage imageMessage = (ImageMessage) message;
                 SlidableMediaInfo info = new SlidableMediaInfo();
                 info.mMessageType = Message.MSGTYPE_IMAGE;
@@ -988,9 +1009,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                 info.mMimeType = imageMessage.getMimeType();
                 info.mEncryptedFileInfo = imageMessage.file;
                 res.add(info);
-
             } else if (Message.MSGTYPE_VIDEO.equals(message.msgtype)) {
-
                 VideoMessage videoMessage = (VideoMessage) message;
                 SlidableMediaInfo info = new SlidableMediaInfo();
                 info.mMessageType = Message.MSGTYPE_VIDEO;
@@ -1069,13 +1088,13 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                 int listPosition = getMediaMessagePosition(mediaMessagesList, message);
 
                 if (listPosition >= 0) {
-                    Intent viewImageIntent = new Intent(getActivity(), VectorMediasViewerActivity.class);
+                    Intent viewImageIntent = new Intent(getActivity(), VectorMediaViewerActivity.class);
 
-                    viewImageIntent.putExtra(VectorMediasViewerActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
-                    viewImageIntent.putExtra(VectorMediasViewerActivity.KEY_THUMBNAIL_WIDTH, mAdapter.getMaxThumbnailWidth());
-                    viewImageIntent.putExtra(VectorMediasViewerActivity.KEY_THUMBNAIL_HEIGHT, mAdapter.getMaxThumbnailHeight());
-                    viewImageIntent.putExtra(VectorMediasViewerActivity.KEY_INFO_LIST, (ArrayList) mediaMessagesList);
-                    viewImageIntent.putExtra(VectorMediasViewerActivity.KEY_INFO_LIST_INDEX, listPosition);
+                    viewImageIntent.putExtra(VectorMediaViewerActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
+                    viewImageIntent.putExtra(VectorMediaViewerActivity.KEY_THUMBNAIL_WIDTH, mAdapter.getMaxThumbnailWidth());
+                    viewImageIntent.putExtra(VectorMediaViewerActivity.KEY_THUMBNAIL_HEIGHT, mAdapter.getMaxThumbnailHeight());
+                    viewImageIntent.putExtra(VectorMediaViewerActivity.KEY_INFO_LIST, (ArrayList) mediaMessagesList);
+                    viewImageIntent.putExtra(VectorMediaViewerActivity.KEY_INFO_LIST_INDEX, listPosition);
 
                     getActivity().startActivity(viewImageIntent);
                 }
@@ -1108,7 +1127,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
             // so provide an handle to retrieve it
             if (null != getRoomPreviewData()) {
                 roomDetailsIntent.putExtra(VectorMemberDetailsActivity.EXTRA_STORE_ID,
-                        new Integer(Matrix.getInstance(getActivity()).addTmpStore(mEventTimeLine.getStore())));
+                        Matrix.getInstance(getActivity()).addTmpStore(mEventTimeLine.getStore()));
             }
 
             roomDetailsIntent.putExtra(VectorMemberDetailsActivity.EXTRA_ROOM_ID, mRoom.getRoomId());
@@ -1163,7 +1182,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
             if (fragment != null) {
                 fragment.dismissAllowingStateLoss();
             }
-            fragment = VectorReadReceiptsDialogFragment.newInstance(mSession.getMyUserId(), mRoom.getRoomId(), eventId);
+            fragment = VectorReadReceiptsDialogFragment.Companion.newInstance(mSession.getMyUserId(), mRoom.getRoomId(), eventId);
             fragment.show(fm, TAG_FRAGMENT_RECEIPTS_DIALOG);
         } catch (Exception e) {
             Log.e(LOG_TAG, "## onMoreReadReceiptClick() failed " + e.getMessage(), e);
@@ -1194,10 +1213,10 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
 
                 if (null != universalParams) {
                     // open the member sheet from the current activity
-                    if (universalParams.containsKey(VectorUniversalLinkReceiver.ULINK_MATRIX_USER_ID_KEY)) {
+                    if (universalParams.containsKey(PermalinkUtils.ULINK_MATRIX_USER_ID_KEY)) {
                         Intent roomDetailsIntent = new Intent(getActivity(), VectorMemberDetailsActivity.class);
                         roomDetailsIntent.putExtra(VectorMemberDetailsActivity.EXTRA_MEMBER_ID,
-                                universalParams.get(VectorUniversalLinkReceiver.ULINK_MATRIX_USER_ID_KEY));
+                                universalParams.get(PermalinkUtils.ULINK_MATRIX_USER_ID_KEY));
                         roomDetailsIntent.putExtra(VectorMemberDetailsActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
                         getActivity().startActivityForResult(roomDetailsIntent, VectorRoomActivity.GET_MENTION_REQUEST_CODE);
                     } else {

@@ -22,10 +22,8 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomTag;
@@ -42,6 +40,7 @@ import java.util.Set;
 import butterknife.BindView;
 import im.vector.R;
 import im.vector.adapters.HomeRoomAdapter;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.HomeRoomsViewModel;
 import im.vector.util.PreferencesManager;
 import im.vector.util.RoomUtils;
@@ -95,15 +94,19 @@ public class HomeFragment extends AbsHomeFragment implements HomeRoomAdapter.OnS
      */
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+    public int getLayoutResId() {
+        return R.layout.fragment_home;
     }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPrimaryColor = ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.tab_home);
-        mSecondaryColor = ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.tab_home_secondary);
+
+        mPrimaryColor = ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.vctr_tab_home);
+        mSecondaryColor = ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.vctr_tab_home_secondary);
+        mFabColor = ContextCompat.getColor(getActivity(), R.color.tab_rooms);
+        mFabPressedColor = ContextCompat.getColor(getActivity(), R.color.tab_rooms_secondary);
+
         initViews();
         // Eventually restore the pattern of adapter after orientation change
         for (HomeSectionView homeSectionView : mHomeSectionViews) {

@@ -21,12 +21,12 @@ package im.vector.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomSummary;
@@ -65,8 +65,15 @@ public class VectorSearchRoomsListFragment extends VectorRecentsListFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+    public int getLayoutResId() {
+        Bundle args = getArguments();
+        return args.getInt(ARG_LAYOUT_ID);
+    }
+
+    @Override
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         Bundle args = getArguments();
 
         mMatrixId = args.getString(ARG_MATRIX_ID);
@@ -76,9 +83,6 @@ public class VectorSearchRoomsListFragment extends VectorRecentsListFragment {
             throw new RuntimeException("Must have valid default MXSession.");
         }
 
-        View v = inflater.inflate(args.getInt(ARG_LAYOUT_ID), container, false);
-        mWaitingView = v.findViewById(R.id.listView_spinner_views);
-        mRecentsListView = v.findViewById(R.id.fragment_recents_list);
         // the chevron is managed in the header view
         mRecentsListView.setGroupIndicator(null);
         // create the adapter
@@ -189,8 +193,6 @@ public class VectorSearchRoomsListFragment extends VectorRecentsListFragment {
                 return true;
             }
         });
-
-        return v;
     }
 
     /**

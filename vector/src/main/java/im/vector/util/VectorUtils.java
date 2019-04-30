@@ -33,6 +33,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.LruCache;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -47,7 +48,7 @@ import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.call.MXCallsManager;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomPreviewData;
-import org.matrix.androidsdk.db.MXMediasCache;
+import org.matrix.androidsdk.db.MXMediaCache;
 import org.matrix.androidsdk.rest.callback.ApiCallback;
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.model.MatrixError;
@@ -61,7 +62,6 @@ import org.matrix.androidsdk.util.ResourceUtils;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -72,6 +72,7 @@ import im.vector.Matrix;
 import im.vector.R;
 import im.vector.VectorApp;
 import im.vector.adapters.ParticipantAdapterItem;
+import im.vector.settings.VectorLocale;
 
 public class VectorUtils {
 
@@ -144,7 +145,14 @@ public class VectorUtils {
     // avatars cache
     static final private LruCache<String, Bitmap> mAvatarImageByKeyDict = new LruCache<>(20 * 1024 * 1024);
     // the avatars background color
-    static final private List<Integer> mColorList = new ArrayList<>(Arrays.asList(0xff76cfa6, 0xff50e2c2, 0xfff4c371));
+    static final private List<Integer> mColorList = new ArrayList<>();
+
+    public static void initAvatarColors(Context context) {
+        mColorList.clear();
+        mColorList.add(ContextCompat.getColor(context, R.color.avatar_color_1));
+        mColorList.add(ContextCompat.getColor(context, R.color.avatar_color_2));
+        mColorList.add(ContextCompat.getColor(context, R.color.avatar_color_3));
+    }
 
     /**
      * Provides the avatar background color from a text.
@@ -191,7 +199,7 @@ public class VectorUtils {
      * @return the generated bitmap
      */
     private static Bitmap createAvatar(int backgroundColor, String text, int pixelsSide) {
-        android.graphics.Bitmap.Config bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+        Bitmap.Config bitmapConfig = Bitmap.Config.ARGB_8888;
 
         Bitmap bitmap = Bitmap.createBitmap(pixelsSide, pixelsSide, bitmapConfig);
         Canvas canvas = new Canvas(bitmap);
@@ -202,6 +210,7 @@ public class VectorUtils {
         Paint textPaint = new Paint();
         textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         textPaint.setColor(Color.WHITE);
+        textPaint.setTextAlign(Paint.Align.CENTER);
         // the text size is proportional to the avatar size.
         // by default, the avatar size is 42dp, the text size is 28 dp (not sp because it has to be fixed).
         textPaint.setTextSize(pixelsSide * 2 / 3);
@@ -212,8 +221,8 @@ public class VectorUtils {
 
         // draw the text in center
         canvas.drawText(text,
-                (canvas.getWidth() - textBounds.width() - textBounds.left) / 2,
-                (canvas.getHeight() + textBounds.height() - textBounds.bottom) / 2,
+                canvas.getWidth() / 2,
+                (canvas.getHeight() - textBounds.top) / 2,
                 textPaint);
 
         // Return the avatar
@@ -259,7 +268,7 @@ public class VectorUtils {
             firstChar = name.substring(idx, idx + chars);
         }
 
-        return firstChar.toUpperCase(VectorApp.getApplicationLocale());
+        return firstChar.toUpperCase(VectorLocale.INSTANCE.getApplicationLocale());
     }
 
     /**
@@ -395,8 +404,8 @@ public class VectorUtils {
             }
 
             // if the avatar is already cached, use it
-            if (session.getMediasCache().isAvatarThumbnailCached(callAvatarUrl, context.getResources().getDimensionPixelSize(R.dimen.profile_avatar_size))) {
-                session.getMediasCache().loadAvatarThumbnail(session.getHomeServerConfig(),
+            if (session.getMediaCache().isAvatarThumbnailCached(callAvatarUrl, context.getResources().getDimensionPixelSize(R.dimen.profile_avatar_size))) {
+                session.getMediaCache().loadAvatarThumbnail(session.getHomeServerConfig(),
                         imageView, callAvatarUrl, context.getResources().getDimensionPixelSize(R.dimen.profile_avatar_size));
             } else {
                 Bitmap bitmap = null;
@@ -407,7 +416,7 @@ public class VectorUtils {
                 }
 
                 // until the dedicated avatar is loaded.
-                session.getMediasCache().loadAvatarThumbnail(session.getHomeServerConfig(),
+                session.getMediaCache().loadAvatarThumbnail(session.getHomeServerConfig(),
                         imageView, callAvatarUrl, context.getResources().getDimensionPixelSize(R.dimen.profile_avatar_size), bitmap);
             }
         }
@@ -470,8 +479,8 @@ public class VectorUtils {
         // reset the imageView tag
         imageView.setTag(null);
 
-        if (session.getMediasCache().isAvatarThumbnailCached(avatarUrl, context.getResources().getDimensionPixelSize(R.dimen.profile_avatar_size))) {
-            session.getMediasCache().loadAvatarThumbnail(session.getHomeServerConfig(),
+        if (session.getMediaCache().isAvatarThumbnailCached(avatarUrl, context.getResources().getDimensionPixelSize(R.dimen.profile_avatar_size))) {
+            session.getMediaCache().loadAvatarThumbnail(session.getHomeServerConfig(),
                     imageView, avatarUrl, context.getResources().getDimensionPixelSize(R.dimen.profile_avatar_size));
         } else {
             if (null == mImagesThread) {
@@ -492,12 +501,12 @@ public class VectorUtils {
                     final String tag = avatarUrl + userId + displayName;
                     imageView.setTag(tag);
 
-                    if (!MXMediasCache.isMediaUrlUnreachable(avatarUrl)) {
+                    if (!MXMediaCache.isMediaUrlUnreachable(avatarUrl)) {
                         mImagesThreadHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 if (TextUtils.equals(tag, (String) imageView.getTag())) {
-                                    session.getMediasCache().loadAvatarThumbnail(session.getHomeServerConfig(),
+                                    session.getMediaCache().loadAvatarThumbnail(session.getHomeServerConfig(),
                                             imageView, avatarUrl, context.getResources().getDimensionPixelSize(R.dimen.profile_avatar_size), bitmap);
                                 }
                             }
@@ -516,7 +525,7 @@ public class VectorUtils {
                             imageView.setTag(null);
                             setDefaultMemberAvatar(imageView, userId, displayName);
 
-                            if (!TextUtils.isEmpty(avatarUrl) && !MXMediasCache.isMediaUrlUnreachable(avatarUrl)) {
+                            if (!TextUtils.isEmpty(avatarUrl) && !MXMediaCache.isMediaUrlUnreachable(avatarUrl)) {
                                 final String tmpTag1 = "11" + avatarUrl + "-" + userId + "--" + displayName;
                                 imageView.setTag(tmpTag1);
 
@@ -538,7 +547,7 @@ public class VectorUtils {
                                                                 VectorUtils.getAvatarColor(userId),
                                                                 TextUtils.isEmpty(displayName) ? userId : displayName,
                                                                 false);
-                                                        session.getMediasCache().loadAvatarThumbnail(session.getHomeServerConfig(),
+                                                        session.getMediaCache().loadAvatarThumbnail(session.getHomeServerConfig(),
                                                                 imageView,
                                                                 avatarUrl,
                                                                 context.getResources().getDimensionPixelSize(R.dimen.profile_avatar_size),
@@ -633,7 +642,7 @@ public class VectorUtils {
      * @return the bitmap uri
      */
     @SuppressLint("NewApi")
-    public static Uri getThumbnailUriFromIntent(Context context, final Intent intent, MXMediasCache mediasCache) {
+    public static Uri getThumbnailUriFromIntent(Context context, final Intent intent, MXMediaCache mediasCache) {
         // sanity check
         if ((null != intent) && (null != context) && (null != mediasCache)) {
             Uri thumbnailUri = null;

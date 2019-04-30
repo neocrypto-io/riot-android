@@ -24,7 +24,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,10 +33,10 @@ import org.jetbrains.annotations.NotNull;
 
 import im.vector.R;
 import im.vector.adapters.CountryAdapter;
+import im.vector.ui.themes.ActivityOtherThemes;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.CountryPhoneData;
 import im.vector.util.PhoneNumberUtils;
-import im.vector.util.ThemeUtils;
-import kotlin.Triple;
 
 public class CountryPickerActivity extends VectorAppCompatActivity implements CountryAdapter.OnSelectCountryListener, SearchView.OnQueryTextListener {
 
@@ -53,7 +52,7 @@ public class CountryPickerActivity extends VectorAppCompatActivity implements Co
 
     private boolean mWithIndicator;
 
-     /*
+    /*
      * *********************************************************************************************
      * Static methods
      * *********************************************************************************************
@@ -73,8 +72,8 @@ public class CountryPickerActivity extends VectorAppCompatActivity implements Co
 
     @NotNull
     @Override
-    public Triple getOtherThemes() {
-        return new Triple(R.style.CountryPickerTheme_Dark, R.style.CountryPickerTheme_Black, R.style.CountryPickerTheme_Status);
+    public ActivityOtherThemes getOtherThemes() {
+        return ActivityOtherThemes.Picker.INSTANCE;
     }
 
     @Override
@@ -89,14 +88,7 @@ public class CountryPickerActivity extends VectorAppCompatActivity implements Co
 
     @Override
     public void initUiAndData() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayShowHomeEnabled(true);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            }
-        }
+        configureToolbar();
 
         final Intent intent = getIntent();
         mWithIndicator = intent.getBooleanExtra(EXTRA_IN_WITH_INDICATOR, false);
@@ -122,7 +114,7 @@ public class CountryPickerActivity extends VectorAppCompatActivity implements Co
             mSearchView.setOnQueryTextListener(this);
 
             SearchView.SearchAutoComplete searchAutoComplete = mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-            searchAutoComplete.setHintTextColor(ThemeUtils.INSTANCE.getColor(this, R.attr.default_text_hint_color));
+            searchAutoComplete.setHintTextColor(ThemeUtils.INSTANCE.getColor(this, R.attr.vctr_default_text_hint_color));
         }
         return true;
     }

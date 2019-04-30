@@ -22,7 +22,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
+import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,11 +57,12 @@ import java.util.Set;
 
 import im.vector.Matrix;
 import im.vector.R;
-import im.vector.VectorApp;
 import im.vector.activity.CommonActivityUtils;
 import im.vector.contacts.Contact;
 import im.vector.contacts.ContactsManager;
 import im.vector.contacts.PIDsRetriever;
+import im.vector.settings.VectorLocale;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.VectorUtils;
 
 /**
@@ -190,7 +191,7 @@ public class VectorParticipantsAdapter extends BaseExpandableListAdapter {
         if (null == pattern) {
             pattern = "";
         } else {
-            pattern = pattern.toLowerCase().trim().toLowerCase(VectorApp.getApplicationLocale());
+            pattern = pattern.toLowerCase().trim().toLowerCase(VectorLocale.INSTANCE.getApplicationLocale());
         }
 
         if (!pattern.equals(mPattern) || TextUtils.isEmpty(mPattern)) {
@@ -330,7 +331,7 @@ public class VectorParticipantsAdapter extends BaseExpandableListAdapter {
                         iterator.remove();
                     } else if (!TextUtils.isEmpty(item.mDisplayName)) {
                         // Add to the display names list
-                        displayNamesList.add(item.mDisplayName.toLowerCase(VectorApp.getApplicationLocale()));
+                        displayNamesList.add(item.mDisplayName.toLowerCase(VectorLocale.INSTANCE.getApplicationLocale()));
                     }
                 }
 
@@ -878,12 +879,9 @@ public class VectorParticipantsAdapter extends BaseExpandableListAdapter {
         }
 
         if (groupPosition != mKnownContactsSectionPosition || mParticipantsListsList.get(groupPosition).size() > 0) {
-            if (isExpanded) {
-                imageView.setImageResource(R.drawable.ic_material_expand_less_black);
-            } else {
-                imageView.setImageResource(R.drawable.ic_material_expand_more_black);
-            }
 
+            int expandLogoRes = isExpanded ? R.drawable.ic_material_expand_more_black : R.drawable.ic_material_expand_less_black;
+            imageView.setImageResource(expandLogoRes);
             boolean groupShouldBeExpanded = isGroupExpanded(groupPosition);
 
             if (parent instanceof ExpandableListView) {

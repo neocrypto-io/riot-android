@@ -23,10 +23,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -35,6 +34,8 @@ import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomAccountData;
@@ -53,14 +54,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
 import im.vector.Matrix;
 import im.vector.PublicRoomsManager;
 import im.vector.R;
+import im.vector.VectorApp;
 import im.vector.activity.CommonActivityUtils;
 import im.vector.activity.VectorPublicRoomsActivity;
 import im.vector.activity.VectorRoomActivity;
 import im.vector.adapters.VectorRoomSummaryAdapter;
-import im.vector.services.EventStreamService;
+import im.vector.ui.badge.BadgeProxy;
 import im.vector.util.RoomUtils;
 import im.vector.view.RecentsExpandableListView;
 
@@ -108,12 +111,15 @@ public class VectorRecentsListFragment extends VectorBaseFragment implements
     String mMatrixId;
     private MXSession mSession;
     private MXEventListener mEventsListener;
+    @BindView(R.id.fragment_recents_list)
     RecentsExpandableListView mRecentsListView;
     VectorRoomSummaryAdapter mAdapter;
+    @BindView(R.id.listView_spinner_views)
     View mWaitingView = null;
 
     // drag and drop management
-    private RelativeLayout mSelectedCellLayout;
+    @BindView(R.id.fragment_recents_selected_cell_layout)
+    RelativeLayout mSelectedCellLayout;
     private View mDraggedView;
     private boolean mIgnoreScrollEvent;
     private int mOriginGroupPosition = -1;
@@ -158,8 +164,15 @@ public class VectorRecentsListFragment extends VectorBaseFragment implements
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View defaultView = super.onCreateView(inflater, container, savedInstanceState);
+    public int getLayoutResId() {
+        Bundle args = getArguments();
+        return args.getInt(ARG_LAYOUT_ID);
+    }
+
+    @Override
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         Bundle args = getArguments();
 
         mMatrixId = args.getString(ARG_MATRIX_ID);
@@ -170,11 +183,9 @@ public class VectorRecentsListFragment extends VectorBaseFragment implements
             if (null != getActivity()) {
                 CommonActivityUtils.logout(getActivity());
             }
-            return defaultView;
+            return;
         }
 
-        View v = inflater.inflate(args.getInt(ARG_LAYOUT_ID), container, false);
-        mRecentsListView = v.findViewById(R.id.fragment_recents_list);
         // the chevron is managed in the header view
         mRecentsListView.setGroupIndicator(null);
         // create the adapter
@@ -189,7 +200,6 @@ public class VectorRecentsListFragment extends VectorBaseFragment implements
 
         mRecentsListView.setAdapter(mAdapter);
 
-        mSelectedCellLayout = v.findViewById(R.id.fragment_recents_selected_cell_layout);
         mRecentsListView.mDragAndDropEventsListener = this;
 
         // Set rooms click listener:
@@ -232,7 +242,7 @@ public class VectorRecentsListFragment extends VectorBaseFragment implements
                         session.getDataHandler().getStore().flushSummary(roomSummary);
                     }
                     // update badge unread count in case device is offline
-                    CommonActivityUtils.specificUpdateBadgeUnreadCount(mSession, getContext());
+                    BadgeProxy.INSTANCE.specificUpdateBadgeUnreadCount(mSession, getContext());
 
                     // launch corresponding room activity
                     if (null != roomId) {
@@ -319,8 +329,6 @@ public class VectorRecentsListFragment extends VectorBaseFragment implements
                 }
             }
         });
-
-        return v;
     }
 
     @Override
@@ -618,7 +626,7 @@ public class VectorRecentsListFragment extends VectorBaseFragment implements
             @Override
             public void onLeaveRoom(final String roomId) {
                 // clear any pending notification for this room
-                EventStreamService.cancelNotificationsForRoomId(mSession.getMyUserId(), roomId);
+                VectorApp.getInstance().getNotificationDrawerManager().clearMessageEventOfRoom(roomId);
                 onForceRefresh();
             }
 
@@ -707,7 +715,7 @@ public class VectorRecentsListFragment extends VectorBaseFragment implements
                             @Override
                             public void run() {
                                 // clear any pending notification for this room
-                                EventStreamService.cancelNotificationsForRoomId(mSession.getMyUserId(), roomId);
+                                VectorApp.getInstance().getNotificationDrawerManager().clearMessageEventOfRoom(roomId);
                                 hideWaitingView();
                             }
                         });
@@ -769,7 +777,7 @@ public class VectorRecentsListFragment extends VectorBaseFragment implements
                             @Override
                             public void run() {
                                 // clear any pending notification for this room
-                                EventStreamService.cancelNotificationsForRoomId(mSession.getMyUserId(), roomId);
+                                VectorApp.getInstance().getNotificationDrawerManager().clearMessageEventOfRoom(roomId);
                                 hideWaitingView();
                             }
                         });

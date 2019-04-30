@@ -24,9 +24,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Filter;
 
 import org.matrix.androidsdk.rest.callback.SuccessCallback;
@@ -40,18 +37,18 @@ import im.vector.view.EmptyViewItemDecoration;
 import im.vector.view.SimpleDividerItemDecoration;
 
 public class GroupDetailsRoomsFragment extends GroupDetailsBaseFragment {
-    @BindView(R.id.recyclerview)
+    @BindView(R.id.group_recyclerview)
     RecyclerView mRecycler;
 
-    @BindView(R.id.search_view)
+    @BindView(R.id.group_search_view)
     SearchView mSearchView;
 
     private GroupDetailsRoomsAdapter mAdapter;
     private String mCurrentFilter;
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_group_details_rooms, container, false);
+    public int getLayoutResId() {
+        return R.layout.fragment_group_details_rooms;
     }
 
     @Override

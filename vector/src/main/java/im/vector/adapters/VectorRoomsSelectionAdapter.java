@@ -34,8 +34,8 @@ import org.matrix.androidsdk.util.EventDisplay;
 import org.matrix.androidsdk.util.Log;
 
 import im.vector.R;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.RiotEventDisplay;
-import im.vector.util.ThemeUtils;
 import im.vector.util.VectorUtils;
 
 /**
@@ -82,6 +82,7 @@ public class VectorRoomsSelectionAdapter extends ArrayAdapter<RoomSummary> {
         return text;
     }
 
+    // TODO Recycling is not managed well here
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -96,7 +97,7 @@ public class VectorRoomsSelectionAdapter extends ArrayAdapter<RoomSummary> {
         RoomSummary roomSummary = getItem(position);
 
         // retrieve the UI items
-        ImageView avatarImageView = convertView.findViewById(R.id.room_avatar);
+        ImageView avatarImageView = convertView.findViewById(R.id.adapter_item_recent_room_avatar);
         TextView roomNameTxtView = convertView.findViewById(R.id.roomSummaryAdapter_roomName);
         TextView roomMessageTxtView = convertView.findViewById(R.id.roomSummaryAdapter_roomMessage);
 
@@ -113,12 +114,12 @@ public class VectorRoomsSelectionAdapter extends ArrayAdapter<RoomSummary> {
         if (roomSummary.getLatestReceivedEvent() != null) {
             EventDisplay eventDisplay = new RiotEventDisplay(mContext);
             eventDisplay.setPrependMessagesWithAuthor(true);
-            roomMessageTxtView.setText(eventDisplay.getTextualDisplay(ThemeUtils.INSTANCE.getColor(mContext, R.attr.riot_primary_text_color),
+            roomMessageTxtView.setText(eventDisplay.getTextualDisplay(ThemeUtils.INSTANCE.getColor(mContext, android.R.attr.textColorTertiary),
                     roomSummary.getLatestReceivedEvent(),
                     roomSummary.getLatestRoomState()));
 
             timestampTxtView.setText(getFormattedTimestamp(roomSummary.getLatestReceivedEvent()));
-            timestampTxtView.setTextColor(ThemeUtils.INSTANCE.getColor(mContext, R.attr.default_text_light_color));
+            timestampTxtView.setTextColor(ThemeUtils.INSTANCE.getColor(mContext, android.R.attr.textColorSecondary));
             timestampTxtView.setTypeface(null, Typeface.NORMAL);
             timestampTxtView.setVisibility(View.VISIBLE);
         } else {

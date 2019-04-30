@@ -3,16 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/primary_color"
+    android:background="?colorPrimary"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/room_avatar"
-        layout="@layout/vector_room_header_round_avatar"
+    <im.vector.view.VectorCircularImageView
+        android:id="@+id/room_header_avatar"
         android:layout_width="84dp"
         android:layout_height="84dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:transitionName="vector_transition_avatar"
+        tools:src="@tools:sample/avatars" />
 
     <!-- keep singleLine="true" because maxLines="1" truncation is not the expected one.-->
     <TextView
@@ -20,13 +23,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="2dp"
         android:layout_marginTop="6dp"
+        android:layout_marginBottom="2dp"
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:padding="8dp"
         android:singleLine="true"
-        android:textColor="@android:color/white"
+        android:textColor="?vctr_toolbar_primary_text_color"
         android:textSize="20sp"
         tools:text="a room name here" />
 
@@ -35,16 +38,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="44dp"
         android:layout_marginLeft="44dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginRight="44dp"
+        android:layout_marginBottom="10dp"
         android:autoLink="web"
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="3"
-        android:textColor="#FFFFFF"
+        android:textColor="?vctr_toolbar_primary_text_color"
+        android:textColorLink="?vctr_toolbar_link_text_color"
         android:textSize="14sp"
-        tools:text="a topic here" />
+        tools:text="a topic here www.example.org" />
 
     <LinearLayout
         android:id="@+id/action_bar_header_room_members_layout"
@@ -69,7 +75,7 @@
             android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:padding="8dp"
-            android:textColor="?attr/default_text_light_color"
+            android:textColor="?vctr_toolbar_secondary_text_color"
             android:textSize="14sp"
             tools:text="a text" />
 

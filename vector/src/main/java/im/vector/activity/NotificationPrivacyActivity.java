@@ -18,12 +18,8 @@ package im.vector.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.view.View;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.model.MatrixError;
 
@@ -31,10 +27,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import im.vector.Matrix;
 import im.vector.R;
-import im.vector.activity.util.RequestCodesKt;
-import im.vector.gcm.GcmRegistrationManager;
-import im.vector.util.SystemUtilsKt;
-import kotlin.Triple;
+import im.vector.push.PushManager;
 
 /*
  * This activity allows the user to choose a notifications privacy policy.
@@ -43,23 +36,15 @@ import kotlin.Triple;
  */
 public class NotificationPrivacyActivity extends VectorAppCompatActivity {
 
-    private static final String LOG_TAG = NotificationPrivacyActivity.class.getSimpleName();
+//    private static final String LOG_TAG = NotificationPrivacyActivity.class.getSimpleName();
 
     /* ==========================================================================================
      * UI
      * ========================================================================================== */
 
-    @BindView(R.id.tv_apps_needs_permission)
-    TextView tvNeedPermission;
-
-    @BindView(R.id.tv_apps_no_permission)
-    TextView tvNoPermission;
 
     @BindView(R.id.rb_normal_notification_privacy)
     RadioButton rbPrivacyNormal;
-
-    @BindView(R.id.rb_notification_low_detail)
-    RadioButton rbPrivacyLowDetail;
 
     @BindView(R.id.rb_notification_reduce_privacy)
     RadioButton rbPrivacyReduced;
@@ -67,12 +52,6 @@ public class NotificationPrivacyActivity extends VectorAppCompatActivity {
     /* ==========================================================================================
      * LifeCycle
      * ========================================================================================== */
-
-    @NotNull
-    @Override
-    public Triple getOtherThemes() {
-        return new Triple(R.style.CountryPickerTheme_Dark, R.style.CountryPickerTheme_Black, R.style.CountryPickerTheme_Status);
-    }
 
     @Override
     public int getLayoutRes() {
@@ -90,14 +69,6 @@ public class NotificationPrivacyActivity extends VectorAppCompatActivity {
 
         setWaitingView(findViewById(R.id.waiting_view));
 
-        // The permission request is only necessary for devices os versions greater than API 23 (M)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            tvNeedPermission.setVisibility(View.VISIBLE);
-            tvNoPermission.setVisibility(View.VISIBLE);
-        } else {
-            tvNeedPermission.setVisibility(View.GONE);
-            tvNoPermission.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -107,15 +78,15 @@ public class NotificationPrivacyActivity extends VectorAppCompatActivity {
         refreshNotificationPrivacy();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == RequestCodesKt.BATTERY_OPTIMIZATION_REQUEST_CODE) {
-                // Ok, NotificationPrivacy.NORMAL can be set
-                doSetNotificationPrivacy(GcmRegistrationManager.NotificationPrivacy.NORMAL);
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == RequestCodesKt.BATTERY_OPTIMIZATION_FCM_REQUEST_CODE) {
+//                // Ok, NotificationPrivacy.NORMAL can be set
+//                doSetNotificationPrivacy(PushManager.NotificationPrivacy.NORMAL);
+//            }
+//        }
+//    }
 
     /* ==========================================================================================
      * UI Event
@@ -123,51 +94,45 @@ public class NotificationPrivacyActivity extends VectorAppCompatActivity {
 
     @OnClick(R.id.rly_normal_notification_privacy)
     void onNormalClick() {
-        updateNotificationPrivacy(GcmRegistrationManager.NotificationPrivacy.NORMAL);
-    }
-
-    @OnClick(R.id.rly_low_detail_notifications)
-    void onLowDetailClick() {
-        updateNotificationPrivacy(GcmRegistrationManager.NotificationPrivacy.LOW_DETAIL);
+        updateNotificationPrivacy(PushManager.NotificationPrivacy.NORMAL);
     }
 
     @OnClick(R.id.rly_reduced_privacy_notifications)
     void onReducedPrivacyClick() {
-        updateNotificationPrivacy(GcmRegistrationManager.NotificationPrivacy.REDUCED);
+        updateNotificationPrivacy(PushManager.NotificationPrivacy.REDUCED);
     }
 
     /* ==========================================================================================
      * Private
      * ========================================================================================== */
 
-    private void updateNotificationPrivacy(GcmRegistrationManager.NotificationPrivacy newNotificationPrivacy) {
+    private void updateNotificationPrivacy(PushManager.NotificationPrivacy newNotificationPrivacy) {
         // for the "NORMAL" privacy, the app needs to be able to run in background
         // this requires the IgnoreBatteryOptimizations permission from android M
-        if (newNotificationPrivacy == GcmRegistrationManager.NotificationPrivacy.NORMAL
-                && !SystemUtilsKt.isIgnoringBatteryOptimizations(this)) {
-            // Request the battery optimization cancellation to the user
-            SystemUtilsKt.requestDisablingBatteryOptimization(this, RequestCodesKt.BATTERY_OPTIMIZATION_REQUEST_CODE);
-        } else {
-            doSetNotificationPrivacy(newNotificationPrivacy);
-        }
+//        if (newNotificationPrivacy == PushManager.NotificationPrivacy.NORMAL
+//                && !SystemUtilsKt.isIgnoringBatteryOptimizations(this)) {
+//            // Request the battery optimization cancellation to the user
+//            SystemUtilsKt.requestDisablingBatteryOptimization(this, RequestCodesKt.BATTERY_OPTIMIZATION_FCM_REQUEST_CODE);
+//        } else {
+        doSetNotificationPrivacy(newNotificationPrivacy);
+//        }
     }
 
     private void refreshNotificationPrivacy() {
-        GcmRegistrationManager.NotificationPrivacy notificationPrivacy = Matrix.getInstance(this)
-                .getSharedGCMRegistrationManager()
+        PushManager.NotificationPrivacy notificationPrivacy = Matrix.getInstance(this)
+                .getPushManager()
                 .getNotificationPrivacy();
 
-        rbPrivacyNormal.setChecked(notificationPrivacy == GcmRegistrationManager.NotificationPrivacy.NORMAL);
-        rbPrivacyLowDetail.setChecked(notificationPrivacy == GcmRegistrationManager.NotificationPrivacy.LOW_DETAIL);
-        rbPrivacyReduced.setChecked(notificationPrivacy == GcmRegistrationManager.NotificationPrivacy.REDUCED);
+        rbPrivacyNormal.setChecked(notificationPrivacy == PushManager.NotificationPrivacy.NORMAL);
+        rbPrivacyReduced.setChecked(notificationPrivacy == PushManager.NotificationPrivacy.REDUCED);
     }
 
-    private void doSetNotificationPrivacy(GcmRegistrationManager.NotificationPrivacy notificationPrivacy) {
+    private void doSetNotificationPrivacy(PushManager.NotificationPrivacy notificationPrivacy) {
         showWaitingView();
 
         // Set the new notification privacy
         Matrix.getInstance(this)
-                .getSharedGCMRegistrationManager()
+                .getPushManager()
                 .setNotificationPrivacy(notificationPrivacy, new SimpleApiCallback<Void>(this) {
                     @Override
                     public void onSuccess(Void info) {
@@ -220,15 +185,12 @@ public class NotificationPrivacyActivity extends VectorAppCompatActivity {
      * @param notificationPrivacy the setting to stringify
      * @return a string
      */
-    public static String getNotificationPrivacyString(Context context, GcmRegistrationManager.NotificationPrivacy notificationPrivacy) {
+    public static String getNotificationPrivacyString(Context context, PushManager.NotificationPrivacy notificationPrivacy) {
         int stringRes;
 
         switch (notificationPrivacy) {
             case REDUCED:
                 stringRes = R.string.settings_notification_privacy_reduced;
-                break;
-            case LOW_DETAIL:
-                stringRes = R.string.settings_notification_privacy_low_detail;
                 break;
             case NORMAL:
             default:

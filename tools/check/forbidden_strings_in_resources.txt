@@ -66,3 +66,19 @@ DO NOT COMMIT
 ### Bad comment format in XML resources. Use <!-- --> instead of //
 ^\s*\/\/
 
+### Bad RTL support, use attribute with Start and End
+layout_constraintRight_
+layout_constraintLeft_
+
+### Use Preference from v7 library (android.support.v7.preference.PreferenceScreen)
+<PreferenceScreen
+
+### Use im.vector.preference.VectorSwitchPreference to support multiline of the title
+<SwitchPreference
+
+### Use im.vector.preference.VectorPreference to support multiline of the title
+<Preference\n
+
+### Will crash on API < 21. Use ?colorAccent instead
+\?android:colorAccent
+\?android:attr/colorAccent

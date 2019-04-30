@@ -24,8 +24,6 @@
     <string name="later">తరువాత</string>
     <string name="view_source">మూలాన్ని వీక్షించండి</string>
     <string name="rename">పేరు మార్చండి</string>
-    <string name="ongoing_conference_call_voice">స్వరము</string>
-    <string name="ongoing_conference_call_video">వీడియో</string>
     <string name="cannot_start_call">కాల్ను ప్రారంభించలేరు, దయచేసి తరువాత ప్రయత్నించండి</string>
     <string name="device_information">పరికర సమాచారం</string>
     <string name="or">లేదా</string>
@@ -185,7 +183,7 @@
     <string name="permissions_rationale_popup_title">సమాచారం</string>
     <string name="permissions_rationale_msg_camera">చిత్రాలను మరియు వీడియో కాల్లను తీయడానికి మీ కెమెరాను ప్రాప్తి చేయడానికి Riotకు అనుమతి అవసరం.</string>
     <string name="permissions_rationale_msg_record_audio">ఆడియో కాల్లను చేయడానికి మీ మైక్రోఫోన్ను ప్రాప్యత చేయడానికి Riotకు అనుమతి అవసరం.</string>
-    <string name="permissions_action_not_performed_missing_permissions">క్షమించాలి... ఆమోదించని అనుమతుల కారణంగా చర్య చేయలేదు</string>
+    <string name="permissions_action_not_performed_missing_permissions">క్షమించాలి… ఆమోదించని అనుమతుల కారణంగా చర్య చేయలేదు</string>
 
     <string name="media_slider_saved">దాయబడినది</string>
     <string name="media_slider_saved_message">దిగుమతులలో దాచిపెట్టు</string>
@@ -205,7 +203,6 @@
     <string name="room_creation_title">కొత్త మాటామంతి</string>
     <string name="room_creation_add_member">సభ్యుని జోడించు</string>
     <string name="room_title_one_member">1 సభ్యుడు</string>
-    <string name="room_e2e_alert_title">హెచ్చరిక!</string>
 
     <string name="room_participants_leave_prompt_title">గదిని వదలండి</string>
     <string name="room_participants_leave_prompt_msg">మీరు ఖచ్చితంగా గదిని వదిలేయాలనుకుంటున్నారా?</string>
@@ -224,7 +221,9 @@
     <string name="room_participants_action_leave">గదిని వదలండి</string>
     <string name="room_participants_action_remove">ఈ గది నుండి తీసివేయండి</string>
     <string name="room_participants_action_ban">నిషేధించు</string>
-    <string name="ongoing_conference_call">జరుగుతున్న కాన్ఫరెన్స్ కాల్. వాయిస్ లేదా వీడియోగా చేరండి.</string>
+    <string name="ongoing_conference_call">జరుగుతున్న కాన్ఫరెన్స్ కాల్.\n%1$s లేదా %2$s చేరండి.</string>
+    <string name="ongoing_conference_call_voice">వాయిస్</string>
+    <string name="ongoing_conference_call_video">వీడియోగా</string>
     <string name="missing_permissions_to_start_conf_call">ఈ గదిలో ఒక సమావేశాన్ని ప్రారంభించడానికి ఆహ్వానించడానికి మీకు అనుమతి అవసరం</string>
     <string name="missing_permissions_title_to_start_conf_call">కాల్ను ప్రారంభిచలేరు</string>
     <string name="room_no_conference_call_in_encrypted_rooms">ఎన్క్రిప్టెడ్ గదులలో కాన్ఫరెన్స్ కాల్లకు మద్దతు లేదు</string>
@@ -260,7 +259,6 @@
     <string name="room_delete_unsent_messages">పంపని సందేశాలను తొలగించండి</string>
     <string name="room_message_file_not_found">దస్త్రం కనుగొనబడలేదు</string>
     <string name="room_do_not_have_permission_to_post">మీకు ఈ గదికి పోస్ట్ చేయడానికి అనుమతి లేదు</string>
-    <string name="room_new_message_notification">1 కొత్త సందేశం</string>
 
     <string name="ssl_trust">నమ్మకం</string>
     <string name="ssl_do_not_trust">నమ్మకండి</string>
@@ -321,7 +319,7 @@
     <string name="settings_add_email_address">ఇమెయిల్ చిరునామాను జోడించండి</string>
     <string name="settings_phone_number">ఫోన్</string>
     <string name="settings_add_phone_number">ఫోన్ నంబర్ను జోడించండి</string>
-    <string name="settings_title_app_info_link">అప్లికేషన్ సమాచారం</string>
+    <string name="settings_app_info_link_title">అప్లికేషన్ సమాచారం</string>
 
     <string name="settings_messages_in_group_chat">గుంపు చాట్లలోని సందేశాలు</string>
     <string name="settings_invited_to_room">నేను ఒక గదికి ఆహ్వానించబడినప్పుడు</string>
@@ -399,8 +397,6 @@
 
     <string name="room_settings_tag_pref_entry_low_priority">తక్కువ ప్రాధాన్యత</string>
     <string name="room_settings_tag_pref_entry_none">ఎవరు కాదు</string>
-    <string name="room_settings_tag_pref_entry_value_low_priority">తక్కువ</string>
-    <string name="room_settings_tag_pref_entry_value_none">ఎవరు కాదు</string>
 
     <string name="room_settings_directory_visibility">గది డైరెక్టరీలో ఈ గదిని జాబితా చేయండి</string>
     <string name="room_settings_room_access_rules_pref_title">గది యాక్సెస్</string>
@@ -422,7 +418,6 @@
     <string name="room_settings_copy_room_id">గది IDని నకలు చేయండి</string>
     <string name="room_settings_copy_room_address">గది చిరునామానునకలు చేయండి</string>
 
-    <string name="room_settings_addresses_e2e_prompt_title">హెచ్చరిక!</string>
     <string name="encryption_information_device_info">సంఘటన సమాచారం</string>
     <string name="encryption_information_user_id">వాడుకరి id</string>
     <string name="encryption_information_curve25519_identity_key">Curve25519 గుర్తింపు కీ</string>
@@ -471,8 +466,8 @@
     <string name="call_error_answered_elsewhere">కాల్ ఎక్కడో ఎత్తారు</string>
     <string name="action_voice_call">వాయిస్ కాల్</string>
     <string name="auth_invalid_password">గుప్తపదం చానా చిన్నది (కనీసం 6)</string>
-    <string name="encryption_import_enter_passphrase">గుప్తపదం ఇవ్వండి</string>
-    <string name="encryption_export_confirm_passphrase">గుప్తపదం మరల ఇవ్వండి</string>
+    <string name="passphrase_enter_passphrase">గుప్తపదం ఇవ్వండి</string>
+    <string name="passphrase_confirm_passphrase">గుప్తపదం మరల ఇవ్వండి</string>
     <string name="room_settings_read_history_entry_members_only_joined">సభ్యులు మాత్రమే (చేరినప్పుడ్నుంచి)</string>
 
     <string name="room_settings_read_history_entry_members_only_invited">సభ్యులు మాత్రమే (ఆహ్వానించినప్పుడ్నించి)</string>

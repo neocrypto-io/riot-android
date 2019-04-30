@@ -20,7 +20,6 @@ package im.vector.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -38,8 +37,10 @@ import org.matrix.androidsdk.util.Log;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import im.vector.R;
+import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.RoomUtils;
 import im.vector.util.VectorUtils;
+import im.vector.util.ViewUtilKt;
 
 public class RoomViewHolder extends RecyclerView.ViewHolder {
     private static final String LOG_TAG = RoomViewHolder.class.getSimpleName();
@@ -138,11 +139,6 @@ public class RoomViewHolder extends RecyclerView.ViewHolder {
         int highlightCount;
         int notificationCount;
 
-        // Setup colors
-        int mFuchsiaColor = ContextCompat.getColor(context, R.color.vector_fuchsia_color);
-        int mGreenColor = ContextCompat.getColor(context, R.color.vector_green_color);
-        int mSilverColor = ContextCompat.getColor(context, R.color.vector_silver_color);
-
         highlightCount = roomSummary.getHighlightCount();
         notificationCount = roomSummary.getNotificationCount();
 
@@ -152,12 +148,13 @@ public class RoomViewHolder extends RecyclerView.ViewHolder {
         }
 
         int bingUnreadColor;
+
         if (isInvitation || (0 != highlightCount)) {
-            bingUnreadColor = mFuchsiaColor;
+            bingUnreadColor = ContextCompat.getColor(context, R.color.vector_fuchsia_color);
         } else if (0 != notificationCount) {
-            bingUnreadColor = mGreenColor;
+            bingUnreadColor = ThemeUtils.INSTANCE.getColor(context, R.attr.vctr_notice_secondary);
         } else if (0 != unreadMsgCount) {
-            bingUnreadColor = mSilverColor;
+            bingUnreadColor = ThemeUtils.INSTANCE.getColor(context, R.attr.vctr_unread_room_indent_color);
         } else {
             bingUnreadColor = Color.TRANSPARENT;
         }
@@ -165,11 +162,7 @@ public class RoomViewHolder extends RecyclerView.ViewHolder {
         if (isInvitation || (notificationCount > 0)) {
             vRoomUnreadCount.setText(isInvitation ? "!" : RoomUtils.formatUnreadMessagesCounter(notificationCount));
             vRoomUnreadCount.setTypeface(null, Typeface.BOLD);
-            GradientDrawable shape = new GradientDrawable();
-            shape.setShape(GradientDrawable.RECTANGLE);
-            shape.setCornerRadius(100);
-            shape.setColor(bingUnreadColor);
-            vRoomUnreadCount.setBackground(shape);
+            ViewUtilKt.setRoundBackground(vRoomUnreadCount, bingUnreadColor);
             vRoomUnreadCount.setVisibility(View.VISIBLE);
         } else {
             vRoomUnreadCount.setVisibility(View.GONE);
