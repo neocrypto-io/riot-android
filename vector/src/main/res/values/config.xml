@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="riot_app_name" translatable="false">Riot.im</string>
+    <string name="riot_app_name" translatable="false">NeoCrypto Trading Chat</string>
 
     <!-- server urls -->
     <string name="vector_im_server_url" translatable="false">https://vector.im</string>
     <string name="matrix_org_server_url" translatable="false">https://matrix.org</string>
-    <string name="default_hs_server_url" translatable="false">https://matrix.org</string>
-    <string name="default_identity_server_url" translatable="false">https://vector.im</string>
-    <string name="piwik_server_url" translatable="false">https://piwik.riot.im</string>
-    <string name="bug_report_url" translatable="false">https://riot.im/bugreports/submit</string>
+    <string name="default_hs_server_url" translatable="false">https://neorcrypto.io</string>
+    <string name="default_identity_server_url" translatable="false">https://neocrypto.io</string>
+    <string name="piwik_server_url" translatable="false">https://analytics.neocrypto.io</string>
+    <string name="bug_report_url" translatable="false">https://neocrypto.io/bugreports/submit</string>
 
     <!-- Widget urls -->
-    <string name="integrations_ui_url" translatable="false">"https://scalar.vector.im/"</string>
-    <string name="integrations_rest_url" translatable="false">"https://scalar.vector.im/api"</string>
+    <string name="integrations_ui_url" translatable="false">"https://dimension.neocrypto.io/riot"</string>
+    <string name="integrations_rest_url" translatable="false">"https://dimension.neocrypto.io/api/v1/scalar"</string>
 
     <string-array name="integrations_widgets_urls" translatable="false">
-        <item>https://scalar-staging.riot.im/scalar/api</item>
-        <item>https://scalar.vector.im/api</item>
+        <item>https://dimension.neocrypto.io/api/widgets</item>
+        <item>https://dimension.neocrypto.io/widgets</item>
     </string-array>
 
     <!-- empty means to use the active HS url -->

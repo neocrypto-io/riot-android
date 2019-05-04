@@ -1,7 +1,7 @@
 #IDEs
 /.idea
 *.iml
-
+*.bak
 #OS
 .DS_Store
 
